@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Calculator</title>
+    <!-- Font link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+    <!-- FontAwsome link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Bootstrap link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" integrity="sha512-Ez0cGzNzHR1tYAv56860NLspgUGuQw16GiOOp/I2LuTmpSK9xDXlgJz3XN4cnpXWDmkNBKXR/VDMTCnAaEooxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- CSS link -->
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <section class="header-section">
+        <div class="container mt-5 mb-2">
+            <div class="row text-center">
+                <div class="col" id="header">
+                    <h1 class="display-5 mb-3">Expense Calculator</h1>
+                    <div></div>
+                    <p class="fs-6 mt-2">Manage your monthly budget with ease</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="body-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="first d-flex justify-content-between align-items-center rounded">
+                        <p>Enter Original Amount</p>
+                        <div>    
+                            <input type="text" class="amountInput" value="2,400,000"/>
+                            <i class="fa-regular fa-square-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row second mt-4 pt-3 pb-4 rounded-3 justify-content-center">
+                <div class="col-lg-3">
+                    <div class="need">
+                        <h3>Needs <span>(50%)</span></h3>
+                        <p class="amount">1,200,000</p>
+                        <div class="fDiv rounded-3">
+                            <p class="text-start">Spent</p>
+                            <input type="text" value="240,000"/>
+                        </div>
+                        <div class="sDiv rounded-3 mt-3">
+                            <p class="text-start">Remaining</p>
+                            <input type="text" value="1,200,000"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3">
+                    <div class="want">
+                        <h3>Wants <span>(30%)</span></h3>
+                        <p class="amount">720,000</p>
+                        <div class="fDiv rounded-3">
+                            <p class="text-start">Spent</p>
+                            <input type="text" value="530,000"/>
+                        </div>
+                        <div class="sDiv rounded-3 mt-3">
+                            <p class="text-start">Remaining</p>
+                            <input type="text" value="820,000"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3">
+                    <div class="save">
+                        <h3>Saving <span>(20%)</span></h3>
+                        <p class="amount">1,200,000</p>
+                        <div class="fDiv rounded-3">
+                            <p class="text-start">Spent</p>
+                            <input type="text" value="392,000"/>
+                        </div>
+                        <div class="sDiv rounded-3 mt-3">
+                            <p class="text-start">Remaining</p>
+                            <input type="text" value="129,000"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- <div class="container">
+        <div class="header">
+            <h1>Expense Calculator</h1>
+            <div></div>
+            <p>Manage your monthly budget with ease</p>
+        </div>
+        <div class="main">
+            <div class="first">
+                <p>Enter Original Amount</p>
+                <div>    
+                    <input type="text" class="amountInput" value="2,400,000"/>
+                    <i class="fa-regular fa-square-check"></i>
+                </div>
+            </div>
+
+            <div class="second">
+                <div class="need">
+                    <h3>Needs <span>(50%)</span></h3>
+                    <p class="amount">1,200,000</p>
+                    <div class="fDiv">
+                        <p>Spent</p>
+                        <input type="text" value="240,000"/>
+                    </div>
+                    <div class="sDiv">
+                        <p>Remaining</p>
+                        <input type="text" value="1,200,000"/>
+                    </div>
+                </div>
+                <div class="want">
+                    <h3>Wants <span>(30%)</span></h3>
+                    <p class="amount">720,000</p>
+                    <div class="fDiv">
+                        <p>Spent</p>
+                        <input type="text" value="530,000"/>
+                    </div>
+                    <div class="sDiv">
+                        <p>Remaining</p>
+                        <input type="text" value="820,000"/>
+                    </div>
+                </div>
+                <div class="save">
+                    <h3>Saving <span>(20%)</span></h3>
+                    <p class="amount">1,200,000</p>
+                    <div class="fDiv">
+                        <p>Spent</p>
+                        <input type="text" value="392,000"/>
+                    </div>
+                    <div class="sDiv">
+                        <p>Remaining</p>
+                        <input type="text" value="129,000"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div>
+                <p>Total Spent:</p>
+                <p>2,400,000</p>
+            </div>
+            <hr>
+            <div>
+                <p>Total Remaining:</p>
+                <p>2,400,000</p>
+            </div>
+        </div>
+    </div> -->
+</body>
+</html>

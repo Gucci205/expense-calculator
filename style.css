@@ -1,0 +1,119 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+body{
+    font-family: "Cormorant Garamond", serif;
+    background:linear-gradient(145deg, #090602, #070703);
+    color:#dddaae;
+    height:100vh;
+    /* overflow:hidden; */
+}
+#header h1{
+    letter-spacing:5px;
+}
+#header p{
+    font-family: Arial, Helvetica, sans-serif;
+    color:#505050;
+}
+#header div{
+    height:1px;
+    background-color:#dddaae5a;
+}
+.first{
+    padding:10px 20px 10px 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    background:linear-gradient(145deg, #0a0a0a, #0e0e04);
+    color:#f4cf8f;
+    position:relative;
+    overflow:hidden;
+    border:3px solid linear-gradient(145deg, #0a0a0a, #0e0e04);
+}
+.first::before{
+    content:'';
+    width:100%;
+    height:100%;
+    position:absolute;
+    top:0;
+    left:0;
+    border-radius:7px;
+    background-color: #d0af67 ;
+    animation:rotating 5s linear infinite;
+    transition:all 1s linear;
+    filter:drop-shadow(0 0 8px #FFD700);
+}
+.first::after{
+    content:'';
+    position:absolute;
+    background:linear-gradient(145deg, #0a0a0a, #0c0c06);
+    height:97%;
+    width:99.7%;
+    border-radius:7px;
+    top:0.5px;
+    right:1px;
+}
+@keyframes rotating{
+    from{
+        transform:rotate(0deg);
+    }
+    to{
+        transform:rotate(360deg);
+    }
+}
+.first p, .first div{
+    z-index:1;
+    margin:0;
+}
+.amountInput{
+    background-color:transparent;
+    width:120px;
+    color:#f4cf8f;
+    font-size:25px;
+    border:0;
+    outline:0;
+    text-align:right;
+    font-family:'Times New Roman', Times, serif;
+    font-weight:bold;
+    padding-right:10px;
+}
+.fa-square-check{
+    cursor:pointer;
+}
+.main{
+    width:50%;
+}
+.second{
+    background:linear-gradient(145deg, #090602, #0c0c06);
+    color:#f4cf8f;
+    border:1px solid #5e4b4398;
+    box-shadow:0 0 5px #5e4b4352;
+}
+span{
+    font-family: 'Times New Roman', Times, serif;
+}
+.second > div{
+    text-align:center;
+}
+.second h3, .second .amount{
+    font-size:x-large;
+}
+.need .fDiv, .need .sDiv, .want .fDiv, .want .sDiv, .save .fDiv, .save .sDiv{
+    padding:10px;
+    font-family: Arial, Helvetica, sans-serif;
+    background:linear-gradient(145deg, #090602, #090901);
+    border:1px solid #5e4b4350;
+    box-shadow:0 0 5px #5e4b4352;
+}
+.fDiv input, .sDiv input{
+    color:#d0af67;
+    background-color:#0c0c0c;
+    border:0;
+    outline:0;
+    padding:5px 9px;
+    border-radius: 6px;
+    margin-top:10px;
+    padding-top:10px;
+    font-size:20px;
+}
+
