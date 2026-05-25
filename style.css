@@ -5,8 +5,9 @@
 }
 body{
     font-family: "Cormorant Garamond", serif;
-    background:linear-gradient(to bottom, #000000, #050504);
-    color:#dddaae;
+    /* background:linear-gradient(to bottom, #000000, #050504); */
+    /* color:#dddaae; */
+    color:#908a1e;
     height:100vh;
     overflow:hidden;
 }
@@ -15,20 +16,24 @@ body{
 }
 #header p{
     font-family: Arial, Helvetica, sans-serif;
-    color:#505050;
+    /* color:#505050; */
+    color:#a9a66a;
 }
 .line{
     height:1px;
-    background-color:#dddaae5a;
+    /* background-color:#dddaae5a; */
+    background-color:#908a1e;
 }
 .first{
     padding:10px 20px 10px 20px;
     font-family: Arial, Helvetica, sans-serif;
-    background:linear-gradient(145deg, #0a0a0a, #0e0e04);
-    color:#f4cf8f;
+    /* background:linear-gradient(145deg, #0a0a0a, #0e0e04); */
+    /* color:#f4cf8f; */
+    background-color:oldlace;
+    color:#908a1e;
     position:relative;
     overflow:hidden;
-    border:3px solid linear-gradient(145deg, #0a0a0a, #0e0e04);
+    /* border:3px solid linear-gradient(145deg, #0a0a0a, #0e0e04); */
 }
 .first::before{
     content:'';
@@ -39,14 +44,15 @@ body{
     left:0;
     border-radius:4px;
     background-color: #d0af67 ;
-    /* animation:rotating 5s linear infinite; */
+    animation:rotating 5s linear infinite;
     transition:all 1s linear;
     filter:drop-shadow(0 0 8px #FFD700);
 }
 .first::after{
     content:'';
     position:absolute;
-    background:linear-gradient(145deg, #0a0a0a, #050501);
+    /* background:linear-gradient(145deg, #0a0a0a, #050501); */
+    background:linear-gradient(145deg, #f7f6f6, #f8f2f2);
     height:97%;
     width:99.7%;
     border-radius:4px;
@@ -68,7 +74,8 @@ body{
 .amountInput{
     background-color:transparent;
     width:120px;
-    color:#f4cf8f;
+    /* color:#f4cf8f; */
+    color:#908a1e;
     font-size:25px;
     border:0;
     outline:0;
@@ -81,10 +88,13 @@ body{
     cursor:pointer;
 }
 .second{
-    background:linear-gradient(145deg, #000000, #030301, #080806);
-    border:1px solid #5e4b4370;
-    box-shadow:0 0 10px #15130565;
-    color:#f4cf8f;
+    /* background:linear-gradient(145deg, #000000, #030301, #080806); */
+    /* border:1px solid #5e4b4370; */
+    /* box-shadow:0 0 10px #15130565; */
+    /* color:#f4cf8f; */
+    /* border:1px solid #908a1e; */
+    box-shadow:0 0 7px #c2be50;
+    color:#908a1e;
     max-width:1000px;
     margin:auto;
 }
@@ -99,17 +109,27 @@ span{
 }
 .need .fDiv, .need .sDiv, .want .fDiv, .want .sDiv, .save .fDiv, .save .sDiv{
     font-family: Arial, Helvetica, sans-serif;
-    background:linear-gradient(145deg, #070505, #050501);
-    border:1px solid #5e4b4350;
-    box-shadow:0 0 5px #0c0801;
+    /* background:linear-gradient(145deg, #070505, #050501); */
+    /* border:1px solid #5e4b4350; */
+    /* box-shadow:0 0 5px #0c0801; */
+    background-color:rgb(250, 248, 245);
+    box-shadow:0 0 9px #bab9b9;
 }
 .fDiv input, .sDiv input{
-    color:#d0af67;
-    background-color:#000000;
+    /* color:#d0af67; */
+    /* background-color:#000000; */
+    background-color:whitesmoke;
+    border:1px solid #908a1e;
     padding:5px 0 5px 10px;
+    color:#908a1e;
+}
+.sDiv input{
+    background:linear-gradient(145deg,#14655b, #44ac94);
+    color:snow;
 }
 .footer-section{
-    color:#d0af67;
+    /* color:#d0af67; */
+    color:#908a1e;
     max-width:1200px;
     margin:auto;
 }
