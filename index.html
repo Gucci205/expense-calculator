@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <section class="header-section">
+    <header class="header-section">
         <div class="container mt-4 mb-2">
             <div class="row text-center">
                 <div class="col" id="header">
@@ -26,16 +26,16 @@
                 </div>
             </div>
         </div>
-    </section>
+    </header>
 
-    <section class="body-section mt-4 mb-4">
+    <main class="body-section mt-4 mb-4">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="first d-flex justify-content-between align-items-center rounded">
                         <p>Enter Original Amount</p>
                         <div>    
-                            <input type="text" class="amountInput" value="2,400,000" disabled/>
+                            <input type="text" class="amountInput" value="2400000" disabled/>
                             <i class="fa-regular fa-square-check"></i>
                         </div>
                     </div>
@@ -46,14 +46,14 @@
                 <div class="col-lg-4">
                     <div class="need">
                         <h3>Needs <span>(50%)</span></h3>
-                        <p class="amount">1,200,000</p>
+                        <p class="amount"></p>
                         <div class="fDiv rounded-3 p-2">
                             <p class="text-start mb-2">Spent</p>
-                            <input type="text" value="240,000" class="rounded-3  outline-0 fs-5" disabled/>
+                            <input type="text" value="240000" id="spentAmount" class="rounded-3  outline-0 fs-5" disabled/>
                         </div>
                         <div class="sDiv rounded-3 mt-3 p-2">
                             <p class="text-start mb-2">Remaining</p>
-                            <input type="text" value="960,000" class="rounded-3  outline-0 fs-5" disabled/>
+                            <input type="text" value="960000" class="rounded-3  outline-0 fs-5" disabled/>
                         </div>
                     </div>
                 </div>
@@ -61,14 +61,14 @@
                 <div class="col-lg-4">
                     <div class="want">
                         <h3>Wants <span>(30%)</span></h3>
-                        <p class="amount">720,000</p>
+                        <p class="amount"></p>
                         <div class="fDiv rounded-3 p-2">
                             <p class="text-start mb-2">Spent</p>
-                            <input type="text" value="530,000" class="rounded-3  outline-0 fs-5" disabled/>
+                            <input type="text" value="530000" id="spentAmount" class="rounded-3  outline-0 fs-5" disabled/>
                         </div>
                         <div class="sDiv rounded-3 mt-3 p-2">
                             <p class="text-start mb-2">Remaining</p>
-                            <input type="text" value="190,000" class="rounded-3  outline-0 fs-5" disabled/>
+                            <input type="text" value="190000" class="rounded-3  outline-0 fs-5" disabled/>
                         </div>
                     </div>
                 </div>
@@ -76,22 +76,22 @@
                 <div class="col-lg-4">
                     <div class="save">
                         <h3>Saving <span>(20%)</span></h3>
-                        <p class="amount">480,000</p>
+                        <p class="amount"></p>
                         <div class="fDiv rounded-3 p-2">
                             <p class="text-start mb-2">Spent</p>
-                            <input type="text" value="210,000" class="rounded-3  outline-0 fs-5" disabled/>
+                            <input type="text" value="210000" id="spentAmount" class="rounded-3  outline-0 fs-5" disabled/>
                         </div>
                         <div class="sDiv rounded-3 mt-3 p-2">
                             <p class="text-start mb-2">Remaining</p>
-                            <input type="text" value="270,000" class="rounded-3  outline-0 fs-5" disabled/>
+                            <input type="text" value="270000" class="rounded-3  outline-0 fs-5" disabled/>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </main>
 
-    <section class="footer-section">
+    <footer class="footer-section">
         <div class="container">
              <div class="row footer">
                 <div class="col">
@@ -107,6 +107,8 @@
                 </div>
             </div>
         </div>
-    </section>
+    </footer>
+
+    <script src="./app.js"></script>
 </body>
 </html>
