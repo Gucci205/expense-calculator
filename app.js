@@ -1,6 +1,6 @@
 const getAmountInputValue = document.querySelector('.amountInput').value;
 const getAmounts = document.querySelectorAll('.amount');
-const getSpentAmount = document.querySelectorAll('#spentAmount');
+const getSpentAmount = document.querySelectorAll('.spentAmount');
 
 console.log(getSpentAmount);
 

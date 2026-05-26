@@ -7,14 +7,15 @@ body{
     font-family: "Cormorant Garamond", serif;
     /* background:linear-gradient(to bottom, #000000, #050504); */
     /* color:#dddaae; */
+    background-color:#F8F8FF;
     color:#908a1e;
     height:100vh;
     overflow:hidden;
 }
-#header h1{
+#heading h1{
     letter-spacing:5px;
 }
-#header p{
+#heading p{
     font-family: Arial, Helvetica, sans-serif;
     /* color:#505050; */
     color:#a9a66a;
@@ -29,11 +30,11 @@ body{
     font-family: Arial, Helvetica, sans-serif;
     /* background:linear-gradient(145deg, #0a0a0a, #0e0e04); */
     /* color:#f4cf8f; */
-    background-color:oldlace;
+    background-color:rgb(244, 242, 239);
     color:#908a1e;
     position:relative;
     overflow:hidden;
-    /* border:3px solid linear-gradient(145deg, #0a0a0a, #0e0e04); */
+    border:3px solid rgb(244, 242, 239);
 }
 .first::before{
     content:'';
@@ -46,18 +47,18 @@ body{
     background-color: #d0af67 ;
     animation:rotating 5s linear infinite;
     transition:all 1s linear;
-    filter:drop-shadow(0 0 8px #FFD700);
+    filter:drop-shadow(0 0 8px #ffd900);
 }
 .first::after{
     content:'';
     position:absolute;
     /* background:linear-gradient(145deg, #0a0a0a, #050501); */
-    background:linear-gradient(145deg, #f7f6f6, #f8f2f2);
+    background:linear-gradient(145deg, #ffffff, #fff8e8);
     height:97%;
     width:99.7%;
-    border-radius:4px;
-    top:0.5px;
-    right:1px;
+    border-radius:3px;
+    top:0.8px;
+    right:0.5px;
 }
 @keyframes rotating{
     from{
@@ -93,7 +94,8 @@ body{
     /* box-shadow:0 0 10px #15130565; */
     /* color:#f4cf8f; */
     /* border:1px solid #908a1e; */
-    box-shadow:0 0 7px #dfc73f;
+    background-color:#F8F8FF;
+    box-shadow:0 0 7px #dfda82;
     color:#908a1e;
     max-width:1000px;
     margin:auto;
@@ -112,19 +114,19 @@ span{
     /* background:linear-gradient(145deg, #070505, #050501); */
     /* border:1px solid #5e4b4350; */
     /* box-shadow:0 0 5px #0c0801; */
-    background-color:rgb(250, 248, 245);
-    box-shadow:0 0 9px #bab9b9;
+    background-color:#F8F8FF;
+    box-shadow:0 0 9px #dbdbdb;
 }
 .fDiv input, .sDiv input{
     /* color:#d0af67; */
     /* background-color:#000000; */
     background-color:whitesmoke;
-    border:1px solid #908a1e;
+    border:1.5px solid #bab322;
     padding:5px 0 5px 10px;
     color:#908a1e;
 }
 .sDiv input{
-    background:linear-gradient(145deg,#14655b, #44ac94);
+    background:linear-gradient(100deg,#14655b, #44ac94);
     color:snow;
 }
 .footer-section{
@@ -132,4 +134,7 @@ span{
     color:#908a1e;
     max-width:1200px;
     margin:auto;
+}
+.total-remaining{
+    font-family: 'Times New Roman', Times, serif;
 }
