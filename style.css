@@ -30,11 +30,11 @@ body{
     font-family: Arial, Helvetica, sans-serif;
     /* background:linear-gradient(145deg, #0a0a0a, #0e0e04); */
     /* color:#f4cf8f; */
-    background-color:rgb(244, 242, 239);
+    background-color:#fffdf8;
     color:#908a1e;
     position:relative;
     overflow:hidden;
-    border:3px solid rgb(244, 242, 239);
+    border:2px solid #fffdf8;
 }
 .first::before{
     content:'';
@@ -53,12 +53,12 @@ body{
     content:'';
     position:absolute;
     /* background:linear-gradient(145deg, #0a0a0a, #050501); */
-    background:linear-gradient(145deg, #ffffff, #fff8e8);
+    background:linear-gradient(145deg, #ffffff, #fffdf8);
     height:97%;
-    width:99.7%;
+    width:99.8%;
     border-radius:3px;
     top:0.8px;
-    right:0.5px;
+    right:0.8px;
 }
 @keyframes rotating{
     from{
