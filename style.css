@@ -45,7 +45,7 @@ body{
     top:0;
     left:0;
     border-radius:4px;
-    background-color: #fff75e ;
+    background-color: #fff317 ;
     animation:rotating 5s linear infinite;
     transition:all 1s linear;
     filter:drop-shadow(0 0 8px #ffd900);
@@ -54,7 +54,7 @@ body{
     content:'';
     position:absolute;
     /* background:linear-gradient(145deg, #0a0a0a, #050501); */
-    background:linear-gradient(145deg, #ffffff, #fffdd5);
+    background:linear-gradient(160deg, #ffffff, #fffdcd);
     height:97%;
     width:99.8%;
     border-radius:3px;
@@ -130,10 +130,11 @@ span{
 .sDiv input{
     background:linear-gradient(100deg,#14655b, #44ac94);
     color:snow;
+    border:0;
+    box-shadow:0 1px 7px #14655b;
 }
-.footer-section{
+footer{
     /* color:#d0af67; */
-    color:#908a1e;
     max-width:1200px;
     margin:auto;
 }
