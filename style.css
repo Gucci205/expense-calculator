@@ -73,7 +73,7 @@ body{
     z-index:1;
     margin:0;
 }
-.amountInput{
+.original-amount{
     background-color:transparent;
     width:120px;
     /* color:#f4cf8f; */
