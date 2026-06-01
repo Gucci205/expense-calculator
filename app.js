@@ -5,7 +5,7 @@ const getRemainingAmount = document.querySelectorAll('.remaining-amount');
 const getTotalSpentAmount = document.querySelector('.total-spent');
 const getTotalRemainingAmount = document.querySelector('.total-remaining');
 
-console.log(getTotalSpentAmount, getTotalRemainingAmount);
+// console.log(getTotalSpentAmount, getTotalRemainingAmount);
 
 budgetAllocation();
 
@@ -17,6 +17,9 @@ function budgetAllocation(){
     const saving = numberCasting * 0.2;
 
     const arrayOfAmounts = [needs, wants, saving];
+    
+    let sumOfSpent = 0;
+    let sumOfRemain = 0;
 
     getAmounts.forEach((getAmount, index) => {
         const amountIndex = arrayOfAmounts[index];
@@ -27,13 +30,15 @@ function budgetAllocation(){
         getAmount.style.fontFamily = 'Times New Roman';
         
         remainingAmount.value = amountIndex - spentAmountValue;
-        
+        sumOfSpent += Number(spentAmountValue);
+        sumOfRemain += Number(remainingAmount.value);
+
         const values = [
             String(amountIndex),
-            String(spentAmountValue),
-            String(remainingAmount.value)
+            spentAmountValue,
+            remainingAmount.value
         ];
-        
+
         const formattedValues = [];
 
         for(value of values){
@@ -63,8 +68,9 @@ function budgetAllocation(){
         getSpentAmount[index].value = formattedValues[1];
         getRemainingAmount[index].value = formattedValues[2];
 
-        //declarative way of adding commas
+        //Declarative way of adding commas
         getOriginalAmount.value = numberCasting.toLocaleString();
+        getTotalSpentAmount.innerHTML = sumOfSpent.toLocaleString();
+        getTotalRemainingAmount.innerHTML = sumOfRemain.toLocaleString();
     });
-    
 }
