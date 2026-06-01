@@ -1,17 +1,16 @@
-const getOriginalAmount = document.querySelector('.original-amount').value;
+const getOriginalAmount = document.querySelector('.original-amount');
 const getAmounts = document.querySelectorAll('.amount');
 const getSpentAmount = document.querySelectorAll('.spent-amount');   //when calling an element with querySelectorAll, you cant get the value of that element, just querySelector works fine
 const getRemainingAmount = document.querySelectorAll('.remaining-amount');
+const getTotalSpentAmount = document.querySelector('.total-spent');
+const getTotalRemainingAmount = document.querySelector('.total-remaining');
 
-// console.log(getAmountInputValue);
-// console.log(getAmounts);
-// console.log(getSpentAmount);
-// console.log(getRemainingAmount);
+console.log(getTotalSpentAmount, getTotalRemainingAmount);
 
 budgetAllocation();
 
 function budgetAllocation(){
-    const numberCasting = Number(getOriginalAmount);
+    const numberCasting = Number(getOriginalAmount.value);
 
     const needs = numberCasting * 0.5;
     const wants = numberCasting * 0.3;
@@ -20,77 +19,52 @@ function budgetAllocation(){
     const arrayOfAmounts = [needs, wants, saving];
 
     getAmounts.forEach((getAmount, index) => {
-        let amountIndex = arrayOfAmounts[index];
-        let spentAmountValue = getSpentAmount[index].value;
-        let remainingAmount = getRemainingAmount[index];
+        const amountIndex = arrayOfAmounts[index];
+        const spentAmountValue = getSpentAmount[index].value;
+        const remainingAmount = getRemainingAmount[index];
 
         getAmount.innerHTML = amountIndex; //placing amount to respective p tag
         getAmount.style.fontFamily = 'Times New Roman';
         
         remainingAmount.value = amountIndex - spentAmountValue;
         
+        const values = [
+            String(amountIndex),
+            String(spentAmountValue),
+            String(remainingAmount.value)
+        ];
         
-        const strArrayOfAmounts = String(amountIndex);
-        const strSpentAmountValue = String(spentAmountValue);
-        const strRemainingAmount = String(remainingAmount.value);
+        const formattedValues = [];
 
-        const amountArray = [strArrayOfAmounts, strSpentAmountValue, strRemainingAmount];
-        // console.log(amountArray);
-        let repeat = 0;
-        let arr = [];
-        for(value of amountArray[repeat]){
-            arr.push(value);
-        }
-        console.log(arr);
-        arr.reverse();
-        let str = '';
-        let count = 0;
-        for(let i = 0; i < arr.length; i++){
-            str+= arr[i];
-            count++;
-            if(count % 3 === 0){
-                str+= ',';
+        for(value of values){
+            let arr = [];
+            for(digit of value){
+                arr.push(digit);
             }
+            arr.reverse();
+
+            let str = '';
+            let count = 0;
+            for(let i = 0; i < arr.length; i++){
+                str+= arr[i];
+                count++;
+                // Add a comma every 3 digits, but only if there are still digits left to process
+                if(count % 3 === 0 && i !== arr.length-1){
+                    str+= ',';
+                }
+            }
+
+            formattedValues.push(
+                str.split('').reverse().join('')
+            );
         }
 
-        const reversed = str.split('').reverse().join('');
+        getAmount.innerHTML = formattedValues[0];
+        getSpentAmount[index].value = formattedValues[1];
+        getRemainingAmount[index].value = formattedValues[2];
 
-        let newarr = [];
-        for(nums of reversed){
-            newarr.push(nums);
-        }
-        
-        if(newarr.length === 8){
-            newarr.shift();
-        }
-
-        const array = newarr.join('');
-        console.log(array);
-
-        getAmount.innerHTML = array;
-
+        //declarative way of adding commas
+        getOriginalAmount.value = numberCasting.toLocaleString();
     });
-
-
+    
 }
-
-
-// need = '0123456';
-// let arr = [];
-// for(num of need){
-//     arr.push(num);
-// }
-
-// arr.reverse();
-// let str = '';
-// let count = 0;
-// for(let i = 0; i < arr.length; i++){
-//     str+= arr[i];
-//     count++;
-//     if(count % 3 === 0){
-//         str+= ',';
-//     }
-// }
-
-// const reversed = str.split('').reverse().join('');
-// console.log(reversed);

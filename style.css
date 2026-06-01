@@ -138,6 +138,6 @@ footer{
     max-width:1200px;
     margin:auto;
 }
-.total-remaining{
+.total-remaining, .total-spent{
     font-family: 'Times New Roman', Times, serif;
 }
