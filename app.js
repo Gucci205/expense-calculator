@@ -1,76 +1,122 @@
-const getOriginalAmount = document.querySelector('.original-amount');
-const getAmounts = document.querySelectorAll('.amount');
-const getSpentAmount = document.querySelectorAll('.spent-amount');   //when calling an element with querySelectorAll, you cant get the value of that element, just querySelector works fine
-const getRemainingAmount = document.querySelectorAll('.remaining-amount');
-const getTotalSpentAmount = document.querySelector('.total-spent');
-const getTotalRemainingAmount = document.querySelector('.total-remaining');
+const originalAmountInput  = document.querySelector('.original-amount');
 
-// console.log(getTotalSpentAmount, getTotalRemainingAmount);
+const amountElements  = document.querySelectorAll('.amount');
+const spentInputs  = document.querySelectorAll('.spent-amount');   //when calling an element with querySelectorAll, you cant get the value of that element, just querySelector works fine
+const remainingInputs  = document.querySelectorAll('.remaining-amount');
+
+const totalSpentElement = document.querySelector('.total-spent');
+const totalRemainingElement = document.querySelector('.total-remaining');
 
 budgetAllocation();
 
 function budgetAllocation(){
-    const numberCasting = Number(getOriginalAmount.value);
+    const originalAmount = Number(originalAmountInput .value);
 
-    const needs = numberCasting * 0.5;
-    const wants = numberCasting * 0.3;
-    const saving = numberCasting * 0.2;
+    const allocations = calculateAllocations(originalAmount);
 
-    const arrayOfAmounts = [needs, wants, saving];
+    let totalSpent = 0;
+    let totalRemaining = 0;
     
-    let sumOfSpent = 0;
-    let sumOfRemain = 0;
+    allocations.forEach((amount, index) => {
+        const spent = Number(spentInputs[index].value);
+        const remaining = amount - spent;
 
-    getAmounts.forEach((getAmount, index) => {
-        const amountIndex = arrayOfAmounts[index];
-        const spentAmountValue = getSpentAmount[index].value;
-        const remainingAmount = getRemainingAmount[index];
+        totalSpent += spent;
+        totalRemaining += remaining;
 
-        getAmount.innerHTML = amountIndex; //placing amount to respective p tag
-        getAmount.style.fontFamily = 'Times New Roman';
-        
-        remainingAmount.value = amountIndex - spentAmountValue;
-        sumOfSpent += Number(spentAmountValue);
-        sumOfRemain += Number(remainingAmount.value);
+        amountElements[index].textContent = amount.toLocaleString();
+        amountElements[index].style.fontFamily = 'Times New Roman';
 
-        const values = [
-            String(amountIndex),
-            spentAmountValue,
-            remainingAmount.value
-        ];
-
-        const formattedValues = [];
-
-        for(value of values){
-            let arr = [];
-            for(digit of value){
-                arr.push(digit);
-            }
-            arr.reverse();
-
-            let str = '';
-            let count = 0;
-            for(let i = 0; i < arr.length; i++){
-                str+= arr[i];
-                count++;
-                // Add a comma every 3 digits, but only if there are still digits left to process
-                if(count % 3 === 0 && i !== arr.length-1){
-                    str+= ',';
-                }
-            }
-
-            formattedValues.push(
-                str.split('').reverse().join('')
-            );
-        }
-
-        getAmount.innerHTML = formattedValues[0];
-        getSpentAmount[index].value = formattedValues[1];
-        getRemainingAmount[index].value = formattedValues[2];
-
-        //Declarative way of adding commas
-        getOriginalAmount.value = numberCasting.toLocaleString();
-        getTotalSpentAmount.innerHTML = sumOfSpent.toLocaleString();
-        getTotalRemainingAmount.innerHTML = sumOfRemain.toLocaleString();
+        spentInputs[index].value = spent.toLocaleString();
+        remainingInputs[index].value = remaining.toLocaleString();
     });
+
+    originalAmountInput.value = addCommas(originalAmount);
+    totalSpentElement.textContent = addCommas(totalSpent);
+    totalRemainingElement.textContent = addCommas(totalRemaining);
 }
+
+function calculateAllocations(total){
+    return [
+        total * 0.5,
+        total * 0.3,
+        total * 0.2
+    ];
+}
+
+function addCommas(value){
+    const digits = String(value).split('').reverse();
+
+    let result = '';
+    let count = 0;
+
+    for(let i = 0; i < digits.length; i++){
+        result+= digits[i];
+        count++;
+    // Add a comma every 3 digits, but only if there are still digits left to process
+        if(count % 3 === 0 && i !== digits.length-1){
+            result+= ',';
+        }
+    }
+
+    return result.split('').reverse().join('');
+}
+
+// const needs = originalAmount * 0.5;
+// const wants = originalAmount * 0.3;
+// const saving = originalAmount * 0.2;
+
+// const arrayOfAmounts = [needs, wants, saving];
+
+// amountElements.forEach((getAmount, index) => {
+//     const amountIndex = arrayOfAmounts[index];
+//     const spentAmountValue = spentInputs[index].value;
+//     const remainingAmount = remainingInputs[index];
+
+//     getAmount.innerHTML = amountIndex; //placing amount to respective p tag
+//     getAmount.style.fontFamily = 'Times New Roman';
+    
+//     remainingAmount.value = amountIndex - spentAmountValue;
+//     totalSpent += Number(spentAmountValue);
+//     totalRemaining += Number(remainingAmount.value);
+
+//     const values = [
+//         String(amountIndex),
+//         spentAmountValue,
+//         remainingAmount.value
+//     ];
+
+//     const formattedValues = [];
+
+//     for(value of values){
+//         let arr = [];
+//         for(digit of value){
+//             arr.push(digit);
+//         }
+//         arr.reverse();
+
+//         let str = '';
+//         let count = 0;
+//         for(let i = 0; i < arr.length; i++){
+//             str+= arr[i];
+//             count++;
+//             // Add a comma every 3 digits, but only if there are still digits left to process
+//             if(count % 3 === 0 && i !== arr.length-1){
+//                 str+= ',';
+//             }
+//         }
+
+//         formattedValues.push(
+//             str.split('').reverse().join('')
+//         );
+//     }
+
+//     getAmount.innerHTML = formattedValues[0];
+//     spentInputs[index].value = formattedValues[1];
+//     remainingInputs[index].value = formattedValues[2];
+
+//     //Declarative way of adding commas
+//     originalAmountInput.value = originalAmount.toLocaleString();
+//     totalSpentElement.innerHTML = totalSpent.toLocaleString();
+//     totalRemainingElement.innerHTML = totalRemaining.toLocaleString();
+// });
