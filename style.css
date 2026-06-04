@@ -123,6 +123,35 @@ span{
     border:1.5px solid #908a1e;
     padding:5px 0 5px 10px;
     color:#908a1e;
+    width:95%;
+}
+.expense-list{
+    max-height:148px;
+    overflow-x:auto;
+}
+.expense-list::-webkit-scrollbar{
+    width: 8px;
+}
+.expense-list::-webkit-scrollbar-track{
+    background: #e5e5e2;
+    border-radius:5px;
+}
+.expense-list::-webkit-scrollbar-thumb{
+    background: #14655b;
+    border-radius: 5px;
+}
+.expense-list::-webkit-scrollbar-thumb:hover{
+    background: #44ac94;
+}
+.expense-list input{
+    margin:0 0 10px 0;
+}
+.add-expense-button{
+    border:0;
+    outline:0;
+    background-color:transparent;
+    margin-top:6px;
+    color:#676766;
 }
 .sDiv input{
     background:linear-gradient(100deg,#14655b, #44ac94);
