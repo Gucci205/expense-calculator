@@ -135,7 +135,7 @@ span{
 .expense-list input{
     margin:0 0 10px 0;
 }
-.checked{
+.circle{
     position:absolute;
     right:20px;
     top:25%;

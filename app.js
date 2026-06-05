@@ -3,15 +3,18 @@ const originalAmountInput  = document.querySelector('.original-amount');
 const amountElements  = document.querySelectorAll('.amount');
 const spentInputs  = document.querySelectorAll('.spent-amount');   //when calling an element with querySelectorAll, you can't get the value of that element, just querySelector works fine
 const remainingInputs  = document.querySelectorAll('.remaining-amount');
+const addExpenseButton = document.querySelectorAll('.add-expense-button');
+const expenseLists = document.querySelectorAll('.expense-list');
+const circleIcons = document.querySelectorAll('i.fa-regular');
 
 const totalSpentElement = document.querySelector('.total-spent');
 const totalRemainingElement = document.querySelector('.total-remaining');
-const addExpenseButton = document.querySelectorAll('.add-expense-button');
-const expenseLists = document.querySelectorAll('.expense-list');
-// console.log(expenseLists);
+
+console.log(circleIcons);
 
 budgetAllocation();
 addNewInput();
+makeInputDisabled();
 
 function budgetAllocation(){
     const originalAmount = Number(originalAmountInput .value);
@@ -34,6 +37,7 @@ function budgetAllocation(){
         spentInputs[index].value = spent.toLocaleString();
         remainingInputs[index].value = remaining.toLocaleString();
 
+        makeInputDisabled(spent);
     });
 
     originalAmountInput.value = addCommas(originalAmount);
@@ -83,7 +87,7 @@ function addNewInput(){
             creatInputBox.append(createInput);
             expenseLists[index].append(creatInputBox);
 
-            expenseLists[index].scrollTop = '0';
+            expenseLists[index].scrollTop = expenseLists[index].scrollHeight;
 
             console.log(createInput);
             console.log(creatInputBox);
@@ -91,4 +95,10 @@ function addNewInput(){
         })
     })
 }
-//<i class="fa-regular fa-circle-check checked"></i>
+
+function makeInputDisabled(spent){
+    circleIcons.forEach((icon) => {
+        icon.addEventListener('click', () => {
+        })
+    })
+}
