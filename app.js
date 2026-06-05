@@ -7,6 +7,8 @@ const remainingInputs  = document.querySelectorAll('.remaining-amount');
 const totalSpentElement = document.querySelector('.total-spent');
 const totalRemainingElement = document.querySelector('.total-remaining');
 const addExpenseButton = document.querySelectorAll('.add-expense-button');
+const expenseLists = document.querySelectorAll('.expense-list');
+// console.log(expenseLists);
 
 budgetAllocation();
 addNewInput();
@@ -66,9 +68,27 @@ function addCommas(value){
 }
 
 function addNewInput(){
-    addExpenseButton.forEach((button) => {
+    addExpenseButton.forEach((button, index) => {
         button.addEventListener('click', () => {
-            console.log('Clicked');
+            const creatInputBox = document.createElement('div');
+            creatInputBox.className = 'input-box';
+
+            const createInput = document.createElement('input');
+            createInput.setAttribute('type', 'text', 'value', '0');
+            createInput.setAttribute('value', ' ');
+            createInput.className = "spent-amount";
+            createInput.classList.add('rounded-3', 'outline-0', 'fs-5');
+
+            creatInputBox.innerHTML = `<i class="fa-regular fa-circle-check checked"></i>`;
+            creatInputBox.append(createInput);
+            expenseLists[index].append(creatInputBox);
+
+            expenseLists[index].scrollTop = '0';
+
+            console.log(createInput);
+            console.log(creatInputBox);
+            console.log(expenseLists[index]);
         })
     })
 }
+//<i class="fa-regular fa-circle-check checked"></i>

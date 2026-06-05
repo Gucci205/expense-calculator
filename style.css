@@ -129,6 +129,18 @@ span{
     max-height:148px;
     overflow-x:auto;
 }
+.input-box{
+    position:relative;
+}
+.expense-list input{
+    margin:0 0 10px 0;
+}
+.checked{
+    position:absolute;
+    right:20px;
+    top:25%;
+    cursor:pointer;
+}
 .expense-list::-webkit-scrollbar{
     width: 8px;
 }
@@ -142,9 +154,6 @@ span{
 }
 .expense-list::-webkit-scrollbar-thumb:hover{
     background: #44ac94;
-}
-.expense-list input{
-    margin:0 0 10px 0;
 }
 .add-expense-button{
     border:0;
