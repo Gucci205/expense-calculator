@@ -10,11 +10,11 @@ const circleIcons = document.querySelectorAll('i.fa-regular');
 const totalSpentElement = document.querySelector('.total-spent');
 const totalRemainingElement = document.querySelector('.total-remaining');
 
-console.log(circleIcons);
+// console.log(circleIcons);
 
 budgetAllocation();
 addNewInput();
-makeInputDisabled();
+// makeInputDisabled();
 
 function budgetAllocation(){
     const originalAmount = Number(originalAmountInput .value);
@@ -37,7 +37,7 @@ function budgetAllocation(){
         spentInputs[index].value = spent.toLocaleString();
         remainingInputs[index].value = remaining.toLocaleString();
 
-        makeInputDisabled(spent);
+        // makeInputDisabled(spent);
     });
 
     originalAmountInput.value = addCommas(originalAmount);
@@ -83,22 +83,22 @@ function addNewInput(){
             createInput.className = "spent-amount";
             createInput.classList.add('rounded-3', 'outline-0', 'fs-5');
 
-            creatInputBox.innerHTML = `<i class="fa-regular fa-circle-check checked"></i>`;
+            creatInputBox.innerHTML = `<i class="fa-regular fa-circle circle"></i>`;
             creatInputBox.append(createInput);
             expenseLists[index].append(creatInputBox);
 
             expenseLists[index].scrollTop = expenseLists[index].scrollHeight;
 
-            console.log(createInput);
-            console.log(creatInputBox);
-            console.log(expenseLists[index]);
+            // console.log(createInput);
+            // console.log(creatInputBox);
+            // console.log(expenseLists[index]);
         })
     })
 }
 
-function makeInputDisabled(spent){
-    circleIcons.forEach((icon) => {
-        icon.addEventListener('click', () => {
-        })
-    })
-}
+// function makeInputDisabled(spent){
+//     circleIcons.forEach((icon) => {
+//         icon.addEventListener('click', () => {
+//         })
+//     })
+// }
