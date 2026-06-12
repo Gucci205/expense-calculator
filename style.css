@@ -82,8 +82,9 @@ body{
     font-family:'Times New Roman', Times, serif;
     font-weight:bold;
     padding-right:10px;
+    font-size:28px;
 }
-.fa-square-check{
+.fa-circle{
     cursor:pointer;
 }
 .second{
@@ -132,7 +133,7 @@ span{
 .input-box{
     position:relative;
 }
-.expense-list input{
+.input-box input{
     margin:0 0 10px 0;
 }
 .circle{
@@ -175,4 +176,88 @@ footer{
 }
 .total-remaining, .total-spent{
     font-family: 'Times New Roman', Times, serif;
+}
+@media(max-width:360px){
+    .first p{
+        font-size:14px;
+    }
+    .fa-circle{
+        font-size:10px;
+    }
+    header .container{
+        margin-top:15px !important;
+    }
+    #heading h1{
+        margin-bottom:0 !important;
+        letter-spacing:1px;
+    }
+    #heading p{
+        margin-bottom:0 !important;
+        font-size:12px !important;
+    }
+    .line{
+        display:none;
+    }
+    main.mt-4{
+        margin-top:15px !important;
+    }
+    .first{
+        padding:5px 10px 5px 10px;
+    }
+    .original-amount{
+        width:100px;
+        font-size:17px;
+        padding-right:7px;
+    }
+    .second{
+        margin-top:20px !important;
+    }
+    .second > div:nth-child(1){
+        padding-right:5px;
+    }
+    .second > div:nth-child(2){
+        padding-left:5px;
+    }
+    .second h3, .second .amount{
+        font-size:16px !important;
+        font-weight:bold;
+    }
+    .second h3{
+        margin-bottom:0;
+    }
+    .second .amount{
+        margin-bottom:10px;
+    }
+    .second span{
+        font-weight: 100;
+    }
+    .fDiv p, .fDiv button, .sDiv p{
+        font-size:12px !important;
+    }
+    .fDiv p.mb-2, .sDiv p.mb-2{
+        margin-bottom:5px !important;
+    }
+    .fDiv button{
+        margin-top:0;
+    }
+    .input-box input, .sDiv input{
+        font-size:15px !important;
+        /* width:100%; */
+        padding:3px 0 3px 7px;
+        margin:0 0 5px 0;
+    }
+    .circle{
+        right:10px;
+        top:43%;
+        transform:translateY(-43%);
+    }
+    .expense-list{
+        max-height:100px;
+    }
+    .fDiv, .sDiv{
+        padding:7px !important;
+    }
+    .sDiv{
+        margin-top:11px !important;
+    }
 }
