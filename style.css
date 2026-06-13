@@ -13,7 +13,7 @@ body{
     /* overflow:hidden; */
 }
 #heading h1{
-    letter-spacing:5px;
+    letter-spacing:4px;
 }
 #heading p{
     font-family: Arial, Helvetica, sans-serif;
@@ -184,9 +184,6 @@ footer{
     .fa-circle{
         font-size:10px;
     }
-    header .container{
-        margin-top:15px !important;
-    }
     #heading h1{
         margin-bottom:0 !important;
         letter-spacing:1px;
@@ -199,7 +196,7 @@ footer{
         display:none;
     }
     main.mt-4{
-        margin-top:15px !important;
+        margin:20px 0 !important;
     }
     .first{
         padding:5px 10px 5px 10px;
@@ -211,6 +208,8 @@ footer{
     }
     .second{
         margin-top:20px !important;
+        padding:15px 0 15px 0 !important;
+        box-shadow:0 6px 8px #d0d0d0;
     }
     .second > div:nth-child(1){
         padding-right:5px;
@@ -251,6 +250,9 @@ footer{
         top:43%;
         transform:translateY(-43%);
     }
+    .save .circle{
+        right:15px;
+    }
     .expense-list{
         max-height:100px;
     }
@@ -259,5 +261,23 @@ footer{
     }
     .sDiv{
         margin-top:11px !important;
+    }
+    .save{
+        margin-top:15px;
+    }
+    footer.mt-5{
+        margin-top:15px !important;
+        position:fixed;
+        left:0;
+        right:0;
+        bottom:13px;
+        background-color:#F8F8FF;
+        box-shadow:0 -3px 8px #d0d0d0;
+    }
+    .footer{
+        padding-top:7px;
+    }
+    .footer > div > div >p{
+        font-size:20px !important;
     }
 }
