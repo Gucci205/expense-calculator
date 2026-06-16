@@ -5,37 +5,37 @@
 }
 body{
     font-family: "Cormorant Garamond", serif;
-    /* background:linear-gradient(to bottom, #000000, #050504); */
-    /* color:#dddaae; */
-    background-color:#F8F8FF;
-    color:#908a1e;
+    background:linear-gradient(to bottom, #000000, #050504);
+    color:#dddaae;
+    /* background-color:#F8F8FF; */
+    /* color:#908a1e; */
     height:100vh;
     /* overflow:hidden; */
 }
 #heading h1{
-    letter-spacing:4px;
+    letter-spacing:3px;
 }
 #heading p{
     font-family: Arial, Helvetica, sans-serif;
-    /* color:#505050; */
-    color:#a9a66a;
+    color:#505050;
+    /* color:#a9a66a; */
 }
 .line{
     height:1px;
-    /* background-color:#dddaae5a; */
-    background-color:#8c8c8c9f;
+    background-color:#dddaae5a;
+    /* background-color:#8c8c8c9f; */
 }
 .first{
     padding:10px 20px 10px 20px;
     font-family: Arial, Helvetica, sans-serif;
-    /* background:linear-gradient(145deg, #0a0a0a, #0e0e04); */
-    /* color:#f4cf8f; */
-    background-color:#fffef5;
-    color:#908a1e;
+    background:linear-gradient(145deg, #0a0a0a, #0e0e04);
+    color:#f4cf8f;
+    /* background-color:#fffef5; */
+    /* color:#908a1e; */
     position:relative;
     overflow:hidden;
-    border:2px solid #fffef5;
-    box-shadow:0 3px 10px #dbdbdb;
+    /* border:2px solid #fffef5; */
+    /* box-shadow:0 3px 10px #dbdbdb; */
 }
 .first::before{
     content:'';
@@ -52,8 +52,8 @@ body{
 .first::after{
     content:'';
     position:absolute;
-    /* background:linear-gradient(145deg, #0a0a0a, #050501); */
-    background:linear-gradient(160deg, #ffffff, #fffeef);
+    background:linear-gradient(145deg, #0a0a0a, #050501);
+    /* background:linear-gradient(160deg, #ffffff, #fffeef); */
     border-radius:2px;
     height:98%;
     width:99.7%;
@@ -74,8 +74,8 @@ body{
 .original-amount{
     background-color:transparent;
     width:150px;
-    /* color:#f4cf8f; */
-    color:#908a1e;
+    color:#f4cf8f;
+    /* color:#908a1e; */
     border:0;
     outline:0;
     text-align:right;
@@ -88,15 +88,15 @@ body{
     cursor:pointer;
 }
 .second{
-    /* background:linear-gradient(145deg, #000000, #030301, #080806); */
-    /* border:1px solid #5e4b4370; */
-    /* box-shadow:0 0 10px #15130565; */
-    /* color:#f4cf8f; */
+    background:linear-gradient(145deg, #000000, #030301, #080806);
+    border:1px solid #5e4b4370;
+    box-shadow:0 0 10px #15130565;
+    color:#f4cf8f;
     /* border:1px solid #908a1e; */
-    background-color:#F8F8FF;
-    border:1px solid #fff75e;
-    box-shadow:0 5px 10px #dbdbdb;
-    color:#908a1e;
+    /* background-color:#F8F8FF; */
+    /* border:1px solid #fff75e; */
+    /* box-shadow:0 5px 10px #dbdbdb; */
+    /* color:#908a1e; */
     max-width:1000px;
     margin:auto;
 }
@@ -111,19 +111,19 @@ span{
 }
 .fDiv, .sDiv{
     font-family: Arial, Helvetica, sans-serif;
-    /* background:linear-gradient(145deg, #070505, #050501); */
-    /* border:1px solid #5e4b4350; */
-    /* box-shadow:0 0 5px #0c0801; */
-    background-color:#fffef5;
-    box-shadow:0 2px 9px #dbdbdb;
+    background:linear-gradient(145deg, #070505, #050501);
+    border:1px solid #5e4b4350;
+    box-shadow:0 0 5px #0c0801;
+    /* background-color:#fffef5; */
+    /* box-shadow:0 2px 9px #dbdbdb; */
 }
 .fDiv input, .sDiv input{
-    /* color:#d0af67; */
-    /* background-color:#000000; */
-    background-color:rgb(255, 255, 255);
+    color:#d0af67;
+    background-color:#000000;
+    /* background-color:rgb(255, 255, 255); */
     border:1.5px solid #908a1e;
     padding:5px 0 5px 10px;
-    color:#908a1e;
+    /* color:#908a1e; */
     width:95%;
 }
 .expense-list{
@@ -164,10 +164,10 @@ span{
     color:#676766;
 }
 .sDiv input{
-    background:linear-gradient(100deg,#14655b, #44ac94);
-    color:snow;
+    /* background:linear-gradient(100deg,#14655b, #44ac94); */
+    /* color:snow; */
     border:0;
-    box-shadow:0 1px 7px #14655b;
+    /* box-shadow:0 1px 7px #14655b; */
 }
 footer{
     /* color:#d0af67; */
@@ -177,7 +177,40 @@ footer{
 .total-remaining, .total-spent{
     font-family: 'Times New Roman', Times, serif;
 }
-@media(max-width:360px){
+@media(max-width:750px){
+    #heading h1{
+        margin-bottom:0 !important;
+    }
+    .original-amount{
+        width:100px;
+        font-size:20px;
+    }
+    .fa-circle{
+        font-size:15px;
+    }
+    .second{
+        margin-top:30px !important;
+        padding:15px 0 15px 0 !important;
+    }
+    .second > div:nth-child(1){
+        padding-right:5px;
+    }
+    .second > div:nth-child(2){
+        padding-left:5px;
+    }
+    .second h3, .second .amount{
+        font-size:20px !important;
+        font-weight:bold;
+    }
+    .second .amount{
+        margin-bottom:10px;
+    }
+    .second span{
+        font-weight: 100;
+    }
+    
+}
+/* @media(max-width:360px){
     .first p{
         font-size:14px;
     }
@@ -241,7 +274,6 @@ footer{
     }
     .input-box input, .sDiv input{
         font-size:15px !important;
-        /* width:100%; */
         padding:3px 0 3px 7px;
         margin:0 0 5px 0;
     }
@@ -280,4 +312,4 @@ footer{
     .footer > div > div >p{
         font-size:20px !important;
     }
-}
+} */
