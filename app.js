@@ -14,7 +14,7 @@ const totalRemainingElement = document.querySelector('.total-remaining');
 
 budgetAllocation();
 addNewInput();
-// makeInputDisabled();
+makeInputDisabled();
 
 function budgetAllocation(){
     const originalAmount = Number(originalAmountInput .value);
@@ -37,8 +37,9 @@ function budgetAllocation(){
         spentInputs[index].value = spent.toLocaleString();
         remainingInputs[index].value = remaining.toLocaleString();
 
-        // makeInputDisabled(spent);
+        console.log(spent);
     });
+    // makeInputDisabled(spent);
 
     originalAmountInput.value = addCommas(originalAmount);
     totalSpentElement.textContent = addCommas(totalSpent);
@@ -74,31 +75,37 @@ function addCommas(value){
 function addNewInput(){
     addExpenseButton.forEach((button, index) => {
         button.addEventListener('click', () => {
-            const creatInputBox = document.createElement('div');
-            creatInputBox.className = 'input-box';
+            const createInputBox = document.createElement('div');
+            createInputBox.className = 'input-box';
 
             const createInput = document.createElement('input');
-            createInput.setAttribute('type', 'text', 'value', '0');
+            createInput.setAttribute('type', 'text');
             createInput.setAttribute('value', ' ');
             createInput.className = "spent-amount";
             createInput.classList.add('rounded-3', 'outline-0', 'fs-5');
 
-            creatInputBox.innerHTML = `<i class="fa-regular fa-circle circle"></i>`;
-            creatInputBox.append(createInput);
-            expenseLists[index].append(creatInputBox);
+            createInputBox.innerHTML = `<i class="fa-regular fa-circle circle"></i>`;
+            createInputBox.append(createInput);
+            expenseLists[index].append(createInputBox);
 
             expenseLists[index].scrollTop = expenseLists[index].scrollHeight;
 
             // console.log(createInput);
             // console.log(creatInputBox);
-            // console.log(expenseLists[index]);
         })
     })
 }
 
-// function makeInputDisabled(spent){
-//     circleIcons.forEach((icon) => {
-//         icon.addEventListener('click', () => {
-//         })
-//     })
-// }
+function makeInputDisabled(spent){
+    circleIcons.forEach((icon) => {
+        icon.addEventListener('click', (event) => {
+            const siblingInput = event.target.previousElementSibling;
+            console.log(siblingInput.value);
+            if(siblingInput.value && siblingInput.value !== "0"){
+                siblingInput.disabled = true;
+            }else{
+                siblingInput.disabled = false;
+            }
+        })
+    })
+}
