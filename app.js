@@ -10,13 +10,11 @@ const circleIcons = document.querySelectorAll('i.fa-regular');
 const totalSpentElement = document.querySelector('.total-spent');
 const totalRemainingElement = document.querySelector('.total-remaining');
 
-// console.log(circleIcons);
-
-budgetAllocation();
+updateBudgetDisplay();
 addNewInput();
-makeInputDisabled();
 
-function budgetAllocation(){
+function updateBudgetDisplay(){
+    makeInputDisabled();
     const originalAmount = Number(originalAmountInput .value);
 
     const allocations = calculateAllocations(originalAmount);
@@ -34,7 +32,7 @@ function budgetAllocation(){
         amountElements[index].textContent = amount.toLocaleString();
         amountElements[index].style.fontFamily = 'Times New Roman';
 
-        spentInputs[index].value = spent.toLocaleString();
+        spentInputs[index].value = spent.toLocaleString();      //display 0 automatically if there is no value
         remainingInputs[index].value = remaining.toLocaleString();
 
         console.log(spent);
@@ -48,9 +46,9 @@ function budgetAllocation(){
 
 function calculateAllocations(total){
     return [
-        total * 0.5,
-        total * 0.3,
-        total * 0.2
+        Math.ceil(total * 0.5),
+        Math.ceil(total * 0.3),
+        Math.ceil(total * 0.2)
     ];
 }
 
@@ -79,8 +77,8 @@ function addNewInput(){
             createInputBox.className = 'input-box';
 
             const createInput = document.createElement('input');
-            createInput.setAttribute('type', 'text');
-            createInput.setAttribute('value', ' ');
+            createInput.setAttribute('type', "text");
+            createInput.setAttribute('value', "");
             createInput.className = "spent-amount";
             createInput.classList.add('rounded-3', 'outline-0', 'fs-5');
 
@@ -96,7 +94,7 @@ function addNewInput(){
     })
 }
 
-function makeInputDisabled(spent){
+function makeInputDisabled(){
     circleIcons.forEach((icon) => {
         icon.addEventListener('click', (event) => {
             const siblingInput = event.target.previousElementSibling;
