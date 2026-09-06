@@ -26,16 +26,21 @@ function updateBudgetDisplay(){
         const spent = Number(spentInputs[index].value);
         const remaining = amount - spent;
 
+        
         totalSpent += spent;
         totalRemaining += remaining;
-
+        
         amountElements[index].textContent = amount.toLocaleString();
         amountElements[index].style.fontFamily = 'Times New Roman';
-
+        
         spentInputs[index].value = spent.toLocaleString();      //display 0 automatically if there is no value
         remainingInputs[index].value = remaining.toLocaleString();
+        
+        // console.log(spent);
 
-        console.log(spent);
+        if(remaining < 0){
+            remainingInputs[index].style.color = 'maroon';
+        }
     });
     // makeInputDisabled(spent);
 

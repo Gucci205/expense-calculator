@@ -35,9 +35,10 @@ body{
     position:absolute;
     left:0;
     border-radius:3px;
-    background-color: #fff317 ;
+    /* background-color: #fff317 ; */
+    background-color: #5e4b4370 ;
     transition:all 1s linear;
-    filter:drop-shadow(0 0 8px #ffd900);
+    /* filter:drop-shadow(0 0 8px #ffd900); */
 }
 .first::after{
     content:'';
