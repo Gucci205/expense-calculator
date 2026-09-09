@@ -11,7 +11,7 @@ const totalSpentElement = document.querySelector('.total-spent');
 const totalRemainingElement = document.querySelector('.total-remaining');
 
 updateBudgetDisplay();
-addNewInput();
+// addNewInput();
 
 function updateBudgetDisplay(){
     makeInputDisabled();

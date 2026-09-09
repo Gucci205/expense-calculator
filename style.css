@@ -5,8 +5,9 @@
 }
 body{
     font-family: "Cormorant Garamond", serif;
-    background-color:#F8F8FF;
-    color:#908a1e;
+    background:linear-gradient(to bottom, #eaf2ef, #f5efef, #fecec9);
+    color:#d42a87;
+    /* color:#912f56; */
     height:100vh;
 }
 #heading h1{
@@ -14,7 +15,7 @@ body{
 }
 #heading p{
     font-family: Arial, Helvetica, sans-serif;
-    color:#a9a66a;
+    color:#858585;
 }
 .line{
     height:1px;
@@ -23,64 +24,32 @@ body{
 .first{
     padding:10px 20px 10px 20px;
     font-family: Arial, Helvetica, sans-serif;
-    background-color:#fffef5;
-    color:#908a1e;
-    position:relative;
-    overflow:hidden;
+    background-color:#fee5f6;
 }
-.first::before{
-    content:'';
-    width:100%;
-    height:100%;
-    position:absolute;
-    left:0;
-    border-radius:3px;
-    /* background-color: #fff317 ; */
-    background-color: #5e4b4370 ;
-    transition:all 1s linear;
-    /* filter:drop-shadow(0 0 8px #ffd900); */
-}
-.first::after{
-    content:'';
-    position:absolute;
-    background:linear-gradient(160deg, #ffffff, #fffeef);
-    border-radius:2px;
-    height:98%;
-    width:99.7%;
-    left:1px;
-}
-@keyframes rotating{
-    from{
-        transform:rotate(0deg);
-    }
-    to{
-        transform:rotate(360deg);
-    }
-}
-.first p, .first div{
-    z-index:1;
+.first p{
     margin:0;
+    font-weight:600;
+    letter-spacing:.5px;
+    font-size:large;
+}
+.first div{
+    display:flex;
+    align-items:center;
 }
 .original-amount{
-    background-color:transparent;
     width:150px;
-    color:#908a1e;
     border:0;
     outline:0;
     text-align:right;
-    font-family:'Times New Roman', Times, serif;
-    font-weight:bold;
     padding-right:10px;
-    font-size:28px;
+    font-size:x-large;
 }
 .fa-circle{
     cursor:pointer;
 }
 .second{
-    background-color:#F8F8FF;
-    border:1px solid #5e4b4370;
-    box-shadow:none;
-    color:#908a1e;
+    /* background-color:#fee5f6; */
+    box-shadow:0 3px 9px #c3c3c3;
     max-width:1000px;
     margin:auto;
 }
@@ -95,14 +64,10 @@ span{
 }
 .fDiv, .sDiv{
     font-family: Arial, Helvetica, sans-serif;
-    background-color:#fffef5;
-    border:1px solid #5e4b4350;
+    /* background-color:#fffef5; */
     box-shadow:none;
 }
 .fDiv input, .sDiv input{
-    color:#908a1e;
-    background-color:rgb(255, 255, 255);
-    border:1.5px solid #908a1e;
     padding:5px 0 5px 10px;
     width:95%;
     outline:0;
@@ -148,13 +113,11 @@ span{
     color:#bababa;
 }
 .sDiv input{
-    background:linear-gradient(100deg,#14655b, #44ac94);
-    color:snow;
+    /* background:linear-gradient(100deg,#14655b, #44ac94); */
     border:0;
     box-shadow:0 1px 7px #14655b;
 }
 footer{
-    color:#d0af67;
     max-width:1200px;
     margin:auto;
 }
