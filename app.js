@@ -11,7 +11,7 @@ const totalSpentElement = document.querySelector('.total-spent');
 const totalRemainingElement = document.querySelector('.total-remaining');
 
 updateBudgetDisplay();
-// addNewInput();
+addNewInput();
 
 function updateBudgetDisplay(){
     makeInputDisabled();
@@ -39,7 +39,7 @@ function updateBudgetDisplay(){
         // console.log(spent);
 
         if(remaining < 0){
-            remainingInputs[index].style.color = 'maroon';
+            remainingInputs[index].style.background = 'linear-gradient(135deg, #fbe7e0, #ffe3d9)';
         }
     });
     // makeInputDisabled(spent);
