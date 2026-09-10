@@ -188,8 +188,8 @@ span{
 
 .sDiv input{
     border:1px solid #ffe3d9;
-    background:linear-gradient(135deg, #fbe7e0, #ffe3d9);
-    box-shadow:0 0 7px #fbe7e0;
+    background:linear-gradient(155deg, rgb(255, 202, 221), #f1b5b1);
+    box-shadow:0 0 17px #ffdee9;
 }
 
 footer{

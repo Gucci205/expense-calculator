@@ -39,7 +39,9 @@ function updateBudgetDisplay(){
         // console.log(spent);
 
         if(remaining < 0){
-            remainingInputs[index].style.background = 'linear-gradient(135deg, #fbe7e0, #ffe3d9)';
+            remainingInputs[index].style.background = 'linear-gradient(135deg, #dd8c96, #eb507c';
+            remainingInputs[index].style.color = 'var(--bg-page)';
+
         }
     });
     // makeInputDisabled(spent);
