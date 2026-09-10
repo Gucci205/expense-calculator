@@ -156,7 +156,7 @@ span{
 }
 
 .expense-list::-webkit-scrollbar-track{
-    background:var(--panel-rose);
+    background:#dddddd;
     border-radius:5px;
 }
 
