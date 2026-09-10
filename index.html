@@ -17,8 +17,12 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+    <div style="position:fixed;top:10px;left:10px;background:rgba(0,0,0,0.8);color:#fff;padding:4px 8px;font-size:12px;z-index:9999;" id="debug-width"></div>
+    <script>
+        document.getElementById('debug-width').textContent = window.innerWidth + 'px';
+    </script>
     <header>
-        <div class="container mt-4 mb-2">
+        <div class="container mt-4">
             <div class="row text-center">
                 <div class="col" id="heading">
                     <h1 class="mb-3 fw-bold">EXPENSE CALCULATOR</h1>
@@ -29,7 +33,7 @@
         </div>
     </header>
 
-    <main class="mt-4 mb-4">
+    <main class="mt-4">
         <div class="container">
             <div class="row justify-content-center ">
                 <div class="col-lg-8">
