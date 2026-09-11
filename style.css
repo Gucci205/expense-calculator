@@ -242,6 +242,24 @@ footer{
     .second{
         margin-top:15px !important;
         padding-top:10px !important;
+        display:grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-areas:
+            "need want"
+            "save .";
+        align-items:start;
+    }
+    .second > div{
+        width:100%;
+    }
+    .need{
+        grid-area: need; 
+    }
+    .want{
+        grid-area: want; 
+    }
+    .save{
+        grid-area: save; 
     }
     .second h3{
         font-size:large;
@@ -262,7 +280,6 @@ footer{
     }
     .fDiv input, .sDiv input{
         font-size: medium !important;
-        /* width:99%; */
     }
     .save{
         margin-top:10px;
