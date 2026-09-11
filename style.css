@@ -299,9 +299,9 @@ footer{
         padding:5px 7px;
     }
     footer{
-        position:absolute;
+        position:fixed;
         right:12px;
-        bottom:133px;
+        bottom:66px;
     }
     .footer{
         border:1px solid #fbcedb;
