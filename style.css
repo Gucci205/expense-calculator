@@ -1,21 +1,12 @@
 :root{
     --bg-page: #fffaf8;
-    --bg-soft: #f7edf3;
-    --panel-rose: #fff0f5;
-    --panel-peach: #fff5ef;
-    --card-cream: #fffdf9;
     --primary: #d84d92;
     --primary-deep: #8f3a68;
-    --primary-soft: #f8d9ea;
-    --accent: #2a8a83;
-    --accent-soft: #d9f1ee;
-    --accent-deep: #1d615d;
     --text: #4d3b48;
     --muted: #726770;
     --line: #8f3a682e;
     --shadow-soft: 0 18px 40px #6e4e5e1f;
     --shadow-card: 0 10px 25px #382a3014;
-    --input-bg: #ffffffd9;
 }
 
 *{
@@ -28,8 +19,8 @@ body{
     font-family: "Cormorant Garamond", serif;
     background:linear-gradient(to top, #f9f2f4, #fef7f4, #f9f0f4e6);
     color:var(--text);
-    min-height:100vh;
-    position:relative;
+    max-height:100vh;
+    overflow-x:auto;
 }
 
 #heading h1{
@@ -71,7 +62,6 @@ body{
 .first div{
     display:flex;
     align-items:center;
-    /* gap:12px; */
     position:relative;
 }
 
@@ -89,7 +79,6 @@ body{
 .fa-circle{
     cursor:pointer;
     color:var(--primary-deep);
-    filter:drop-shadow(0 3px 8px #d84d9233);
     position:absolute;
     right:7px;
 }
@@ -211,10 +200,6 @@ footer{
 } 
 
 @media(max-width: 384px){
-    body{
-        max-height:50vh;
-        overflow-x:auto;
-    }
     header .container{
         margin-top:10px !important;
     }
@@ -247,24 +232,7 @@ footer{
     .second{
         margin-top:15px !important;
         padding-top:10px !important;
-        display:grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        grid-template-areas:
-            "need want"
-            "save .";
-        align-items:start;
-    }
-    .second > div{
-        width:100%;
-    }
-    .need{
-        grid-area: need; 
-    }
-    .want{
-        grid-area: want; 
-    }
-    .save{
-        grid-area: save; 
+        padding-bottom:10px !important;
     }
     .second h3{
         font-size:large;
@@ -298,10 +266,8 @@ footer{
         border-radius:20px;
         padding:5px 7px;
     }
-    footer{
-        position:fixed;
-        right:12px;
-        bottom:66px;
+    .main-footer{
+        margin-top:24px !important;
     }
     .footer{
         border:1px solid #fbcedb;
@@ -309,17 +275,10 @@ footer{
         box-shadow:0 2px 5px #e6dfe2;
     }
     .footer > div > p:nth-child(1){
-        font-size:large !important;
-    }
-    .footer > div > p:nth-child(2){
         font-size:medium !important;
     }
-    .footer > div{
-        display:block !important;
-        text-align:center;
-    }
-    .footer .line{
-        margin:15px 0;
+    .footer > div > p:nth-child(2){
+        font-size:large !important;
     }
 }
 
