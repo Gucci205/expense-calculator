@@ -280,6 +280,47 @@ footer{
     .footer > div > p:nth-child(2){
         font-size:large !important;
     }
+    footer{
+        position:sticky;
+        bottom:7px;
+        z-index:2;
+        animation:footer-pop-up 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    footer.is-scrolling{
+        animation:footer-return 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes footer-pop-up{
+        from{
+            opacity:0;
+            transform:translateY(34px);
+        }
+        to{
+            opacity:1;
+            transform:translateY(0);
+        }
+    }
+
+    @keyframes footer-return{
+        from{
+            opacity:0.65;
+            transform:translateY(-55px) scale(0.98);
+        }
+        to{
+            opacity:1;
+            transform:translateY(0) scale(1);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+        footer,
+        footer.is-scrolling{
+            animation:none;
+            opacity:1;
+            transform:none;
+        }
+    }
 }
 
 /* @media(max-width:750px){

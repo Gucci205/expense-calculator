@@ -10,6 +10,21 @@ const circleIcons = document.querySelectorAll('i.fa-regular');
 const totalSpentElement = document.querySelector('.total-spent');
 const totalRemainingElement = document.querySelector('.total-remaining');
 
+const footer = document.querySelector('footer');
+const mobileViewport = window.matchMedia('(max-width: 384px)');
+
+function updateFooterAnimation(){
+    if(!mobileViewport.matches){
+        footer.classList.remove('is-scrolling');
+        return; 
+    }
+
+    footer.classList.toggle('is-scrolling', window.scrollY > 8);
+}
+
+window.addEventListener('scroll', updateFooterAnimation, { passive:true });
+window.addEventListener('resize', updateFooterAnimation);
+
 updateBudgetDisplay();
 addNewInput();
 
