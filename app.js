@@ -13,15 +13,19 @@ const totalRemainingElement = document.querySelector('.total-remaining');
 const footer = document.querySelector('footer');
 const mobileViewport = window.matchMedia('(max-width: 384px)');
 
+// Add the class that tells CSS to play the footer's return animation while scrolling.
 function updateFooterAnimation(){
+    // Keep the animation mobile-only and reset the class if the viewport becomes wider.
     if(!mobileViewport.matches){
         footer.classList.remove('is-scrolling');
         return; 
     }
 
+    // A small scroll distance prevents the animation from triggering immediately on load.
     footer.classList.toggle('is-scrolling', window.scrollY > 8);
 }
 
+// Recheck the footer state whenever the page scrolls or the viewport is resized.
 window.addEventListener('scroll', updateFooterAnimation, { passive:true });
 window.addEventListener('resize', updateFooterAnimation);
 

@@ -284,7 +284,7 @@ footer{
         position:sticky;
         bottom:7px;
         z-index:2;
-        animation:footer-pop-up 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+        animation:footer-pop-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
     footer.is-scrolling{
@@ -294,7 +294,7 @@ footer{
     @keyframes footer-pop-up{
         from{
             opacity:0;
-            transform:translateY(34px);
+            transform:translateY(70px);
         }
         to{
             opacity:1;
