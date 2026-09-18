@@ -30,11 +30,49 @@ window.addEventListener('scroll', updateFooterAnimation, { passive:true });
 window.addEventListener('resize', updateFooterAnimation);
 
 updateBudgetDisplay();
-addNewInput();
+// addNewInput();
+
+function calculateAllocations(total){
+    return [
+        Math.ceil(total * 0.5),
+        Math.ceil(total * 0.3),
+        Math.ceil(total * 0.2)
+    ];
+}
+
+function makeInputDisabled(){
+    circleIcons.forEach((icon) => {
+        icon.addEventListener('click', (event) => {
+            const targetElement = event.target;
+
+            const siblingInput = targetElement.previousElementSibling;
+
+            if(siblingInput.value && siblingInput.value !== "0"){
+                siblingInput.disabled = true;
+            }else{
+                siblingInput.disabled = false;
+            }
+
+            const section = targetElement.closest("section");       //closest() only finds the ancestor
+
+            updateSection(section);
+        })
+    })
+}
+
+// function updateSection(section){
+//     const input = section.querySelector("input.spent-amount");
+//     if(input.disabled !== true){
+//         console.log('input is not disabled');
+//     }
+
+//     const value = input.value;
+//     console.log(value);
+// }
 
 function updateBudgetDisplay(){
     makeInputDisabled();
-    const originalAmount = Number(originalAmountInput .value);
+    const originalAmount = Number(originalAmountInput.value);
 
     const allocations = calculateAllocations(originalAmount);
 
@@ -70,14 +108,6 @@ function updateBudgetDisplay(){
     totalRemainingElement.textContent = addCommas(totalRemaining);
 }
 
-function calculateAllocations(total){
-    return [
-        Math.ceil(total * 0.5),
-        Math.ceil(total * 0.3),
-        Math.ceil(total * 0.2)
-    ];
-}
-
 function addCommas(value){
     const digits = String(value).split('').reverse();
     
@@ -96,40 +126,28 @@ function addCommas(value){
     return result.split('').reverse().join('');
 }
 
-function addNewInput(){
-    addExpenseButton.forEach((button, index) => {
-        button.addEventListener('click', () => {
-            const createInputBox = document.createElement('div');
-            createInputBox.className = 'input-box';
+// function addNewInput(){
+//     addExpenseButton.forEach((button, index) => {
+//         button.addEventListener('click', () => {
+//             const createInputBox = document.createElement('div');
+//             createInputBox.className = 'input-box';
 
-            const createInput = document.createElement('input');
-            createInput.setAttribute('type', "text");
-            createInput.setAttribute('value', "");
-            createInput.className = "spent-amount";
-            createInput.classList.add('rounded-3', 'outline-0', 'fs-5');
+//             const createInput = document.createElement('input');
+//             createInput.setAttribute('type', "text");
+//             createInput.setAttribute('value', "");
+//             createInput.className = "spent-amount";
+//             createInput.classList.add('rounded-3', 'outline-0', 'fs-5');
 
-            createInputBox.innerHTML = `<i class="fa-regular fa-circle circle"></i>`;
-            createInputBox.append(createInput);
-            expenseLists[index].append(createInputBox);
+//             createInputBox.innerHTML = `<i class="fa-regular fa-circle circle"></i>`;
+//             createInputBox.append(createInput);
+//             expenseLists[index].append(createInputBox);
 
-            expenseLists[index].scrollTop = expenseLists[index].scrollHeight;
+//             expenseLists[index].scrollTop = expenseLists[index].scrollHeight;
+//         })
+//     })
+// }
 
-            // console.log(createInput);
-            // console.log(creatInputBox);
-        })
-    })
-}
 
-function makeInputDisabled(){
-    circleIcons.forEach((icon) => {
-        icon.addEventListener('click', (event) => {
-            const siblingInput = event.target.previousElementSibling;
-            console.log(siblingInput.value);
-            if(siblingInput.value && siblingInput.value !== "0"){
-                siblingInput.disabled = true;
-            }else{
-                siblingInput.disabled = false;
-            }
-        })
-    })
-}
+
+// A future updateSection(section) will handle calculations for one section.
+// A future updateTotals() will handle the global Total Spent / Total Remaining.
