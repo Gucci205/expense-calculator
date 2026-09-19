@@ -84,16 +84,29 @@ function updateSection(section, allocation){
     const spentInput = section.querySelector("input.spent-amount");  //to find a descendants inside a section
     const remainingInput = section.querySelector("input.remaining-amount");
 
+    let spentAmount = '';
+    let remaining = '';
+
     if(spentInput.disabled === false){
         console.log('input is not disabled');
         return;
     }
 
-    const spentAmount = Number(spentInput.value);
-    let remaining = allocation - spentAmount;
+    spentAmount = Number(spentInput.value);
+    remaining = allocation - spentAmount;
 
     spentInput.value = addCommas(spentAmount);
     remainingInput.value = addCommas(remaining);
+}
+
+// function updateTotals(){
+//     let totalSpent = 0;
+//     let totalRemaining = 0;
+// }
+
+function toNumber(value){
+    const number = Number(value.replace(/,/g, '')) || 0;
+    console.log(number);
 }
 
 function addCommas(value){
