@@ -5,13 +5,15 @@ const spentInputs  = document.querySelectorAll('.spent-amount');   //when callin
 const remainingInputs  = document.querySelectorAll('.remaining-amount');
 const addExpenseButton = document.querySelectorAll('.add-expense-button');
 const expenseLists = document.querySelectorAll('.expense-list');
-const circleIcons = document.querySelectorAll('i.fa-regular');
+const circleIcons = document.querySelectorAll('i.circle');
 
 const totalSpentElement = document.querySelector('.total-spent');
 const totalRemainingElement = document.querySelector('.total-remaining');
 
 const footer = document.querySelector('footer');
 const mobileViewport = window.matchMedia('(max-width: 384px)');
+
+const sections = document.querySelectorAll('section');
 
 // Add the class that tells CSS to play the footer's return animation while scrolling.
 function updateFooterAnimation(){
@@ -31,7 +33,9 @@ window.addEventListener('resize', updateFooterAnimation);
 
 // updateBudgetDisplay();
 // addNewInput();
-makeInputDisabled();
+
+let allocations = [];
+
 calculations();
 
 function calculateAllocations(total){
@@ -44,49 +48,52 @@ function calculateAllocations(total){
 
 function calculations(){
     const originalAmount = Number(originalAmountInput.value);
-    const allocations = calculateAllocations(originalAmount);
+    allocations = calculateAllocations(originalAmount);
 
-    // console.log(allocations);
-    budgetDisplay(allocations);
+    budgetAllocation(allocations);
+    makeInputDisabled(allocations);
 }
 
-function budgetDisplay(allocations){
+function budgetAllocation(allocations){
     allocations.forEach((amount, index) => {
         amountElements[index].textContent = amount.toLocaleString();
         amountElements[index].style.fontFamily = 'Times New Roman';
-
-        console.log(amount);
     })
 }
 
-function makeInputDisabled(){
+function makeInputDisabled(allocations){
     circleIcons.forEach((icon) => {
         icon.addEventListener('click', (event) => {
             const targetElement = event.target;
-
             const siblingInput = targetElement.previousElementSibling;
-
-            if(siblingInput.value && siblingInput.value !== "0"){
-                siblingInput.disabled = true;
-            }else{
-                siblingInput.disabled = false;
-            }
-
             const section = targetElement.closest("section");   //closest() only finds the ancestor
+            let allocation = '';
 
-            updateSection(section);
+            siblingInput.value && siblingInput.value !== "0" ? siblingInput.disabled = true : siblingInput.disabled = false;
+
+            sections.forEach((sec, index) => {
+                if(sec.className === section.className) allocation = allocations[index];
+
+                return;
+            })
+
+            updateSection(section, allocation);
         })
     })
 }
 
-function updateSection(section){
-    const input = section.querySelector("input.spent-amount");  //to find a descendants inside a section
-    if(input.disabled !== true){
+function updateSection(section, allocation){
+    const spentInput = section.querySelector("input.spent-amount");  //to find a descendants inside a section
+    const remainingInput = section.querySelector("input.remaining-amount");
+
+    if(spentInput.disabled === false){
         console.log('input is not disabled');
+        return;
     }
 
-    const value = input.value;
-    console.log(value);
+    const spentAmount = Number(spentInput.value);
+    let remaining = allocation - spentAmount;
+    remainingInput.value = remaining;
 }
 
 // function updateBudgetDisplay(){
