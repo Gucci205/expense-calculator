@@ -32,6 +32,7 @@ window.addEventListener('resize', updateFooterAnimation);
 // updateBudgetDisplay();
 // addNewInput();
 makeInputDisabled();
+calculations();
 
 function calculateAllocations(total){
     return [
@@ -39,6 +40,13 @@ function calculateAllocations(total){
         Math.ceil(total * 0.3),
         Math.ceil(total * 0.2)
     ];
+}
+
+function calculations(){
+    const originalAmount = Number(originalAmountInput.value);
+    const allocations = calculateAllocations(originalAmount);
+
+    console.log(allocations);
 }
 
 function makeInputDisabled(){
