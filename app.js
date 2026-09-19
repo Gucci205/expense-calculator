@@ -31,12 +31,12 @@ function updateFooterAnimation(){
 window.addEventListener('scroll', updateFooterAnimation, { passive:true });
 window.addEventListener('resize', updateFooterAnimation);
 
-// updateBudgetDisplay();
+updateBudgetDisplay();
 // addNewInput();
 
 let allocations = [];
 
-calculations();
+// calculations();
 
 function calculateAllocations(total){
     return [
@@ -96,82 +96,82 @@ function updateSection(section, allocation){
     remainingInput.value = remaining;
 }
 
-// function updateBudgetDisplay(){
-//     makeInputDisabled();
-//     const originalAmount = Number(originalAmountInput.value);
+function updateBudgetDisplay(){
+    makeInputDisabled();
+    const originalAmount = Number(originalAmountInput.value);
 
-//     const allocations = calculateAllocations(originalAmount);
+    const allocations = calculateAllocations(originalAmount);
 
-//     let totalSpent = 0;
-//     let totalRemaining = 0;
+    let totalSpent = 0;
+    let totalRemaining = 0;
     
-//     allocations.forEach((amount, index) => {
-//         const spent = Number(spentInputs[index].value);
-//         const remaining = amount - spent;
+    allocations.forEach((amount, index) => {
+        const spent = Number(spentInputs[index].value);
+        const remaining = amount - spent;
 
         
-//         totalSpent += spent;
-//         totalRemaining += remaining;
+        totalSpent += spent;
+        totalRemaining += remaining;
         
-//         amountElements[index].textContent = amount.toLocaleString();
-//         amountElements[index].style.fontFamily = 'Times New Roman';
+        amountElements[index].textContent = amount.toLocaleString();
+        amountElements[index].style.fontFamily = 'Times New Roman';
         
-//         spentInputs[index].value = spent.toLocaleString();      //display 0 automatically if there is no value
-//         remainingInputs[index].value = remaining.toLocaleString();
+        spentInputs[index].value = spent.toLocaleString();      //display 0 automatically if there is no value
+        remainingInputs[index].value = remaining.toLocaleString();
         
-//         // console.log(spent);
+        // console.log(spent);
 
-//         if(remaining < 0){
-//             remainingInputs[index].style.background = 'linear-gradient(135deg, #dd8c96, #eb507c';
-//             remainingInputs[index].style.color = 'var(--bg-page)';
+        if(remaining < 0){
+            remainingInputs[index].style.background = 'linear-gradient(135deg, #dd8c96, #eb507c';
+            remainingInputs[index].style.color = 'var(--bg-page)';
 
-//         }
-//     });
-//     // makeInputDisabled(spent);
+        }
+    });
+    // makeInputDisabled(spent);
 
-//     originalAmountInput.value = addCommas(originalAmount);
-//     totalSpentElement.textContent = addCommas(totalSpent);
-//     totalRemainingElement.textContent = addCommas(totalRemaining);
-// }
+    originalAmountInput.value = addCommas(originalAmount);
+    totalSpentElement.textContent = addCommas(totalSpent);
+    totalRemainingElement.textContent = addCommas(totalRemaining);
+}
 
-// function addCommas(value){
-//     const digits = String(value).split('').reverse();
+function addCommas(value){
+    const digits = String(value).split('').reverse();
     
-//     let result = '';
-//     let count = 0;
+    let result = '';
+    let count = 0;
 
-//     for(let i = 0; i < digits.length; i++){
-//         result+= digits[i];
-//         count++;
-//     // Add a comma every 3 digits, but only if there are still digits left to process
-//         if(count % 3 === 0 && i !== digits.length-1){
-//             result+= ',';
-//         }
-//     }
+    for(let i = 0; i < digits.length; i++){
+        result+= digits[i];
+        count++;
+    // Add a comma every 3 digits, but only if there are still digits left to process
+        if(count % 3 === 0 && i !== digits.length-1){
+            result+= ',';
+        }
+    }
 
-//     return result.split('').reverse().join('');
-// }
+    return result.split('').reverse().join('');
+}
 
-// function addNewInput(){
-//     addExpenseButton.forEach((button, index) => {
-//         button.addEventListener('click', () => {
-//             const createInputBox = document.createElement('div');
-//             createInputBox.className = 'input-box';
+function addNewInput(){
+    addExpenseButton.forEach((button, index) => {
+        button.addEventListener('click', () => {
+            const createInputBox = document.createElement('div');
+            createInputBox.className = 'input-box';
 
-//             const createInput = document.createElement('input');
-//             createInput.setAttribute('type', "text");
-//             createInput.setAttribute('value', "");
-//             createInput.className = "spent-amount";
-//             createInput.classList.add('rounded-3', 'outline-0', 'fs-5');
+            const createInput = document.createElement('input');
+            createInput.setAttribute('type', "text");
+            createInput.setAttribute('value', "");
+            createInput.className = "spent-amount";
+            createInput.classList.add('rounded-3', 'outline-0', 'fs-5');
 
-//             createInputBox.innerHTML = `<i class="fa-regular fa-circle circle"></i>`;
-//             createInputBox.append(createInput);
-//             expenseLists[index].append(createInputBox);
+            createInputBox.innerHTML = `<i class="fa-regular fa-circle circle"></i>`;
+            createInputBox.append(createInput);
+            expenseLists[index].append(createInputBox);
 
-//             expenseLists[index].scrollTop = expenseLists[index].scrollHeight;
-//         })
-//     })
-// }
+            expenseLists[index].scrollTop = expenseLists[index].scrollHeight;
+        })
+    })
+}
 
 
 

@@ -55,7 +55,7 @@ body{
     margin:0;
     font-weight:700;
     letter-spacing:.08em;
-    font-size:0.9rem;
+    font-size:1.0rem;
     color:var(--primary-deep);
 }
 
@@ -66,12 +66,12 @@ body{
 }
 
 .original-amount{
-    width:170px;
+    width:175px;
     border:1px solid #8f3a6826;
     outline:0;
     font-size:x-large;
-    border-radius:6px;
-    padding:3px 4px;
+    border-radius:3px;
+    padding:3px 6px;
     background:var(--bg-page);
     color:var(--primary-deep);
 }
