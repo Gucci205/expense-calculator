@@ -46,7 +46,17 @@ function calculations(){
     const originalAmount = Number(originalAmountInput.value);
     const allocations = calculateAllocations(originalAmount);
 
-    console.log(allocations);
+    // console.log(allocations);
+    budgetDisplay(allocations);
+}
+
+function budgetDisplay(allocations){
+    allocations.forEach((amount, index) => {
+        amountElements[index].textContent = amount.toLocaleString();
+        amountElements[index].style.fontFamily = 'Times New Roman';
+
+        console.log(amount);
+    })
 }
 
 function makeInputDisabled(){
