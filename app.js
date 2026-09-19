@@ -29,8 +29,9 @@ function updateFooterAnimation(){
 window.addEventListener('scroll', updateFooterAnimation, { passive:true });
 window.addEventListener('resize', updateFooterAnimation);
 
-updateBudgetDisplay();
+// updateBudgetDisplay();
 // addNewInput();
+makeInputDisabled();
 
 function calculateAllocations(total){
     return [
@@ -53,78 +54,78 @@ function makeInputDisabled(){
                 siblingInput.disabled = false;
             }
 
-            const section = targetElement.closest("section");       //closest() only finds the ancestor
+            const section = targetElement.closest("section");   //closest() only finds the ancestor
 
             updateSection(section);
         })
     })
 }
 
-// function updateSection(section){
-//     const input = section.querySelector("input.spent-amount");
-//     if(input.disabled !== true){
-//         console.log('input is not disabled');
-//     }
-
-//     const value = input.value;
-//     console.log(value);
-// }
-
-function updateBudgetDisplay(){
-    makeInputDisabled();
-    const originalAmount = Number(originalAmountInput.value);
-
-    const allocations = calculateAllocations(originalAmount);
-
-    let totalSpent = 0;
-    let totalRemaining = 0;
-    
-    allocations.forEach((amount, index) => {
-        const spent = Number(spentInputs[index].value);
-        const remaining = amount - spent;
-
-        
-        totalSpent += spent;
-        totalRemaining += remaining;
-        
-        amountElements[index].textContent = amount.toLocaleString();
-        amountElements[index].style.fontFamily = 'Times New Roman';
-        
-        spentInputs[index].value = spent.toLocaleString();      //display 0 automatically if there is no value
-        remainingInputs[index].value = remaining.toLocaleString();
-        
-        // console.log(spent);
-
-        if(remaining < 0){
-            remainingInputs[index].style.background = 'linear-gradient(135deg, #dd8c96, #eb507c';
-            remainingInputs[index].style.color = 'var(--bg-page)';
-
-        }
-    });
-    // makeInputDisabled(spent);
-
-    originalAmountInput.value = addCommas(originalAmount);
-    totalSpentElement.textContent = addCommas(totalSpent);
-    totalRemainingElement.textContent = addCommas(totalRemaining);
-}
-
-function addCommas(value){
-    const digits = String(value).split('').reverse();
-    
-    let result = '';
-    let count = 0;
-
-    for(let i = 0; i < digits.length; i++){
-        result+= digits[i];
-        count++;
-    // Add a comma every 3 digits, but only if there are still digits left to process
-        if(count % 3 === 0 && i !== digits.length-1){
-            result+= ',';
-        }
+function updateSection(section){
+    const input = section.querySelector("input.spent-amount");  //to find a descendants inside a section
+    if(input.disabled !== true){
+        console.log('input is not disabled');
     }
 
-    return result.split('').reverse().join('');
+    const value = input.value;
+    console.log(value);
 }
+
+// function updateBudgetDisplay(){
+//     makeInputDisabled();
+//     const originalAmount = Number(originalAmountInput.value);
+
+//     const allocations = calculateAllocations(originalAmount);
+
+//     let totalSpent = 0;
+//     let totalRemaining = 0;
+    
+//     allocations.forEach((amount, index) => {
+//         const spent = Number(spentInputs[index].value);
+//         const remaining = amount - spent;
+
+        
+//         totalSpent += spent;
+//         totalRemaining += remaining;
+        
+//         amountElements[index].textContent = amount.toLocaleString();
+//         amountElements[index].style.fontFamily = 'Times New Roman';
+        
+//         spentInputs[index].value = spent.toLocaleString();      //display 0 automatically if there is no value
+//         remainingInputs[index].value = remaining.toLocaleString();
+        
+//         // console.log(spent);
+
+//         if(remaining < 0){
+//             remainingInputs[index].style.background = 'linear-gradient(135deg, #dd8c96, #eb507c';
+//             remainingInputs[index].style.color = 'var(--bg-page)';
+
+//         }
+//     });
+//     // makeInputDisabled(spent);
+
+//     originalAmountInput.value = addCommas(originalAmount);
+//     totalSpentElement.textContent = addCommas(totalSpent);
+//     totalRemainingElement.textContent = addCommas(totalRemaining);
+// }
+
+// function addCommas(value){
+//     const digits = String(value).split('').reverse();
+    
+//     let result = '';
+//     let count = 0;
+
+//     for(let i = 0; i < digits.length; i++){
+//         result+= digits[i];
+//         count++;
+//     // Add a comma every 3 digits, but only if there are still digits left to process
+//         if(count % 3 === 0 && i !== digits.length-1){
+//             result+= ',';
+//         }
+//     }
+
+//     return result.split('').reverse().join('');
+// }
 
 // function addNewInput(){
 //     addExpenseButton.forEach((button, index) => {
