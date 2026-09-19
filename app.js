@@ -31,12 +31,12 @@ function updateFooterAnimation(){
 window.addEventListener('scroll', updateFooterAnimation, { passive:true });
 window.addEventListener('resize', updateFooterAnimation);
 
-updateBudgetDisplay();
+// updateBudgetDisplay();
 // addNewInput();
 
 let allocations = [];
 
-// calculations();
+calculations();
 
 function calculateAllocations(total){
     return [
@@ -73,8 +73,6 @@ function makeInputDisabled(allocations){
 
             sections.forEach((sec, index) => {
                 if(sec.className === section.className) allocation = allocations[index];
-
-                return;
             })
 
             updateSection(section, allocation);
@@ -93,45 +91,9 @@ function updateSection(section, allocation){
 
     const spentAmount = Number(spentInput.value);
     let remaining = allocation - spentAmount;
-    remainingInput.value = remaining;
-}
 
-function updateBudgetDisplay(){
-    makeInputDisabled();
-    const originalAmount = Number(originalAmountInput.value);
-
-    const allocations = calculateAllocations(originalAmount);
-
-    let totalSpent = 0;
-    let totalRemaining = 0;
-    
-    allocations.forEach((amount, index) => {
-        const spent = Number(spentInputs[index].value);
-        const remaining = amount - spent;
-
-        
-        totalSpent += spent;
-        totalRemaining += remaining;
-        
-        amountElements[index].textContent = amount.toLocaleString();
-        amountElements[index].style.fontFamily = 'Times New Roman';
-        
-        spentInputs[index].value = spent.toLocaleString();      //display 0 automatically if there is no value
-        remainingInputs[index].value = remaining.toLocaleString();
-        
-        // console.log(spent);
-
-        if(remaining < 0){
-            remainingInputs[index].style.background = 'linear-gradient(135deg, #dd8c96, #eb507c';
-            remainingInputs[index].style.color = 'var(--bg-page)';
-
-        }
-    });
-    // makeInputDisabled(spent);
-
-    originalAmountInput.value = addCommas(originalAmount);
-    totalSpentElement.textContent = addCommas(totalSpent);
-    totalRemainingElement.textContent = addCommas(totalRemaining);
+    spentInput.value = addCommas(spentAmount);
+    remainingInput.value = addCommas(remaining);
 }
 
 function addCommas(value){
@@ -152,26 +114,65 @@ function addCommas(value){
     return result.split('').reverse().join('');
 }
 
-function addNewInput(){
-    addExpenseButton.forEach((button, index) => {
-        button.addEventListener('click', () => {
-            const createInputBox = document.createElement('div');
-            createInputBox.className = 'input-box';
+// function updateBudgetDisplay(){
+//     makeInputDisabled();
+//     const originalAmount = Number(originalAmountInput.value);
 
-            const createInput = document.createElement('input');
-            createInput.setAttribute('type', "text");
-            createInput.setAttribute('value', "");
-            createInput.className = "spent-amount";
-            createInput.classList.add('rounded-3', 'outline-0', 'fs-5');
+//     const allocations = calculateAllocations(originalAmount);
 
-            createInputBox.innerHTML = `<i class="fa-regular fa-circle circle"></i>`;
-            createInputBox.append(createInput);
-            expenseLists[index].append(createInputBox);
+//     let totalSpent = 0;
+//     let totalRemaining = 0;
+    
+//     allocations.forEach((amount, index) => {
+//         const spent = Number(spentInputs[index].value);
+//         const remaining = amount - spent;
 
-            expenseLists[index].scrollTop = expenseLists[index].scrollHeight;
-        })
-    })
-}
+        
+//         totalSpent += spent;
+//         totalRemaining += remaining;
+        
+//         amountElements[index].textContent = amount.toLocaleString();
+//         amountElements[index].style.fontFamily = 'Times New Roman';
+        
+//         spentInputs[index].value = spent.toLocaleString();      //display 0 automatically if there is no value
+//         remainingInputs[index].value = remaining.toLocaleString();
+        
+//         // console.log(spent);
+
+//         if(remaining < 0){
+//             remainingInputs[index].style.background = 'linear-gradient(135deg, #dd8c96, #eb507c';
+//             remainingInputs[index].style.color = 'var(--bg-page)';
+
+//         }
+//     });
+//     // makeInputDisabled(spent);
+
+//     originalAmountInput.value = addCommas(originalAmount);
+//     totalSpentElement.textContent = addCommas(totalSpent);
+//     totalRemainingElement.textContent = addCommas(totalRemaining);
+// }
+
+
+// function addNewInput(){
+//     addExpenseButton.forEach((button, index) => {
+//         button.addEventListener('click', () => {
+//             const createInputBox = document.createElement('div');
+//             createInputBox.className = 'input-box';
+
+//             const createInput = document.createElement('input');
+//             createInput.setAttribute('type', "text");
+//             createInput.setAttribute('value', "");
+//             createInput.className = "spent-amount";
+//             createInput.classList.add('rounded-3', 'outline-0', 'fs-5');
+
+//             createInputBox.innerHTML = `<i class="fa-regular fa-circle circle"></i>`;
+//             createInputBox.append(createInput);
+//             expenseLists[index].append(createInputBox);
+
+//             expenseLists[index].scrollTop = expenseLists[index].scrollHeight;
+//         })
+//     })
+// }
 
 
 
