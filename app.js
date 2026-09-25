@@ -97,6 +97,18 @@ function updateSection(section, allocation){
 
     spentInput.value = addCommas(spentAmount);
     remainingInput.value = addCommas(remaining);
+
+    data.forEach((cate) => {
+        if(cate.category === section.className){
+            cate.expense.push(spentAmount);
+            cate.remaining.push(remaining)
+        }
+    });
+
+    console.log(data);
+    console.log('section', section.className);
+    console.log('spent amount', spentAmount);
+    console.log('remaining amount', remaining);
 }
 
 // function updateTotals(){
@@ -165,6 +177,7 @@ function updateBudgetDisplay(){
     totalRemainingElement.textContent = addCommas(totalRemaining);
 }
 
+console.log(data);
 
 // function addNewInput(){
 //     addExpenseButton.forEach((button, index) => {
