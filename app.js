@@ -31,12 +31,13 @@ function updateFooterAnimation(){
 window.addEventListener('scroll', updateFooterAnimation, { passive:true });
 window.addEventListener('resize', updateFooterAnimation);
 
-updateBudgetDisplay();
-// addNewInput();
+// updateBudgetDisplay();
+addNewInput();
 
 let allocations = [];
 
-// calculations();
+calculations();
+// console.log(data);
 
 function calculateAllocations(total){
     return [
@@ -65,11 +66,14 @@ function makeInputDisabled(allocations){
     circleIcons.forEach((icon) => {
         icon.addEventListener('click', (event) => {
             const targetElement = event.target;
+            // console.log(targetElement);
             const siblingInput = targetElement.previousElementSibling;
             const section = targetElement.closest("section");   //closest() only finds the ancestor
             let allocation = '';
 
             siblingInput.value && siblingInput.value !== "0" ? siblingInput.disabled = true : siblingInput.disabled = false;
+
+            // console.log(typeof siblingInput.value, siblingInput.value);
 
             sections.forEach((sec, index) => {
                 if(sec.className === section.className) allocation = allocations[index];
@@ -81,44 +85,52 @@ function makeInputDisabled(allocations){
 }
 
 function updateSection(section, allocation){
-    const spentInput = section.querySelector("input.spent-amount");  //to find a descendants inside a section
+    const spentInputs = section.querySelectorAll("input.spent-amount");  //to find a descendants inside a section
     const remainingInput = section.querySelector("input.remaining-amount");
 
     let spentAmount = '';
     let remaining = '';
+    
+    // READ THIS
+    //when there is one input, it works fine. The loop below make iteration every time the cricle clicked to the second or new inputs in that section then get the first value of first input which has already turned into formatted-string when first try, so that value become NaN while trying to convert it into a number. 
+    
+    spentInputs.forEach((input) => {
+        if(!input.disabled) return;
 
-    if(spentInput.disabled === false){
-        console.log('input is not disabled');
-        return;
-    }
+        const result = Number(String(input.value).replaceAll(',', ''));
+        
+        const alreadyExists = data.some((cate) => 
+            cate.expense.some((amount) => amount === result)
+        );
 
-    spentAmount = Number(spentInput.value);
-    remaining = allocation - spentAmount;
+        if(alreadyExists){
+            input.value = addCommas(result);
+        }else{
+            spentAmount = Number(input.value);
+            console.log(typeof spentAmount, spentAmount);
+            input.value = addCommas(spentAmount);
+        }
 
-    spentInput.value = addCommas(spentAmount);
-    remainingInput.value = addCommas(remaining);
+        // remaining = allocation - spentAmount;
+
+        // remainingInput.value = addCommas(remaining);
+    })
 
     data.forEach((cate) => {
         if(cate.category === section.className){
-            cate.expense.push(spentAmount);
-            cate.remaining.push(remaining)
+            if(typeof spentAmount !== 'string'){
+                cate.expense.push(spentAmount);
+            }
+
+            // cate.remaining = remaining;
         }
     });
-
+    
     console.log(data);
-    console.log('section', section.className);
-    console.log('spent amount', spentAmount);
-    console.log('remaining amount', remaining);
-}
-
-// function updateTotals(){
-//     let totalSpent = 0;
-//     let totalRemaining = 0;
-// }
-
-function toNumber(value){
-    const number = Number(value.replace(/,/g, '')) || 0;
-    console.log(number);
+    // console.log('section', section.className);
+    // console.log('spent amount', spentAmount);
+    // console.log('remaining amount', remaining);
+    
 }
 
 function addCommas(value){
@@ -126,18 +138,28 @@ function addCommas(value){
     
     let result = '';
     let count = 0;
-
+    
     for(let i = 0; i < digits.length; i++){
-        result+= digits[i];
+        result += digits[i];
         count++;
     // Add a comma every 3 digits, but only if there are still digits left to process
-        if(count % 3 === 0 && i !== digits.length-1){
-            result+= ',';
+    if(count % 3 === 0 && i !== digits.length-1){
+        result += ',';
         }
     }
-
+    
     return result.split('').reverse().join('');
 }
+
+// function toNumber(value){
+//     const number = Number(value.replace(/,/g, '')) || 0;
+//     console.log(number);
+// }
+
+// function updateTotals(){
+//     let totalSpent = 0;
+//     let totalRemaining = 0;
+// }
 
 function updateBudgetDisplay(){
     makeInputDisabled();
@@ -177,30 +199,25 @@ function updateBudgetDisplay(){
     totalRemainingElement.textContent = addCommas(totalRemaining);
 }
 
-console.log(data);
+function addNewInput(){
+    addExpenseButton.forEach((button, index) => {
+        button.addEventListener('click', () => {
+            const createInputBox = document.createElement('div');
+            createInputBox.className = 'input-box';
 
-// function addNewInput(){
-//     addExpenseButton.forEach((button, index) => {
-//         button.addEventListener('click', () => {
-//             const createInputBox = document.createElement('div');
-//             createInputBox.className = 'input-box';
+            const createInput = document.createElement('input');
+            createInput.setAttribute('type', "text");
+            createInput.setAttribute('value', "");
+            createInput.className = "spent-amount";
+            createInput.classList.add('rounded-3', 'outline-0', 'fs-5');
 
-//             const createInput = document.createElement('input');
-//             createInput.setAttribute('type', "text");
-//             createInput.setAttribute('value', "");
-//             createInput.className = "spent-amount";
-//             createInput.classList.add('rounded-3', 'outline-0', 'fs-5');
+            createInputBox.innerHTML = `<i class="fa-regular fa-circle circle"></i>`;
+            createInputBox.append(createInput);
+            expenseLists[index].append(createInputBox);
 
-//             createInputBox.innerHTML = `<i class="fa-regular fa-circle circle"></i>`;
-//             createInputBox.append(createInput);
-//             expenseLists[index].append(createInputBox);
+            expenseLists[index].scrollTop = expenseLists[index].scrollHeight;
+        })
+    })
+}
 
-//             expenseLists[index].scrollTop = expenseLists[index].scrollHeight;
-//         })
-//     })
-// }
-
-
-
-// A future updateSection(section) will handle calculations for one section.
 // A future updateTotals() will handle the global Total Spent / Total Remaining.

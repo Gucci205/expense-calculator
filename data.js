@@ -2,16 +2,16 @@ const data = [
     {
         category: 'need',
         expense: [],
-        remaining:[]
+        remaining: null
     },
     {
         category: 'want',
         expense: [],
-        remaining:[]
+        remaining: null
     },
     {
         category: 'save',
         expense: [],
-        remaining:[]
-    }
+        remaining: null
+    },
 ];
