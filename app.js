@@ -64,7 +64,7 @@ function calculations(){
 
     budgetAllocation(allocations);
     makeInputDisabled(allocations);
-    // saveData();
+    saveData();
 }
 
 function budgetAllocation(allocations){
@@ -155,15 +155,27 @@ function addCommas(value){
     return result.split('').reverse().join('');
 }
 
+function saveData(){
+    const saveData = {
+        budget: Number(originalAmountInput.value),
+        data: data.map((cate) => {
+                category: cate.category;
+                expense: cate.expense;
+            })   
+    };
+
+    localStorage.setItem(JSON.stringify(saveData));
+}
+
 // function toNumber(value){
 //     const number = Number(value.replace(/,/g, '')) || 0;
 //     console.log(number);
 // }
 
-function updateTotals(){
-    let totalSpent = 0;
-    let totalRemaining = 0;
-}
+// function updateTotals(){
+//     let totalSpent = 0;
+//     let totalRemaining = 0;
+// }
 
 function updateBudgetDisplay(){
     makeInputDisabled();
