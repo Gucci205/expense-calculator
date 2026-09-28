@@ -37,7 +37,6 @@ addNewInput();
 let allocations = [];
 
 calculations();
-// console.log(data);
 
 function calculateAllocations(total){
     return [
@@ -66,14 +65,11 @@ function makeInputDisabled(allocations){
     circleIcons.forEach((icon) => {
         icon.addEventListener('click', (event) => {
             const targetElement = event.target;
-            // console.log(targetElement);
             const siblingInput = targetElement.previousElementSibling;
             const section = targetElement.closest("section");   //closest() only finds the ancestor
             let allocation = '';
 
             siblingInput.value && siblingInput.value !== "0" ? siblingInput.disabled = true : siblingInput.disabled = false;
-
-            // console.log(typeof siblingInput.value, siblingInput.value);
 
             sections.forEach((sec, index) => {
                 if(sec.className === section.className) allocation = allocations[index];
@@ -87,50 +83,43 @@ function makeInputDisabled(allocations){
 function updateSection(section, allocation){
     const spentInputs = section.querySelectorAll("input.spent-amount");  //to find a descendants inside a section
     const remainingInput = section.querySelector("input.remaining-amount");
+    const sectionName = section.className;
 
     let spentAmount = '';
-    let remaining = '';
     
-    // READ THIS
-    //when there is one input, it works fine. The loop below make iteration every time the cricle clicked to the second or new inputs in that section then get the first value of first input which has already turned into formatted-string when first try, so that value become NaN while trying to convert it into a number. 
-    
-    spentInputs.forEach((input) => {
+    spentInputs.forEach(input => {
         if(!input.disabled) return;
 
         const result = Number(String(input.value).replaceAll(',', ''));
         
-        const alreadyExists = data.some((cate) => 
-            cate.expense.some((amount) => amount === result)
+        const alreadyExists = data.some(cate => 
+            cate.expense.some(amount => amount === result)
         );
 
         if(alreadyExists){
             input.value = addCommas(result);
         }else{
             spentAmount = Number(input.value);
-            console.log(typeof spentAmount, spentAmount);
             input.value = addCommas(spentAmount);
+
+            data.forEach(cate => {
+                if(cate.category === sectionName){
+                    if(typeof spentAmount !== 'string'){
+                        cate.expense.push(spentAmount);
+                    }
+                }
+            });
         }
-
-        // remaining = allocation - spentAmount;
-
-        // remainingInput.value = addCommas(remaining);
     })
-
-    data.forEach((cate) => {
-        if(cate.category === section.className){
-            if(typeof spentAmount !== 'string'){
-                cate.expense.push(spentAmount);
-            }
-
-            // cate.remaining = remaining;
-        }
-    });
     
-    console.log(data);
-    // console.log('section', section.className);
-    // console.log('spent amount', spentAmount);
-    // console.log('remaining amount', remaining);
+    const needCategory = data.find(cate => cate.category === sectionName);
+    const result = needCategory
+        ? needCategory.expense.reduce((sum, amount) => sum + amount, 0)
+        : 0;
+    const remaining = allocation - result;
     
+    remainingInput.value = addCommas(remaining);
+    needCategory.remaining = remaining;
 }
 
 function addCommas(value){
