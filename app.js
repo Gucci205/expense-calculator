@@ -1,4 +1,5 @@
 const originalAmountInput  = document.querySelector('.original-amount');
+const originalAmountCircle = document.querySelector('.first-circle');
 
 const amountElements  = document.querySelectorAll('.amount');
 const spentInputs  = document.querySelectorAll('.spent-amount');   //when calling an element with querySelectorAll, you can't get the value of that element, just querySelector works fine
@@ -32,11 +33,22 @@ window.addEventListener('scroll', updateFooterAnimation, { passive:true });
 window.addEventListener('resize', updateFooterAnimation);
 
 // updateBudgetDisplay();
-addNewInput();
 
 let allocations = [];
 
-calculations();
+originalAmountCircle.addEventListener('click', (e) => {
+    const siblingInput = e.target.previousElementSibling;
+
+    if(siblingInput.value && siblingInput.value !== "0"){
+        siblingInput.disabled = true;
+        calculations();
+        siblingInput.value = addCommas(siblingInput.value);
+    }else{
+        siblingInput.disabled = false;
+    }
+})
+
+addNewInput();
 
 function calculateAllocations(total){
     return [
@@ -52,6 +64,7 @@ function calculations(){
 
     budgetAllocation(allocations);
     makeInputDisabled(allocations);
+    // saveData();
 }
 
 function budgetAllocation(allocations){
@@ -63,8 +76,8 @@ function budgetAllocation(allocations){
 
 function makeInputDisabled(allocations){
     circleIcons.forEach((icon) => {
-        icon.addEventListener('click', (event) => {
-            const targetElement = event.target;
+        icon.addEventListener('click', (e) => {
+            const targetElement = e.target;
             const siblingInput = targetElement.previousElementSibling;
             const section = targetElement.closest("section");   //closest() only finds the ancestor
             let allocation = '';
@@ -106,6 +119,7 @@ function updateSection(section, allocation){
                 if(cate.category === sectionName){
                     if(typeof spentAmount !== 'string'){
                         cate.expense.push(spentAmount);
+                        saveData();
                     }
                 }
             });
@@ -120,6 +134,7 @@ function updateSection(section, allocation){
     
     remainingInput.value = addCommas(remaining);
     needCategory.remaining = remaining;
+    console.log(data);
 }
 
 function addCommas(value){
@@ -145,10 +160,10 @@ function addCommas(value){
 //     console.log(number);
 // }
 
-// function updateTotals(){
-//     let totalSpent = 0;
-//     let totalRemaining = 0;
-// }
+function updateTotals(){
+    let totalSpent = 0;
+    let totalRemaining = 0;
+}
 
 function updateBudgetDisplay(){
     makeInputDisabled();
@@ -210,3 +225,27 @@ function addNewInput(){
 }
 
 // A future updateTotals() will handle the global Total Spent / Total Remaining.
+
+//save data 
+// - original budget amount
+// - Expenses for each category
+
+// structure
+// {
+//     budget: 2501755,
+
+//     data: [
+//         {
+//             category: "need",
+//             expense: [100000, 50000]
+//         },
+//         {
+//             category: "want",
+//             expense: [30000]
+//         },
+//         {
+//             category: "save",
+//             expense: [10000]
+//         }
+//     ]
+// }

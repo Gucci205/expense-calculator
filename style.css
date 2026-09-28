@@ -107,6 +107,10 @@ span{
     color:var(--primary-deep);
 }
 
+.second .amount{
+    font-family: 'Times New Roman', Times, serif;
+}
+
 .fDiv, .sDiv{
     font-family: Arial, Helvetica, sans-serif;
     border:1px solid #8f3a681f;
