@@ -1,3 +1,35 @@
+/*
+Expense Calculator - Current Version Notes
+----------------------------------------
+Status is based on the current code in this file only, not a full runtime test.
+
+Made / updated here:
+- Footer scroll animation and mobile-only trigger: Works: Yes. It adds/removes the scrolling class based on scroll position and viewport width.
+- Original budget lock/unlock behavior with the circle icon: Works: Mostly. It disables the input when a value exists and recalculates the allocations.
+- Budget allocation calculation (50% / 30% / 20% split): Works: Yes, using Math.ceil() for each percentage.
+- Allocation display for each category: Works: Yes. It updates the text content for each amount box and styles it.
+- Per-section expense input locking and remaining balance update: Works: Partially. It updates section values and remaining amounts, but depends on section matching and disabled inputs.
+- Add new expense input box button: Works: Yes. It creates a new input field within the selected expense list.
+- Local storage saving for original budget and category expenses: Works: Partially. It saves structured data, but some values and category data are not fully synchronized across all logic paths.
+- Formatting with commas in amounts: Works: Yes. The addCommas() helper formats values for display.
+- Total spent / total remaining display area: Works: Not yet fully working. updateBudgetDisplay() is present but currently commented out and not consistently connected to the live calculations.
+- Future totals logic placeholder: Works: Not implemented yet. updateTotals() is still a placeholder comment.
+- Overall project status: Several features are added and partly working, but some parts are still unfinished or need cleanup, especially totals, persistence consistency, and section state handling.
+
+In progress / still being worked on:
+- Section-by-section expense tracking and remaining balance logic.
+- Total spent and total remaining calculations.
+- Local storage consistency for all category values.
+- Cleaning up repeated logic and making calculations more reliable.
+- Fixing input state handling when locking/unlocking fields.
+
+Not working yet:
+- Total spent / total remaining display is not fully connected to live calculations.
+- Some local storage updates do not stay consistent with the current category values.
+- Section data can behave unpredictably when inputs are re-enabled or updated.
+- Some calculations still depend on fragile input state checks.
+*/
+
 const originalAmountInput  = document.querySelector('.original-amount');
 const originalAmountCircle = document.querySelector('.first-circle');
 
