@@ -62,9 +62,12 @@ function calculations(){
     const originalAmount = Number(originalAmountInput.value);
     allocations = calculateAllocations(originalAmount);
 
+    const orginalCategory = data.find(cate => cate.category === 'original-amount');
+    orginalCategory.originalAmount = originalAmount;
+
+    saveData(orginalCategory);
     budgetAllocation(allocations);
     makeInputDisabled(allocations);
-    saveData();
 }
 
 function budgetAllocation(allocations){
@@ -155,17 +158,22 @@ function addCommas(value){
     return result.split('').reverse().join('');
 }
 
-function saveData(){
+function saveData(orginalCategory){
+    
     const saveData = {
-        budget: Number(originalAmountInput.value),
-        data: data.map((cate) => {
-                category: cate.category;
-                expense: cate.expense;
-            })   
+        // budget: Number(originalAmountInput.value),
+        budget: orginalCategory.originalAmount,
+        data: data.map(cate => {
+            return {
+                category: cate.category,
+                expense: cate.expense
+            }
+        })
     };
 
-    localStorage.setItem(JSON.stringify(saveData));
+    localStorage.setItem("expenseCalculator", JSON.stringify(saveData));
 }
+
 
 // function toNumber(value){
 //     const number = Number(value.replace(/,/g, '')) || 0;
