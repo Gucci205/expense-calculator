@@ -1,11 +1,7 @@
 const data = [
     {
-        category: 'original-amount',
-        originalAmount: null
-    },
-    {
         category: 'need',
-        expense: [],
+        expense: [1044895],
         remaining: null
     },
     {
@@ -17,5 +13,9 @@ const data = [
         category: 'save',
         expense: [],
         remaining: null
+    },
+    {
+        category: 'original-amount',
+        originalAmount: null
     },
 ];

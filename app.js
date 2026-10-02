@@ -67,18 +67,19 @@ window.addEventListener('resize', updateFooterAnimation);
 // updateBudgetDisplay();
 
 let allocations = [];
+calculations();
 
-originalAmountCircle.addEventListener('click', (e) => {
-    const siblingInput = e.target.previousElementSibling;
+// originalAmountCircle.addEventListener('click', (e) => {
+//     const siblingInput = e.target.previousElementSibling;
 
-    if(siblingInput.value && siblingInput.value !== "0"){
-        siblingInput.disabled = true;
-        calculations();
-        siblingInput.value = addCommas(siblingInput.value);
-    }else{
-        siblingInput.disabled = false;
-    }
-})
+//     if(siblingInput.value && siblingInput.value !== "0"){
+//         siblingInput.disabled = true;
+//         calculations();
+//         siblingInput.value = addCommas(siblingInput.value);
+//     }else{
+//         siblingInput.disabled = false;
+//     }
+// })
 
 addNewInput();
 
@@ -92,6 +93,9 @@ function calculateAllocations(total){
 
 function calculations(){
     const originalAmount = Number(originalAmountInput.value);
+
+    console.log(originalAmount);
+
     allocations = calculateAllocations(originalAmount);
 
     const orginalCategory = data.find(cate => cate.category === 'original-amount');
@@ -139,8 +143,8 @@ function updateSection(section, allocation){
         if(!input.disabled) return;
 
         const result = Number(String(input.value).replaceAll(',', ''));
-        
-        const alreadyExists = data.some(cate => 
+
+        const alreadyExists = data.some(cate =>
             cate.expense.some(amount => amount === result)
         );
 
@@ -148,6 +152,7 @@ function updateSection(section, allocation){
             input.value = addCommas(result);
         }else{
             spentAmount = Number(input.value);
+            console.log(spentAmount);
             input.value = addCommas(spentAmount);
 
             data.forEach(cate => {
