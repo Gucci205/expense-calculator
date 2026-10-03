@@ -1,16 +1,13 @@
-// In progress / still being worked on:
-// - Section-by-section expense tracking and remaining balance logic.
-// - Total spent and total remaining calculations.
-// - Local storage consistency for all category values.
-// - Cleaning up repeated logic and making calculations more reliable.
-// - Fixing input state handling when locking/unlocking fields.
-
-// Not working yet:
-// - Total spent / total remaining display is not fully connected to live calculations.
-// - Some local storage updates do not stay consistent with the current category values.
-// - Section data can behave unpredictably when inputs are re-enabled or updated.
-// - Some calculations still depend on fragile input state checks.
-// */
+// Current features:
+// - Splits the budget into Needs, Wants, and Savings using the 50/30/20 rule.
+// - Supports multiple expenses per section and calculates section balances and overall totals.
+// - Lets users confirm and unlock the budget and expense inputs.
+// - Saves the budget and confirmed expenses to localStorage.
+//
+// Still to improve:
+// - Restore saved budget and expense data from localStorage when the page loads.
+// - Keep stored expenses and displayed totals consistent when editing a confirmed expense.
+// - Add stronger input validation and simplify repeated event-handler logic.
 
 const originalAmountInput  = document.querySelector('.original-amount');
 const originalAmountCircle = document.querySelector('.first-circle');
@@ -329,29 +326,3 @@ function updateTotals(){
 //     totalRemainingInput.textContent = addCommas(totalRemaining);
 // }
 
-
-// A future updateTotals() will handle the global Total Spent / Total Remaining.
-
-//save data 
-// - original budget amount
-// - Expenses for each category
-
-// structure
-// {
-//     budget: 2501755,
-
-//     data: [
-//         {
-//             category: "need",
-//             expense: [100000, 50000]
-//         },
-//         {
-//             category: "want",
-//             expense: [30000]
-//         },
-//         {
-//             category: "save",
-//             expense: [10000]
-//         }
-//     ]
-// }
