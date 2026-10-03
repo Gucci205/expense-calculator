@@ -1,4 +1,4 @@
-let data = [
+const data = [
     {
         category: 'need',
         expense: [],
@@ -17,6 +17,6 @@ let data = [
 ];
 
 const originalamount = {
-        category: 'original-amount',
-        amount: 0
-    }
+    category: 'original-amount',
+    amount: 0
+}

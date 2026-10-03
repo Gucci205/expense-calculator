@@ -24,8 +24,8 @@ const circleIcons = document.querySelectorAll('i.circle');
 const expenseLists = document.querySelectorAll('.expense-list');
 const addExpenseButton = document.querySelectorAll('.add-expense-button');
 
-const totalSpentElement = document.querySelector('.total-spent');
-const totalRemainingElement = document.querySelector('.total-remaining');
+const totalSpentInput = document.querySelector('.total-spent');
+const totalRemainingInput = document.querySelector('.total-remaining');
 
 const footer = document.querySelector('footer');
 
@@ -64,6 +64,7 @@ originalAmountCircle.addEventListener('click', (e) => {
         
         icon.classList.add('fa-regular', 'fa-circle', 'first-circle');
         icon.classList.remove('fa-solid', 'fa-circle-check', 'check');
+        siblingInput.focus();
 
         return;
     }
@@ -85,12 +86,7 @@ originalAmountCircle.addEventListener('click', (e) => {
 function switchIcon(icon){
     icon.classList.remove('fa-regular', 'fa-circle', 'first-circle');
     icon.classList.add('fa-solid', 'fa-circle-check', 'check');
-    console.log(icon);
 }
-
-// function makeInputNotDisabled(icon){
-//     const checkCircle = document
-// }
 
 function calculateAllocations(total){
     return [
@@ -105,7 +101,6 @@ function calculations(){
     allocations = calculateAllocations(originalAmount);
 
     originalamount.amount = originalAmount;      //data.js
-    const amount = originalamount.amount;
 
     budgetAllocation(allocations);
     makeInputDisabled(allocations);
@@ -114,7 +109,6 @@ function calculations(){
 function budgetAllocation(allocations){
     allocations.forEach((amount, index) => {
         amountElements[index].textContent = amount.toLocaleString();
-        amountElements[index].style.fontFamily = 'Times New Roman';
     })
 }
 
@@ -134,30 +128,36 @@ function makeInputDisabled(allocations){
                 
                 icon.classList.add('fa-regular', 'fa-circle', 'first-circle');
                 icon.classList.remove('fa-solid', 'fa-circle-check', 'check');
+                siblingInput.focus();
 
                 data.forEach(cate => {
                     cate.expense.forEach((amount, index) => {
-                        if(amount === value){
-                            console.log(amount, value);
-                            cate.expense.splice(index, 1);
-                        }
+                        if(amount === value) cate.expense.splice(index, 1);
                     })
                 }) 
 
+            //NEED TO FIX
+
+                //when the amount updated and confirmed, it went to index[1] if it had 2 amount in expense.
+                // [1044895, 10000] -> firt amount updated from 1044895 to 1000000
+                // But in the data, it store as a second amount -> [10000, 1000000]
+                
                 return;
             }
-
-            siblingInput.value && siblingInput.value !== "0" ? siblingInput.disabled = true : siblingInput.disabled = false;
-
-            switchIcon(targetElement);
-
-            sections.forEach((sec, index) => {
-                if(sec.className === section.className) allocation = allocations[index];
-            })
-
-            updateSection(section, allocation);
-
-        })
+            
+            if(siblingInput.value && siblingInput.value !== "0"){
+                siblingInput.disabled = true;
+                switchIcon(targetElement);
+                
+                sections.forEach((sec, index) => {
+                    if(sec.className === section.className) allocation = allocations[index];
+                })
+                
+                updateSection(section, allocation);
+            }else{
+                siblingInput.disabled = false;
+            }
+        });
     })
 }
 
@@ -196,10 +196,10 @@ function updateSection(section, allocation){
     })
     
     const category = data.find(cate => cate.category === sectionName);
-    const result = category
+    const totalSpentPerSection = category
         ? category.expense.reduce((sum, amount) => sum + amount, 0)
         : 0;
-    const remaining = allocation - result;
+    const remaining = allocation - totalSpentPerSection;
 
     if(remaining < 0){
         remainingInput.style.background = 'linear-gradient(135deg, #dd8c96, #eb507c';
@@ -210,6 +210,7 @@ function updateSection(section, allocation){
     category.remaining = remaining;
 
     if(dataUpdated) saveData();
+    updateTotals();
 
     console.log(localStorage.getItem("expenseCalculator"));
     console.log(data);
@@ -268,12 +269,21 @@ function addNewInput(){
     })
 }
 
-// function updateTotals(){
-//     let totalSpent = 0;
-//     let totalRemaining = 0;
-//     console.log(data);
+function updateTotals(){
+    let totalSpent = 0;
+    let totalRemaining = 0;
 
-// }
+    data.forEach(cate => {
+        cate.expense.forEach((amount) => {
+            totalSpent += amount;
+        })
+
+        totalRemaining += cate.remaining;
+    })
+
+    totalSpentInput.textContent = totalSpent.toLocaleString();
+    totalRemainingInput.textContent = totalRemaining.toLocaleString();
+}
 
 // function toNumber(value){
 //     const number = Number(value.replace(/,/g, '')) || 0;
@@ -315,8 +325,8 @@ function addNewInput(){
 //     // makeInputDisabled(spent);
 
 //     originalAmountInput.value = addCommas(originalAmount);
-//     totalSpentElement.textContent = addCommas(totalSpent);
-//     totalRemainingElement.textContent = addCommas(totalRemaining);
+//     totalSpentInput.textContent = addCommas(totalSpent);
+//     totalRemainingInput.textContent = addCommas(totalRemaining);
 // }
 
 
