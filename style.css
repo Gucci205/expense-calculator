@@ -76,7 +76,7 @@ body{
     color:var(--primary-deep);
 }
 
-.fa-circle{
+.first-circle, .check{
     cursor:pointer;
     color:var(--primary-deep);
     position:absolute;
