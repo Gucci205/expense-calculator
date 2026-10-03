@@ -129,9 +129,20 @@ function makeInputDisabled(allocations){
             if(icon.classList.contains('check')){
                 siblingInput.disabled = false,
                 siblingInput.value = siblingInput.value.replaceAll(',', '');
+
+                const value = Number(siblingInput.value);
                 
                 icon.classList.add('fa-regular', 'fa-circle', 'first-circle');
                 icon.classList.remove('fa-solid', 'fa-circle-check', 'check');
+
+                data.forEach(cate => {
+                    cate.expense.forEach((amount, index) => {
+                        if(amount === value){
+                            console.log(amount, value);
+                            cate.expense.splice(index, 1);
+                        }
+                    })
+                }) 
 
                 return;
             }
