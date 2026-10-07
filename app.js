@@ -74,6 +74,9 @@ originalAmountCircle.addEventListener('click', (e) => {
         
         siblingInput.value = addCommas(siblingInput.value);
         switchIcon(icon);
+        updateTotal();
+
+        console.log(localStorage.getItem("expenseCalculator"));
     }else{
         siblingInput.disabled = false;
     }
@@ -87,9 +90,9 @@ function switchIcon(icon){
 
 function calculateAllocations(total){
     return [
-        Math.ceil(total * 0.5),
-        Math.ceil(total * 0.3),
-        Math.ceil(total * 0.2)
+        total * 0.5,
+        total * 0.3,
+        total * 0.2
     ];
 }
 
@@ -105,6 +108,7 @@ function calculations(){
 
 function budgetAllocation(allocations){
     allocations.forEach((amount, index) => {
+        data[index].allocation = amount;
         amountElements[index].textContent = amount.toLocaleString();
     })
 }
@@ -165,7 +169,7 @@ function updateSection(section, allocation){
 
     let spentAmount = '';
     let dataUpdated = false;
-    
+
     spentInputs.forEach(input => {
         if(!input.disabled) return;
 
@@ -196,6 +200,8 @@ function updateSection(section, allocation){
     const totalSpentPerSection = category
         ? category.expense.reduce((sum, amount) => sum + amount, 0)
         : 0;
+
+        console.log(allocation);    //allocation doesn't update when org amount updated.
     const remaining = allocation - totalSpentPerSection;
 
     if(remaining < 0){
@@ -203,11 +209,11 @@ function updateSection(section, allocation){
         remainingInput.style.color = 'var(--bg-page)';
     }
 
-    remainingInput.value = addCommas(remaining);
+    remainingInput.value = remaining.toLocaleString();
     category.remaining = remaining;
 
     if(dataUpdated) saveData();
-    updateTotals();
+    updateTotal();
 
     console.log(localStorage.getItem("expenseCalculator"));
     console.log(data);
@@ -266,18 +272,25 @@ function addNewInput(){
     })
 }
 
-function updateTotals(){
+function updateTotal(){
     let totalSpent = 0;
     let totalRemaining = 0;
+    
+    data.forEach((cate) => {
+        const spentAmount = cate.expense.reduce((acc, curr) => {
+            acc += curr;
+            return acc;
+        }, 0);
 
-    data.forEach(cate => {
-        cate.expense.forEach((amount) => {
-            totalSpent += amount;
-        })
+        totalSpent += spentAmount;
 
-        totalRemaining += cate.remaining;
+        if(cate.remaining === 0){
+            totalRemaining += cate.allocation;
+        }else{
+            totalRemaining += cate.remaining;
+        }
     })
-
+    
     totalSpentInput.textContent = totalSpent.toLocaleString();
     totalRemainingInput.textContent = totalRemaining.toLocaleString();
 }
@@ -325,4 +338,3 @@ function updateTotals(){
 //     totalSpentInput.textContent = addCommas(totalSpent);
 //     totalRemainingInput.textContent = addCommas(totalRemaining);
 // }
-
