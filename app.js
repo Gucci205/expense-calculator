@@ -31,18 +31,19 @@ const sections = document.querySelectorAll('section');
 
 
 // Add the class that tells CSS to play the footer's return animation while scrolling.
-function updateFooterAnimation(){
+function updateFooterAnimation(isPageLoad = false){
     // Keep the animation mobile-only and reset the class if the viewport becomes wider.
     if(!mobileViewport.matches){
         footer.classList.remove('is-scrolling');
         return; 
     }
 
-    // A small scroll distance prevents the animation from triggering immediately on load.
-    footer.classList.toggle('is-scrolling', window.scrollY > 8);
+    // Play on mobile page load, or after scrolling past the small distance threshold.
+    footer.classList.toggle('is-scrolling', isPageLoad === true || window.scrollY > 8);
 }
 
-// Recheck the footer state whenever the page scrolls or the viewport is resized.
+// Recheck the footer state on load, scroll, and viewport resize.
+window.addEventListener('load', () => updateFooterAnimation(true));
 window.addEventListener('scroll', updateFooterAnimation, { passive:true });
 window.addEventListener('resize', updateFooterAnimation);
 
