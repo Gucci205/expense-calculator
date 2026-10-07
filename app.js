@@ -31,19 +31,18 @@ const sections = document.querySelectorAll('section');
 
 
 // Add the class that tells CSS to play the footer's return animation while scrolling.
-function updateFooterAnimation(isPageLoad = false){
+function updateFooterAnimation(){
     // Keep the animation mobile-only and reset the class if the viewport becomes wider.
     if(!mobileViewport.matches){
         footer.classList.remove('is-scrolling');
         return; 
     }
 
-    // Play on mobile page load, or after scrolling past the small distance threshold.
-    footer.classList.toggle('is-scrolling', isPageLoad === true || window.scrollY > 8);
+    // A small scroll distance prevents the animation from triggering immediately on load.
+    footer.classList.toggle('is-scrolling', window.scrollY > 8);
 }
 
-// Recheck the footer state on load, scroll, and viewport resize.
-window.addEventListener('load', () => updateFooterAnimation(true));
+// Recheck the footer state whenever the page scrolls or the viewport is resized.
 window.addEventListener('scroll', updateFooterAnimation, { passive:true });
 window.addEventListener('resize', updateFooterAnimation);
 
@@ -176,9 +175,7 @@ function updateSection(section, allocation){
 
         const result = Number(String(input.value).replaceAll(',', ''));
 
-        const alreadyExists = data.some(cate =>
-            cate.expense.some(amount => amount === result)
-        );
+        const alreadyExists = data.some(cate => cate.expense.some(amount => amount === result));
 
         if(alreadyExists){
             input.value = addCommas(result);
@@ -187,11 +184,9 @@ function updateSection(section, allocation){
             input.value = addCommas(spentAmount);
 
             data.forEach(cate => {
-                if(cate.category === sectionName){
-                    if(typeof spentAmount !== 'string'){
-                        cate.expense.push(spentAmount);
-                        dataUpdated = true;
-                    }
+                if(cate.category === sectionName && typeof spentAmount !== 'string'){
+                    cate.expense.push(spentAmount);
+                    dataUpdated = true;
                 }
             });
         }
@@ -230,9 +225,7 @@ function addCommas(value){
         result += digits[i];
         count++;
     // Add a comma every 3 digits, but only if there are still digits left to process
-    if(count % 3 === 0 && i !== digits.length-1){
-        result += ',';
-        }
+        if(count % 3 === 0 && i !== digits.length-1) result += ',';
     }
     
     return result.split('').reverse().join('');
@@ -277,20 +270,15 @@ function updateTotal(){
     let totalSpent = 0;
     let totalRemaining = 0;
     
-    data.forEach((cate) => {
-        const spentAmount = cate.expense.reduce((acc, curr) => {
-            acc += curr;
-            return acc;
-        }, 0);
+    for(cate of data){
+        const spentAmount = cate.expense.reduce((sum, amount) => sum += amount, 0);
 
         totalSpent += spentAmount;
 
-        if(cate.remaining === 0){
-            totalRemaining += cate.allocation;
-        }else{
-            totalRemaining += cate.remaining;
-        }
-    })
+        if(cate.remaining === 0 &&cate.expense.length > 0) continue;
+
+        totalRemaining += cate.remaining === 0 ? cate.allocation : cate.remaining;
+    }
     
     totalSpentInput.textContent = totalSpent.toLocaleString();
     totalRemainingInput.textContent = totalRemaining.toLocaleString();
