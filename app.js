@@ -122,15 +122,11 @@ function makeInputDisabled(allocations){
             let allocation = '';
             if(icon.classList.contains('check')){
                 siblingInput.disabled = false,
-                siblingInput.value = siblingInput.value.replaceAll(',', '');
-
-                const value = Number(siblingInput.value);
                 
                 icon.classList.add('fa-regular', 'fa-circle', 'first-circle');
                 icon.classList.remove('fa-solid', 'fa-circle-check', 'check');
                 siblingInput.focus();
 
-                console.log(data);
                 return;
             }
             
@@ -163,7 +159,6 @@ function updateSection(section, allocation){
 
         const amount = Number(String(input.value).replaceAll(',', ''));
         const expenseIndex = input.dataset.expenseIndex;
-        console.log(expenseIndex);
 
         if (expenseIndex === undefined) {
             // First confirmation: add it and remember its position.
@@ -188,6 +183,10 @@ function updateSection(section, allocation){
     if(remaining < 0){
         remainingInput.style.background = 'linear-gradient(135deg, #dd8c96, #eb507c';
         remainingInput.style.color = 'var(--bg-page)';
+    }else{
+        remainingInput.style.background = 'none';
+        remainingInput.style.color = 'var(--primary-deep)';
+        remainingInput.style.backgroundColor = 'transparent';
     }
 
     remainingInput.value = remaining.toLocaleString();
