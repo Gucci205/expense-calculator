@@ -120,7 +120,6 @@ function makeInputDisabled(allocations){
             const siblingInput = targetElement.previousElementSibling;
             const section = targetElement.closest("section");   //closest() only finds the ancestor
             let allocation = '';
-
             if(icon.classList.contains('check')){
                 siblingInput.disabled = false,
                 siblingInput.value = siblingInput.value.replaceAll(',', '');
@@ -131,18 +130,7 @@ function makeInputDisabled(allocations){
                 icon.classList.remove('fa-solid', 'fa-circle-check', 'check');
                 siblingInput.focus();
 
-                data.forEach(cate => {
-                    cate.expense.forEach((amount, index) => {
-                        if(amount === value) cate.expense.splice(index, 1);
-                    })
-                }) 
-
-            //NEED TO FIX
-
-                //when the amount updated and confirmed, it went to index[1] if it had 2 amount in expense.
-                // [1044895, 10000] -> firt amount updated from 1044895 to 1000000
-                // But in the data, it store as a second amount -> [10000, 1000000]
-                
+                console.log(data);
                 return;
             }
             
@@ -153,7 +141,7 @@ function makeInputDisabled(allocations){
                 sections.forEach((sec, index) => {
                     if(sec.className === section.className) allocation = allocations[index];
                 })
-                
+
                 updateSection(section, allocation);
             }else{
                 siblingInput.disabled = false;
@@ -166,33 +154,30 @@ function updateSection(section, allocation){
     const spentInputs = section.querySelectorAll("input.spent-amount");  //to find a descendants inside a section
     const remainingInput = section.querySelector("input.remaining-amount");
     const sectionName = section.className;
-
-    let spentAmount = '';
     let dataUpdated = false;
-
-    spentInputs.forEach(input => {
-        if(!input.disabled) return;
-
-        const result = Number(String(input.value).replaceAll(',', ''));
-
-        const alreadyExists = data.some(cate => cate.expense.some(amount => amount === result));
-
-        if(alreadyExists){
-            input.value = addCommas(result);
-        }else{
-            spentAmount = Number(input.value);
-            input.value = addCommas(spentAmount);
-
-            data.forEach(cate => {
-                if(cate.category === sectionName && typeof spentAmount !== 'string'){
-                    cate.expense.push(spentAmount);
-                    dataUpdated = true;
-                }
-            });
-        }
-    })
     
     const category = data.find(cate => cate.category === sectionName);
+
+    spentInputs.forEach(input => {
+        if (!input.disabled) return;
+
+        const amount = Number(String(input.value).replaceAll(',', ''));
+        const expenseIndex = input.dataset.expenseIndex;
+        console.log(expenseIndex);
+
+        if (expenseIndex === undefined) {
+            // First confirmation: add it and remember its position.
+            input.dataset.expenseIndex = String(category.expense.length);
+            category.expense.push(amount);
+        } else {
+            // Later confirmation: update that same expense.
+            category.expense[Number(expenseIndex)] = amount;
+        }
+
+        input.value = addCommas(amount);
+        dataUpdated = true;
+    })
+    
     const totalSpentPerSection = category
         ? category.expense.reduce((sum, amount) => sum + amount, 0)
         : 0;
