@@ -87,7 +87,6 @@ body{
     background:linear-gradient(180deg, #ffffffb3, #f9f0f4e6);
     box-shadow:var(--shadow-soft);
     border:1px solid #8f3a681f;
-    max-width:1000px;
     margin:auto;
     border-radius:32px;
     overflow:hidden;
