@@ -59,7 +59,7 @@ body{
     color:var(--primary-deep);
 }
 
-.first div{
+.first div, .input-box{
     display:flex;
     align-items:center;
     position:relative;
@@ -76,11 +76,11 @@ body{
     color:var(--primary-deep);
 }
 
-.first-circle, .check{
+#first-circle, .circle, .fa-circle-check{
+    position:absolute;
+    right:7%;
     cursor:pointer;
     color:var(--primary-deep);
-    position:absolute;
-    right:7px;
 }
 
 .second{
@@ -93,9 +93,14 @@ body{
     overflow:hidden;
 }
 
+.second h3{
+    font-weight:bold;
+}
+
 span{
     font-family: 'Times New Roman', Times, serif;
     color:var(--text);
+    font-weight:normal;
 }
 
 .second > div{
@@ -130,22 +135,6 @@ span{
     overflow-x:auto;
 }
 
-.input-box{
-    position:relative;
-}
-
-.input-box input{
-    margin:0 0 10px 0;
-}
-
-.circle{
-    position:absolute;
-    right:7%;
-    top:25%;
-    cursor:pointer;
-    color:var(--primary-deep);
-}
-
 .expense-list::-webkit-scrollbar{
     width: 8px;
 }
@@ -171,6 +160,7 @@ span{
     background-color:transparent;
     border-radius:50px;
     padding:8px 14px;
+    margin-top:10px;
     font-weight:700;
     letter-spacing:0.02em;
     transition:all 0.2s ease;
@@ -230,7 +220,7 @@ footer{
         padding:5px 4px;
         font-size:medium;
     }
-    .fa-circle, .circle, .check{
+    #first-circle, .fa-circle, .fa-circle-check{
         font-size:small;
     }
     .second{
@@ -326,59 +316,3 @@ footer{
         }
     }
 }
-
-/* @media(max-width:750px){
-    #heading h1{
-        margin-bottom:0 !important;
-        letter-spacing:2px;
-    }
-
-    .first{
-        padding:15px 16px;
-    }
-
-    .first p{
-        font-size:0.75rem;
-    }
-
-    .original-amount{
-        width:120px;
-        font-size:20px;
-        padding:7px 12px;
-    }
-
-    .fa-circle{
-        font-size:15px;
-    }
-
-    .second{
-        margin-top:30px !important;
-        padding:15px 0 15px 0 !important;
-        border-radius:24px;
-    }
-
-    .second > div:nth-child(1){
-        padding-right:5px;
-    }
-
-    .second > div:nth-child(2){
-        padding-left:5px;
-    }
-
-    .second h3, .second .amount{
-        font-size:20px !important;
-        font-weight:bold;
-    }
-
-    .second .amount{
-        margin-bottom:10px;
-    }
-
-    .second span{
-        font-weight: 100;
-    }
-
-    .footer > div {
-        padding:14px 16px;
-    }
-} */

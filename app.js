@@ -1,16 +1,5 @@
-// Current features:
-// - Splits the budget into Needs, Wants, and Savings using the 50/30/20 rule.
-// - Supports multiple expenses per section and calculates section balances and overall totals.
-// - Lets users confirm and unlock the budget and expense inputs.
-// - Saves the budget and confirmed expenses to localStorage.
-//
-// Still to improve:
-// - Restore saved budget and expense data from localStorage when the page loads.
-// - Keep stored expenses and displayed totals consistent when editing a confirmed expense.
-// - Add stronger input validation and simplify repeated event-handler logic.
-
 const originalAmountInput  = document.querySelector('.original-amount');
-const originalAmountCircle = document.querySelector('.first-circle');
+const originalAmountCircle = document.getElementById('first-circle');
 
 const amountElements  = document.querySelectorAll('.amount');
 
@@ -48,19 +37,20 @@ window.addEventListener('resize', updateFooterAnimation);
 
 let allocations = [];
 
-// calculations();
+makeInputDisabled();
 // updateBudgetDisplay();
 
 originalAmountCircle.addEventListener('click', (e) => {
-    const siblingInput = e.target.previousElementSibling;
-    const icon = e.target;
+    let count = 0;
+    const siblingInput = originalAmountInput;
+    const icon = e.currentTarget;
 
-    if(icon.classList.contains('check')){
+    if(icon.classList.contains('fa-circle-check')){
         siblingInput.disabled = false,
         siblingInput.value = siblingInput.value.replaceAll(',', '');
         
-        icon.classList.add('fa-regular', 'fa-circle', 'first-circle');
-        icon.classList.remove('fa-solid', 'fa-circle-check', 'check');
+        icon.classList.remove('fa-solid', 'fa-circle-check');
+        icon.classList.add('fa-regular', 'fa-circle');
         siblingInput.focus();
 
         return;
@@ -76,19 +66,25 @@ originalAmountCircle.addEventListener('click', (e) => {
         switchIcon(icon);
         updateTotal();
 
-        console.log(localStorage.getItem("expenseCalculator"));
+        // console.log(localStorage.getItem("expenseCalculator"));
     }else{
         siblingInput.disabled = false;
     }
     
 })
 
-function switchIcon(icon){
-    icon.classList.remove('fa-regular', 'fa-circle', 'first-circle');
-    icon.classList.add('fa-solid', 'fa-circle-check', 'check');
+function calculations(){
+
+    const originalAmount = Number(originalAmountInput.value);
+    allocations = calculateAllocations(originalAmount);
+
+    originalamount.amount = originalAmount;      //data.js
+
+    budgetAllocation(allocations);
 }
 
 function calculateAllocations(total){
+
     return [
         total * 0.5,
         total * 0.3,
@@ -96,35 +92,36 @@ function calculateAllocations(total){
     ];
 }
 
-function calculations(){
-    const originalAmount = Number(originalAmountInput.value);
-    allocations = calculateAllocations(originalAmount);
-
-    originalamount.amount = originalAmount;      //data.js
-
-    budgetAllocation(allocations);
-    makeInputDisabled(allocations);
-}
-
 function budgetAllocation(allocations){
+
     allocations.forEach((amount, index) => {
         data[index].allocation = amount;
         amountElements[index].textContent = amount.toLocaleString();
     })
 }
 
-function makeInputDisabled(allocations){
+function switchIcon(icon){
+    console.log('switchIcon run');
+
+    icon.classList.remove('fa-regular', 'fa-circle', 'circle');
+    icon.classList.add('fa-solid', 'fa-circle-check');
+
+    console.log(icon.classList);
+}
+
+function makeInputDisabled(){
+
     circleIcons.forEach((icon) => {
         icon.addEventListener('click', (e) => {
             const targetElement = e.target;
             const siblingInput = targetElement.previousElementSibling;
             const section = targetElement.closest("section");   //closest() only finds the ancestor
-            let allocation = '';
-            if(icon.classList.contains('check')){
+
+            if(targetElement.classList.contains('fa-circle-check')){
                 siblingInput.disabled = false,
-                
-                icon.classList.add('fa-regular', 'fa-circle', 'first-circle');
-                icon.classList.remove('fa-solid', 'fa-circle-check', 'check');
+
+                targetElement.classList.remove('fa-solid', 'fa-circle-check');
+                targetElement.classList.add('fa-regular', 'fa-circle', 'circle');
                 siblingInput.focus();
 
                 return;
@@ -133,12 +130,7 @@ function makeInputDisabled(allocations){
             if(siblingInput.value && siblingInput.value !== "0"){
                 siblingInput.disabled = true;
                 switchIcon(targetElement);
-                
-                sections.forEach((sec, index) => {
-                    if(sec.className === section.className) allocation = allocations[index];
-                })
-
-                updateSection(section, allocation);
+                updateSection(section);
             }else{
                 siblingInput.disabled = false;
             }
@@ -146,7 +138,8 @@ function makeInputDisabled(allocations){
     })
 }
 
-function updateSection(section, allocation){
+function updateSection(section){
+
     const spentInputs = section.querySelectorAll("input.spent-amount");  //to find a descendants inside a section
     const remainingInput = section.querySelector("input.remaining-amount");
     const sectionName = section.className;
@@ -177,8 +170,7 @@ function updateSection(section, allocation){
         ? category.expense.reduce((sum, amount) => sum + amount, 0)
         : 0;
 
-        console.log(allocation);    //allocation doesn't update when org amount updated.
-    const remaining = allocation - totalSpentPerSection;
+    const remaining = category.allocation - totalSpentPerSection;
 
     if(remaining < 0){
         remainingInput.style.background = 'linear-gradient(135deg, #dd8c96, #eb507c';
@@ -186,7 +178,7 @@ function updateSection(section, allocation){
     }else{
         remainingInput.style.background = 'none';
         remainingInput.style.color = 'var(--primary-deep)';
-        remainingInput.style.backgroundColor = 'transparent';
+        remainingInput.style.backgroundColor = '#fde2ec';
     }
 
     remainingInput.value = remaining.toLocaleString();
@@ -195,8 +187,8 @@ function updateSection(section, allocation){
     if(dataUpdated) saveData();
     updateTotal();
 
-    console.log(localStorage.getItem("expenseCalculator"));
-    console.log(data);
+    // console.log(localStorage.getItem("expenseCalculator"));
+    // console.log(data);
 }
 
 function addCommas(value){
@@ -229,21 +221,22 @@ function saveData(){
     localStorage.setItem("expenseCalculator", JSON.stringify(savedData));
 }
 
+addNewInput();
 function addNewInput(){
     addExpenseButton.forEach((button, index) => {
         button.addEventListener('click', () => {
-            const createInputBox = document.createElement('div');
-            createInputBox.className = 'input-box';
+            const inputBox = document.createElement('div');
+            inputBox.className = 'input-box';
 
-            const createInput = document.createElement('input');
-            createInput.setAttribute('type', "text");
-            createInput.setAttribute('value', "");
-            createInput.className = "spent-amount";
-            createInput.classList.add('rounded-3', 'outline-0', 'fs-5');
-
-            createInputBox.innerHTML = `<i class="fa-regular fa-circle circle"></i>`;
-            createInputBox.append(createInput);
-            expenseLists[index].append(createInputBox);
+            const input = document.createElement('input');
+            input.setAttribute('type', "text");
+            input.setAttribute('value', "");
+            input.className = "spent-amount";
+            input.classList.add('rounded-3', 'outline-0', 'fs-5');
+            inputBox.style.margin = '10px 0 0 0';
+            inputBox.innerHTML = `<i class="fa-regular fa-circle circle"></i>`;
+            inputBox.append(input);
+            expenseLists[index].append(inputBox);
 
             expenseLists[index].scrollTop = expenseLists[index].scrollHeight;
         })
