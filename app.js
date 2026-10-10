@@ -261,12 +261,6 @@ function updateTotal(){
     totalRemainingInput.textContent = totalRemaining.toLocaleString();
 }
 
-// function toNumber(value){
-//     const number = Number(value.replace(/,/g, '')) || 0;
-//     console.log(number);
-// }
-
-
 // function updateBudgetDisplay(){
 //     makeInputDisabled();
 //     const originalAmount = Number(originalAmountInput.value);
