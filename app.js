@@ -1,3 +1,5 @@
+// Quick reminder: circleIcons is collected when the script loads, so a circle created later by Add Expense won’t be included. Those new circles need their handler attached when they’re created, or the app should use event delegation.
+
 const originalAmountInput  = document.querySelector('.original-amount');
 const originalAmountCircle = document.getElementById('first-circle');
 
@@ -101,12 +103,8 @@ function budgetAllocation(allocations){
 }
 
 function switchIcon(icon){
-    console.log('switchIcon run');
-
     icon.classList.remove('fa-regular', 'fa-circle', 'circle');
     icon.classList.add('fa-solid', 'fa-circle-check');
-
-    console.log(icon.classList);
 }
 
 function makeInputDisabled(){
@@ -233,12 +231,19 @@ function addNewInput(){
             input.setAttribute('value', "");
             input.className = "spent-amount";
             input.classList.add('rounded-3', 'outline-0', 'fs-5');
+            input.placeholder = '0';
             inputBox.style.margin = '10px 0 0 0';
             inputBox.innerHTML = `<i class="fa-regular fa-circle circle"></i>`;
             inputBox.append(input);
             expenseLists[index].append(inputBox);
 
             expenseLists[index].scrollTop = expenseLists[index].scrollHeight;
+
+            const expenseList = button.previousElementSibling;
+            if(expenseList.clientHeight >= 148){
+                const inputs = expenseList.querySelectorAll('input.spent-amount');
+                inputs.forEach(input => input.style.width = '96%');
+            }
         })
     })
 }
@@ -249,11 +254,10 @@ function updateTotal(){
     
     for(cate of data){
         const spentAmount = cate.expense.reduce((sum, amount) => sum += amount, 0);
-
         totalSpent += spentAmount;
 
-        if(cate.remaining === 0 &&cate.expense.length > 0) continue;
-
+        if(cate.remaining === 0 && cate.expense.length > 0) continue;
+        
         totalRemaining += cate.remaining === 0 ? cate.allocation : cate.remaining;
     }
     
