@@ -1,5 +1,3 @@
-// Quick reminder: circleIcons is collected when the script loads, so a circle created later by Add Expense won’t be included. Those new circles need their handler attached when they’re created, or the app should use event delegation.
-
 const originalAmountInput  = document.querySelector('.original-amount');
 const originalAmountCircle = document.getElementById('first-circle');
 
@@ -7,7 +5,6 @@ const amountElements  = document.querySelectorAll('.amount');
 
 const spentInputs  = document.querySelectorAll('.spent-amount');
 const remainingInputs  = document.querySelectorAll('.remaining-amount');
-const circleIcons = document.querySelectorAll('i.circle');
 
 const expenseLists = document.querySelectorAll('.expense-list');
 const addExpenseButton = document.querySelectorAll('.add-expense-button');
@@ -18,8 +15,13 @@ const totalRemainingInput = document.querySelector('.total-remaining');
 const footer = document.querySelector('footer');
 
 const mobileViewport = window.matchMedia('(max-width: 384px)');
-const sections = document.querySelectorAll('section');
 
+document.body.addEventListener('click', (e) => {
+    const icon = e.target.closest(".fa-circle");
+    if(icon){
+        makeInputDisabled(icon);
+    }
+})
 
 // Add the class that tells CSS to play the footer's return animation while scrolling.
 function updateFooterAnimation(){
@@ -107,33 +109,30 @@ function switchIcon(icon){
     icon.classList.add('fa-solid', 'fa-circle-check');
 }
 
-function makeInputDisabled(){
+function makeInputDisabled(icon){
+    console.log(icon);
+    if(icon && icon.classList.contains("circle")){
+        const siblingInput = icon.previousElementSibling;
+        const section = icon.closest("section");   //closest() only finds the ancestor
 
-    circleIcons.forEach((icon) => {
-        icon.addEventListener('click', (e) => {
-            const targetElement = e.target;
-            const siblingInput = targetElement.previousElementSibling;
-            const section = targetElement.closest("section");   //closest() only finds the ancestor
+        if(icon.classList.contains('fa-circle-check')){
+            siblingInput.disabled = false,
 
-            if(targetElement.classList.contains('fa-circle-check')){
-                siblingInput.disabled = false,
+            icon.classList.remove('fa-solid', 'fa-circle-check');
+            icon.classList.add('fa-regular', 'fa-circle', 'circle');
+            siblingInput.focus();
 
-                targetElement.classList.remove('fa-solid', 'fa-circle-check');
-                targetElement.classList.add('fa-regular', 'fa-circle', 'circle');
-                siblingInput.focus();
-
-                return;
-            }
-            
-            if(siblingInput.value && siblingInput.value !== "0"){
-                siblingInput.disabled = true;
-                switchIcon(targetElement);
-                updateSection(section);
-            }else{
-                siblingInput.disabled = false;
-            }
-        });
-    })
+            return;
+        }
+        
+        if(siblingInput.value && siblingInput.value !== "0"){
+            siblingInput.disabled = true;
+            switchIcon(icon);
+            updateSection(section);
+        }else{
+            siblingInput.disabled = false;
+        }
+    }
 }
 
 function updateSection(section){
@@ -233,8 +232,8 @@ function addNewInput(){
             input.classList.add('rounded-3', 'outline-0', 'fs-5');
             input.placeholder = '0';
             inputBox.style.margin = '10px 0 0 0';
-            inputBox.innerHTML = `<i class="fa-regular fa-circle circle"></i>`;
             inputBox.append(input);
+            inputBox.insertAdjacentHTML('beforeend', '<i class="fa-regular fa-circle circle"></i>');
             expenseLists[index].append(inputBox);
 
             expenseLists[index].scrollTop = expenseLists[index].scrollHeight;
