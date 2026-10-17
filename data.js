@@ -19,7 +19,7 @@ const data = [
     }
 ];
 
-const originalamount = {
+const originalBudget = {
     category: 'original-amount',
     amount: 0
 }

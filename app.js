@@ -16,11 +16,12 @@ const footer = document.querySelector('footer');
 
 const mobileViewport = window.matchMedia('(max-width: 384px)');
 
+let allocations = [];
+loadData();
+
 document.body.addEventListener('click', (e) => {
     const icon = e.target.closest(".fa-circle");
-    if(icon){
-        makeInputDisabled(icon);
-    }
+    if(icon) makeInputDisabled(icon);
 })
 
 // Add the class that tells CSS to play the footer's return animation while scrolling.
@@ -39,13 +40,7 @@ function updateFooterAnimation(){
 window.addEventListener('scroll', updateFooterAnimation, { passive:true });
 window.addEventListener('resize', updateFooterAnimation);
 
-let allocations = [];
-
-makeInputDisabled();
-// updateBudgetDisplay();
-
 originalAmountCircle.addEventListener('click', (e) => {
-    let count = 0;
     const siblingInput = originalAmountInput;
     const icon = e.currentTarget;
 
@@ -70,7 +65,6 @@ originalAmountCircle.addEventListener('click', (e) => {
         switchIcon(icon);
         updateTotal();
 
-        // console.log(localStorage.getItem("expenseCalculator"));
     }else{
         siblingInput.disabled = false;
     }
@@ -78,17 +72,14 @@ originalAmountCircle.addEventListener('click', (e) => {
 })
 
 function calculations(){
-
-    const originalAmount = Number(originalAmountInput.value);
+    const originalAmount = Number(String(originalAmountInput.value).replaceAll(',', ''));
     allocations = calculateAllocations(originalAmount);
 
-    originalamount.amount = originalAmount;      //data.js
-
+    originalBudget.amount = originalAmount;      //data.js
     budgetAllocation(allocations);
 }
 
 function calculateAllocations(total){
-
     return [
         total * 0.5,
         total * 0.3,
@@ -97,7 +88,6 @@ function calculateAllocations(total){
 }
 
 function budgetAllocation(allocations){
-
     allocations.forEach((amount, index) => {
         data[index].allocation = amount;
         amountElements[index].textContent = amount.toLocaleString();
@@ -110,7 +100,6 @@ function switchIcon(icon){
 }
 
 function makeInputDisabled(icon){
-    console.log(icon);
     if(icon && icon.classList.contains("circle")){
         const siblingInput = icon.previousElementSibling;
         const section = icon.closest("section");   //closest() only finds the ancestor
@@ -136,7 +125,6 @@ function makeInputDisabled(icon){
 }
 
 function updateSection(section){
-
     const spentInputs = section.querySelectorAll("input.spent-amount");  //to find a descendants inside a section
     const remainingInput = section.querySelector("input.remaining-amount");
     const sectionName = section.className;
@@ -169,23 +157,13 @@ function updateSection(section){
 
     const remaining = category.allocation - totalSpentPerSection;
 
-    if(remaining < 0){
-        remainingInput.style.background = 'linear-gradient(135deg, #dd8c96, #eb507c';
-        remainingInput.style.color = 'var(--bg-page)';
-    }else{
-        remainingInput.style.background = 'none';
-        remainingInput.style.color = 'var(--primary-deep)';
-        remainingInput.style.backgroundColor = '#fde2ec';
-    }
+    alertOverBudget(remaining, remainingInput);
 
     remainingInput.value = remaining.toLocaleString();
     category.remaining = remaining;
 
     if(dataUpdated) saveData();
     updateTotal();
-
-    // console.log(localStorage.getItem("expenseCalculator"));
-    // console.log(data);
 }
 
 function addCommas(value){
@@ -218,6 +196,85 @@ function saveData(){
     localStorage.setItem("expenseCalculator", JSON.stringify(savedData));
 }
 
+function loadData(){
+    try{
+        const getData = JSON.parse(localStorage.getItem('expenseCalculator'));
+        const isValid = getData !== null &&
+                        typeof getData === 'object' &&
+                        !Array.isArray(getData) &&
+                        Number.isFinite(getData.budget) &&
+                        getData.budget >= 0 &&
+                        Array.isArray(getData.data);
+
+        if(!isValid) return ;
+        
+        originalBudget.amount = getData.budget;
+
+        getData.data.forEach((cate, index) => {
+            if(cate.category === data[index].category){
+                data[index].expense = cate.expense;
+            }
+        });
+
+        if(originalBudget.amount > 0){
+            originalAmountInput.value = addCommas(originalBudget.amount);
+            originalAmountInput.disabled = true;
+            calculations();
+            const icon = originalAmountInput.nextElementSibling;
+            switchIcon(icon);
+        }
+
+        data.forEach((cate) => {
+            const section = document.querySelector(`section.${cate.category}`);
+            const expenseList = section.querySelector('.expense-list');
+            const existingBoxes = expenseList.querySelectorAll('.input-box');
+            const remainingInput = section.querySelector('.remaining-amount');
+            const expenseArray = Array.isArray(cate.expense) ? cate.expense : [];
+
+            existingBoxes.forEach(box => {
+                const input = box.querySelector('.spent-amount');
+                if (input && input.value.trim() === '') box.remove(); 
+            });
+            
+            expenseArray.forEach((amount, index) => {
+                const inputBox = document.createElement('div');
+                inputBox.className = 'input-box';
+
+                const input = document.createElement('input');
+                input.type = "text";
+                input.className = "spent-amount";
+                input.classList.add('rounded-3', 'outline-0', 'fs-5');
+                input.placeholder = '0';
+                inputBox.style.margin = '8px 0 0 0';
+
+                const icon = document.createElement('i');
+                icon.className = 'fa-regular fa-circle circle';
+
+                if(amount !== null){
+                    input.value = addCommas(amount);
+                    input.disabled = true;
+                    input.dataset.expenseIndex = String(index);
+                    switchIcon(icon);
+                }
+                
+                inputBox.append(input, icon);
+                expenseList.append(inputBox);
+                
+                expenseList.scrollTop = expenseList.scrollHeight;
+
+                if(expenseList.clientHeight >= 148){
+                    const inputs = expenseList.querySelectorAll('input.spent-amount');
+                    inputs.forEach(input => input.style.width = '96%');
+                }      
+            })
+            updateRemainingDisplay(cate, remainingInput);
+        })
+        updateTotal();
+    }catch(error){
+        console.error('Unable to restore expense calculator data.', error);
+    }
+}
+
 addNewInput();
 function addNewInput(){
     addExpenseButton.forEach((button, index) => {
@@ -231,11 +288,12 @@ function addNewInput(){
             input.className = "spent-amount";
             input.classList.add('rounded-3', 'outline-0', 'fs-5');
             input.placeholder = '0';
-            inputBox.style.margin = '10px 0 0 0';
+
+            inputBox.style.margin = '8px 0 0 0';
             inputBox.append(input);
             inputBox.insertAdjacentHTML('beforeend', '<i class="fa-regular fa-circle circle"></i>');
-            expenseLists[index].append(inputBox);
 
+            expenseLists[index].append(inputBox);
             expenseLists[index].scrollTop = expenseLists[index].scrollHeight;
 
             const expenseList = button.previousElementSibling;
@@ -264,40 +322,25 @@ function updateTotal(){
     totalRemainingInput.textContent = totalRemaining.toLocaleString();
 }
 
-// function updateBudgetDisplay(){
-//     makeInputDisabled();
-//     const originalAmount = Number(originalAmountInput.value);
+function updateRemainingDisplay(category, remainingInput){
+    const totalSpentPerSection = category
+        ? category.expense.reduce((sum, amount) => sum + amount, 0)
+        : 0;
+    const remaining = category.allocation - totalSpentPerSection;
 
-//     const allocations = calculateAllocations(originalAmount);
+    category.remaining = remaining;
+    remainingInput.value = remaining.toLocaleString();
 
-//     let totalSpent = 0;
-//     let totalRemaining = 0;
-    
-//     allocations.forEach((amount, index) => {
-//         const spent = Number(spentInputs[index].value);
-//         const remaining = amount - spent;
+    alertOverBudget(remaining, remainingInput);
+}
 
-        
-//         totalSpent += spent;
-//         totalRemaining += remaining;
-        
-//         amountElements[index].textContent = amount.toLocaleString();
-//         amountElements[index].style.fontFamily = 'Times New Roman';
-        
-//         spentInputs[index].value = spent.toLocaleString();      //display 0 automatically if there is no value
-//         remainingInputs[index].value = remaining.toLocaleString();
-        
-//         // console.log(spent);
-
-//         if(remaining < 0){
-//             remainingInputs[index].style.background = 'linear-gradient(135deg, #dd8c96, #eb507c';
-//             remainingInputs[index].style.color = 'var(--bg-page)';
-
-//         }
-//     });
-//     // makeInputDisabled(spent);
-
-//     originalAmountInput.value = addCommas(originalAmount);
-//     totalSpentInput.textContent = addCommas(totalSpent);
-//     totalRemainingInput.textContent = addCommas(totalRemaining);
-// }
+function alertOverBudget(remaining, remainingInput){
+    if(remaining < 0){
+        remainingInput.style.background = 'linear-gradient(135deg, #dd8c96, #eb507c';
+        remainingInput.style.color = 'var(--bg-page)';
+    }else{
+        remainingInput.style.background = 'none';
+        remainingInput.style.color = 'var(--primary-deep)';
+        remainingInput.style.backgroundColor = '#fde2ec';
+    }
+}

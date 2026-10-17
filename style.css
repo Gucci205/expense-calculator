@@ -129,6 +129,10 @@ span{
     color:var(--primary-deep);
 }
 
+.expense-list .input-box:first-child{
+    margin-top:0 !important;
+}
+
 .expense-list{
     max-height:148px;
     overflow-x:auto;
