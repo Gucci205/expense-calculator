@@ -20,8 +20,9 @@ let allocations = [];
 loadData();
 
 document.body.addEventListener('click', (e) => {
-    const icon = e.target.closest(".fa-circle");
-    if(icon) makeInputDisabled(icon);
+    const icon = e.target.closest("i");
+    const isCircleIcon = icon.classList.contains('circle') || icon.classList.contains('fa-circle-check');
+    isCircleIcon && !icon.hasAttribute('id') && makeInputDisabled(icon);
 })
 
 // Add the class that tells CSS to play the footer's return animation while scrolling.
@@ -46,7 +47,7 @@ originalAmountCircle.addEventListener('click', (e) => {
 
     if(icon.classList.contains('fa-circle-check')){
         siblingInput.disabled = false,
-        siblingInput.value = siblingInput.value.replaceAll(',', '');
+        siblingInput.value = siblingInput.value.replaceAll('.', '');
         
         icon.classList.remove('fa-solid', 'fa-circle-check');
         icon.classList.add('fa-regular', 'fa-circle');
@@ -60,9 +61,11 @@ originalAmountCircle.addEventListener('click', (e) => {
 
         calculations();
         saveData();
-        
+
         siblingInput.value = addCommas(siblingInput.value);
-        switchIcon(icon);
+        icon.classList.remove('fa-regular', 'fa-circle');
+        icon.classList.add('fa-solid', 'fa-circle-check');
+
         updateTotal();
 
     }else{
@@ -72,7 +75,7 @@ originalAmountCircle.addEventListener('click', (e) => {
 })
 
 function calculations(){
-    const originalAmount = Number(String(originalAmountInput.value).replaceAll(',', ''));
+    const originalAmount = Number(String(originalAmountInput.value).replaceAll('.', ''));
     allocations = calculateAllocations(originalAmount);
 
     originalBudget.amount = originalAmount;      //data.js
@@ -90,7 +93,7 @@ function calculateAllocations(total){
 function budgetAllocation(allocations){
     allocations.forEach((amount, index) => {
         data[index].allocation = amount;
-        amountElements[index].textContent = amount.toLocaleString();
+        amountElements[index].textContent = amount.toLocaleString('de-DE');
     })
 }
 
@@ -100,27 +103,26 @@ function switchIcon(icon){
 }
 
 function makeInputDisabled(icon){
-    if(icon && icon.classList.contains("circle")){
-        const siblingInput = icon.previousElementSibling;
-        const section = icon.closest("section");   //closest() only finds the ancestor
+    const siblingInput = icon.previousElementSibling;
+    const section = icon.closest("section");   //closest() only finds the ancestor
 
-        if(icon.classList.contains('fa-circle-check')){
-            siblingInput.disabled = false,
+    if(icon.classList.contains('fa-circle-check')){
+        siblingInput.disabled = false,
+        siblingInput.value = siblingInput.value.replaceAll('.', '');
 
-            icon.classList.remove('fa-solid', 'fa-circle-check');
-            icon.classList.add('fa-regular', 'fa-circle', 'circle');
-            siblingInput.focus();
+        icon.classList.remove('fa-solid', 'fa-circle-check');
+        icon.classList.add('fa-regular', 'fa-circle', 'circle');
+        siblingInput.focus();
 
-            return;
-        }
-        
-        if(siblingInput.value && siblingInput.value !== "0"){
-            siblingInput.disabled = true;
-            switchIcon(icon);
-            updateSection(section);
-        }else{
-            siblingInput.disabled = false;
-        }
+        return;
+    }
+    
+    if(siblingInput.value && siblingInput.value !== "0"){
+        siblingInput.disabled = true;
+        switchIcon(icon);
+        updateSection(section);
+    }else{
+        siblingInput.disabled = false;
     }
 }
 
@@ -135,7 +137,7 @@ function updateSection(section){
     spentInputs.forEach(input => {
         if (!input.disabled) return;
 
-        const amount = Number(String(input.value).replaceAll(',', ''));
+        const amount = Number(String(input.value).replaceAll('.', ''));
         const expenseIndex = input.dataset.expenseIndex;
 
         if (expenseIndex === undefined) {
@@ -150,21 +152,13 @@ function updateSection(section){
         input.value = addCommas(amount);
         dataUpdated = true;
     })
-    
-    const totalSpentPerSection = category
-        ? category.expense.reduce((sum, amount) => sum + amount, 0)
-        : 0;
 
-    const remaining = category.allocation - totalSpentPerSection;
-
-    alertOverBudget(remaining, remainingInput);
-
-    remainingInput.value = remaining.toLocaleString();
-    category.remaining = remaining;
-
+    updateRemainingDisplay(category, remainingInput);
     if(dataUpdated) saveData();
     updateTotal();
 }
+
+console.log(JSON.parse(localStorage.getItem('expenseCalculator')));
 
 function addCommas(value){
     const digits = String(value).split('').reverse();
@@ -176,7 +170,7 @@ function addCommas(value){
         result += digits[i];
         count++;
     // Add a comma every 3 digits, but only if there are still digits left to process
-        if(count % 3 === 0 && i !== digits.length-1) result += ',';
+        if(count % 3 === 0 && i !== digits.length-1) result += '.';
     }
     
     return result.split('').reverse().join('');
@@ -184,7 +178,7 @@ function addCommas(value){
 
 function saveData(){
     const savedData = {
-        budget: Number(String(originalAmountInput.value).replaceAll(',', '')),
+        budget: Number(String(originalAmountInput.value).replaceAll('.', '')),
         data: data.map(cate => {
             return {
                 category: cate.category,
@@ -221,7 +215,9 @@ function loadData(){
             originalAmountInput.disabled = true;
             calculations();
             const icon = originalAmountInput.nextElementSibling;
-            switchIcon(icon);
+            
+            icon.classList.remove('fa-regular', 'fa-circle');
+            icon.classList.add('fa-solid', 'fa-circle-check');
         }
 
         data.forEach((cate) => {
@@ -248,13 +244,12 @@ function loadData(){
                 inputBox.style.margin = '8px 0 0 0';
 
                 const icon = document.createElement('i');
-                icon.className = 'fa-regular fa-circle circle';
+                icon.className = 'fa-solid fa-circle-check';
 
                 if(amount !== null){
                     input.value = addCommas(amount);
                     input.disabled = true;
                     input.dataset.expenseIndex = String(index);
-                    switchIcon(icon);
                 }
                 
                 inputBox.append(input, icon);
@@ -267,6 +262,14 @@ function loadData(){
                     inputs.forEach(input => input.style.width = '96%');
                 }      
             })
+            if(Array.isArray(cate.expense) && !cate.expense.length){
+                const html = `<div class="input-box">
+                                    <input type="text" value="" placeholder="0" class="rounded-3 outline-0 fs-5 spent-amount" />
+                                    <i class="fa-regular fa-circle circle"></i>
+                                </div>`;
+
+                expenseList.innerHTML = html;
+            }
             updateRemainingDisplay(cate, remainingInput);
         })
         updateTotal();
@@ -318,8 +321,8 @@ function updateTotal(){
         totalRemaining += cate.remaining === 0 ? cate.allocation : cate.remaining;
     }
     
-    totalSpentInput.textContent = totalSpent.toLocaleString();
-    totalRemainingInput.textContent = totalRemaining.toLocaleString();
+    totalSpentInput.textContent = totalSpent.toLocaleString('de-DE');
+    totalRemainingInput.textContent = totalRemaining.toLocaleString('de-DE');
 }
 
 function updateRemainingDisplay(category, remainingInput){
@@ -329,7 +332,7 @@ function updateRemainingDisplay(category, remainingInput){
     const remaining = category.allocation - totalSpentPerSection;
 
     category.remaining = remaining;
-    remainingInput.value = remaining.toLocaleString();
+    remainingInput.value = remaining.toLocaleString('de-DE');   // Using toLocaleString() with a German Locale (de-DE) makes . instead of ,
 
     alertOverBudget(remaining, remainingInput);
 }
