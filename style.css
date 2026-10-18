@@ -223,10 +223,10 @@ footer{
         font-size:medium;
     }
     #first-circle, .fa-circle, .fa-circle-check{
-        font-size:x-small;
+        font-size:small;
     }
     .fa-circle, .fa-circle-check{
-        right:12%;
+        right:9%;
     }
     .save .expense-list .fa-circle{
         right:8%;
@@ -235,6 +235,12 @@ footer{
         margin-top:15px !important;
         padding-top:10px !important;
         padding-bottom:10px !important;
+    }
+    .second .category:first-child{
+        padding-right:6px !important;
+    }
+    .second .category:nth-child(2){
+        padding-left:6px !important;
     }
     .second h3{
         font-size:large;

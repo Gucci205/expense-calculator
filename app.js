@@ -298,6 +298,7 @@ function addNewInput(){
 
             expenseLists[index].append(inputBox);
             expenseLists[index].scrollTop = expenseLists[index].scrollHeight;
+            input.focus();
 
             const expenseList = button.previousElementSibling;
             if(expenseList.clientHeight >= 148){
