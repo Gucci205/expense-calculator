@@ -43,17 +43,19 @@ window.addEventListener('resize', updateFooterAnimation);
 
 function parseNumericInput(input) {
     // Regular expression:
-    // ^(0|[1-9]\d*) -> Matches 0 or any integer starting with 1-9 (prevents leading zeros like 05)
-    // (\.\d{1,2})?$ -> Matches an optional dot followed by exactly 1 or 2 decimal digits
-    const numericRegex = /^(0|[1-9]\d*)(\.\d{1,2})?$/;
+    // ^         -> Start of the string
+    // (0|[1-9]\d*) -> Matches exactly 0, or any number starting with 1-9 followed by digits (prevents "05")
+    // $         -> End of the string (ensures no trailing letters, dots, or garbage)
+    const numericRegex = /^(0|[1-9]\d*)$/;
     
-    // Strict evaluation against the raw input (no hidden trimming)
+    // Strict evaluation against the raw input
     if (!numericRegex.test(input)) {
-        throw new Error("Validation rejected: Value must be a raw number with an optional dot decimal (e.g., 12092.12). No commas, spaces, or formatting allowed.");
+        alert("Validation rejected: Value must be a clean whole number. No decimals, commas, spaces, or formatting allowed.");
+        throw new Error("Validation rejected: Value must be a clean whole number. No decimals, commas, spaces, or formatting allowed.");
     }
     
-    // Natively parse into a JavaScript float
-    return parseFloat(input);
+    // Parse cleanly into a standard JavaScript base-10 integer
+    return parseInt(input, 10);
 }
 
 originalAmountCircle.addEventListener('click', (e) => {
@@ -102,12 +104,9 @@ originalAmountCircle.addEventListener('click', (e) => {
     
             updateTotal();
         }
-
-
     }else{
         siblingInput.disabled = false;
     }
-    
 })
 
 function calculations(){
