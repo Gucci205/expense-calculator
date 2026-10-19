@@ -17,7 +17,7 @@ const footer = document.querySelector('footer');
 const mobileViewport = window.matchMedia('(max-width: 384px)');
 
 let allocations = [];
-loadData();
+// loadData();
 
 document.body.addEventListener('click', (e) => {
     const icon = e.target.closest("i");
@@ -41,6 +41,21 @@ function updateFooterAnimation(){
 window.addEventListener('scroll', updateFooterAnimation, { passive:true });
 window.addEventListener('resize', updateFooterAnimation);
 
+function parseNumericInput(input) {
+    // Regular expression:
+    // ^(0|[1-9]\d*) -> Matches 0 or any integer starting with 1-9 (prevents leading zeros like 05)
+    // (\.\d{1,2})?$ -> Matches an optional dot followed by exactly 1 or 2 decimal digits
+    const numericRegex = /^(0|[1-9]\d*)(\.\d{1,2})?$/;
+    
+    // Strict evaluation against the raw input (no hidden trimming)
+    if (!numericRegex.test(input)) {
+        throw new Error("Validation rejected: Value must be a raw number with an optional dot decimal (e.g., 12092.12). No commas, spaces, or formatting allowed.");
+    }
+    
+    // Natively parse into a JavaScript float
+    return parseFloat(input);
+}
+
 originalAmountCircle.addEventListener('click', (e) => {
     const siblingInput = originalAmountInput;
     const icon = e.currentTarget;
@@ -56,13 +71,16 @@ originalAmountCircle.addEventListener('click', (e) => {
         return;
     }
     
-    if(siblingInput.value && siblingInput.value !== "0"){
+    if(parseNumericInput(siblingInput.value)){
+
+        const originalAmount = parseNumericInput(siblingInput.value);
         siblingInput.disabled = true;
+        originalBudget.amount = originalAmount;
 
         calculations();
         saveData();
 
-        siblingInput.value = addCommas(siblingInput.value);
+        siblingInput.value = originalAmount.toLocaleString('de-DE');
         icon.classList.remove('fa-regular', 'fa-circle');
         icon.classList.add('fa-solid', 'fa-circle-check');
 
@@ -78,7 +96,6 @@ function calculations(){
     const originalAmount = Number(String(originalAmountInput.value).replaceAll('.', ''));
     allocations = calculateAllocations(originalAmount);
 
-    originalBudget.amount = originalAmount;      //data.js
     budgetAllocation(allocations);
 }
 
@@ -149,7 +166,7 @@ function updateSection(section){
             category.expense[Number(expenseIndex)] = amount;
         }
 
-        input.value = addCommas(amount);
+        input.value = amount.toLocaleString('de-DE');
         dataUpdated = true;
     })
 
@@ -160,25 +177,34 @@ function updateSection(section){
 
 console.log(JSON.parse(localStorage.getItem('expenseCalculator')));
 
-function addCommas(value){
-    const digits = String(value).split('').reverse();
+// function addCommas(value){
+//     console.log(value);
+//     const digits = String(value).split('').reverse();
     
-    let result = '';
-    let count = 0;
+//     console.log(digits);
+//     let result = '';
+//     let count = 0;
     
-    for(let i = 0; i < digits.length; i++){
-        result += digits[i];
-        count++;
-    // Add a comma every 3 digits, but only if there are still digits left to process
-        if(count % 3 === 0 && i !== digits.length-1) result += '.';
-    }
+//     for(let i = 0; i < digits.length; i++){
+//         result += digits[i];
+//         console.log(result);
+//         count++;
+//     // Add a comma every 3 digits, but only if there are still digits left to process
+//         if(count % 3 === 0 && i !== digits.length-1){
+//             if(digits[i] === '.'){
+//                 result += ',';
+//             }else{
+//                 result += '.';
+//             }
+//         } 
+//     }
     
-    return result.split('').reverse().join('');
-}
+//     return result.split('').reverse().join('');
+// }
 
 function saveData(){
     const savedData = {
-        budget: Number(String(originalAmountInput.value).replaceAll('.', '')),
+        budget: originalBudget.amount,
         data: data.map(cate => {
             return {
                 category: cate.category,
@@ -211,7 +237,7 @@ function loadData(){
         });
 
         if(originalBudget.amount > 0){
-            originalAmountInput.value = addCommas(originalBudget.amount);
+            originalAmountInput.value = originalBudget.amount.toLocaleString('de-DE');
             originalAmountInput.disabled = true;
             calculations();
             const icon = originalAmountInput.nextElementSibling;
@@ -247,7 +273,7 @@ function loadData(){
                 icon.className = 'fa-solid fa-circle-check';
 
                 if(amount !== null){
-                    input.value = addCommas(amount);
+                    input.value = amount.toLocaleString('de-DE');
                     input.disabled = true;
                     input.dataset.expenseIndex = String(index);
                 }
