@@ -21,8 +21,12 @@ loadData();
 
 document.body.addEventListener('click', (e) => {
     const icon = e.target.closest("i");
+    
+    if(!icon) return;
+
     const isCircleIcon = icon.classList.contains('circle') || icon.classList.contains('fa-circle-check');
-    isCircleIcon && !icon.hasAttribute('id') && makeInputDisabled(icon);
+
+    if(isCircleIcon && !icon.hasAttribute('id')) makeInputDisabled(icon);
 })
 
 // Add the class that tells CSS to play the footer's return animation while scrolling.
@@ -62,7 +66,6 @@ originalAmountCircle.addEventListener('click', (e) => {
     const siblingInput = originalAmountInput;
     const icon = e.currentTarget;
     const sections = document.querySelectorAll('section');
-    console.log(sections);
 
     if(icon.classList.contains('fa-circle-check')){
         siblingInput.disabled = false,
@@ -77,7 +80,7 @@ originalAmountCircle.addEventListener('click', (e) => {
     
     if(parseNumericInput(siblingInput.value)){
         const originalAmount = parseNumericInput(siblingInput.value);
-
+        
         if(originalBudget.amount !== originalAmount){
             originalBudget.amount = originalAmount;
             siblingInput.value = originalAmount.toLocaleString('de-DE');
@@ -191,8 +194,6 @@ function updateSection(section){
     updateTotal();
 }
 
-console.log(JSON.parse(localStorage.getItem('expenseCalculator')));
-
 function saveData(){
     const savedData = {
         budget: originalBudget.amount,
@@ -238,6 +239,7 @@ function loadData(){
         });
 
         if(originalBudget.amount > 0){
+            console.log(typeof originalBudget.amount);
             originalAmountInput.value = originalBudget.amount.toLocaleString('de-DE');
             originalAmountInput.disabled = true;
             calculations();
@@ -292,7 +294,7 @@ function loadData(){
                     inputs.forEach(input => input.style.width = '96%');
                 }      
             })
-            
+
             if(Array.isArray(cate.expense) && !cate.expense.length){
                 const html = `<div class="input-box">
                                     <input type="text" value="" placeholder="0" class="rounded-3 outline-0 fs-5 spent-amount" />
@@ -344,7 +346,7 @@ function updateTotal(){
     let totalSpent = 0;
     let totalRemaining = 0;
     
-    for(cate of data){
+    for(const cate of data){
         const spentAmount = cate.expense.reduce((sum, amount) => sum += amount, 0);
         totalSpent += spentAmount;
 
@@ -362,9 +364,9 @@ function updateRemainingDisplay(category, remainingInput){
         ? category.expense.reduce((sum, amount) => sum + amount, 0)
         : 0;
     const remaining = category.allocation - totalSpentPerSection;
-
     category.remaining = remaining;
-    remainingInput.value = remaining.toLocaleString('de-DE');   // Using toLocaleString() with a German Locale (de-DE) makes '.' as a thousands seperator
+    
+    remainingInput.value = category.remaining.toLocaleString('de-DE');   // Using toLocaleString() with a German Locale (de-DE) makes '.' as a thousands seperator
 
     alertOverBudget(remaining, remainingInput);
 }
