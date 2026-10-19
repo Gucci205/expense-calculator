@@ -14,10 +14,10 @@ const totalRemainingInput = document.querySelector('.total-remaining');
 
 const footer = document.querySelector('footer');
 
-const mobileViewport = window.matchMedia('(max-width: 384px)');
+const mobileViewport = window.matchMedia('(max-width: 390px)');
 
 let allocations = [];
-// loadData();
+loadData();
 
 document.body.addEventListener('click', (e) => {
     const icon = e.target.closest("i");
@@ -59,6 +59,8 @@ function parseNumericInput(input) {
 originalAmountCircle.addEventListener('click', (e) => {
     const siblingInput = originalAmountInput;
     const icon = e.currentTarget;
+    const sections = document.querySelectorAll('section');
+    console.log(sections);
 
     if(icon.classList.contains('fa-circle-check')){
         siblingInput.disabled = false,
@@ -72,19 +74,35 @@ originalAmountCircle.addEventListener('click', (e) => {
     }
     
     if(parseNumericInput(siblingInput.value)){
-
         const originalAmount = parseNumericInput(siblingInput.value);
-        siblingInput.disabled = true;
-        originalBudget.amount = originalAmount;
 
-        calculations();
-        saveData();
+        if(originalBudget.amount !== originalAmount){
+            originalBudget.amount = originalAmount;
+            siblingInput.value = originalAmount.toLocaleString('de-DE');
+            siblingInput.disabled = true;
+            icon.classList.remove('fa-regular', 'fa-circle');
+            icon.classList.add('fa-solid', 'fa-circle-check');
 
-        siblingInput.value = originalAmount.toLocaleString('de-DE');
-        icon.classList.remove('fa-regular', 'fa-circle');
-        icon.classList.add('fa-solid', 'fa-circle-check');
+            calculations();
+            saveData();
 
-        updateTotal();
+            sections.forEach(section => {
+                updateSection(section);
+            })
+        }else{
+            siblingInput.disabled = true;
+            originalBudget.amount = originalAmount;
+    
+            calculations();
+            saveData();
+    
+            siblingInput.value = originalAmount.toLocaleString('de-DE');
+            icon.classList.remove('fa-regular', 'fa-circle');
+            icon.classList.add('fa-solid', 'fa-circle-check');
+    
+            updateTotal();
+        }
+
 
     }else{
         siblingInput.disabled = false;
@@ -122,6 +140,7 @@ function switchIcon(icon){
 function makeInputDisabled(icon){
     const siblingInput = icon.previousElementSibling;
     const section = icon.closest("section");   //closest() only finds the ancestor
+    console.log(section);
 
     if(icon.classList.contains('fa-circle-check')){
         siblingInput.disabled = false,
