@@ -1,6 +1,6 @@
 # Expense Calculator
 
-A personal budgeting tool built with HTML, CSS, and vanilla JavaScript that helps manage spending using the **50/30/20 budgeting rule**.
+A personal budgeting tool built with HTML, CSS, and vanilla JavaScriptt. It divides a budget into Needs, Wants, and Savings using the 50/30/20 rule.
 
 ## Why I Built This
 
@@ -14,57 +14,59 @@ The budget is divided into three main allocations:
 - **30% — Wants**
 - **20% — Savings**
 
-Whenever I spend money, I can enter the amount under the appropriate allocation. The application calculates how much has been spent and how much remains from the allocated budget.
-
-This project is also a way for me to improve my JavaScript skills by working with real problems such as dynamic DOM elements, event handling, calculations, application structure, and UI updates.
-
-## How It Works
-
-1. Enter the original budget amount.
-2. The application calculates the 50/30/20 allocations.
-3. Enter a spent amount under Needs, Wants, or Savings.
-4. Confirm the expense using the circle button.
-5. The expense is locked and the budget information is updated.
-6. Use **Add Expense** to record additional spending.
-7. The application keeps the remaining amounts and overall totals updated.
-
 ## Features
 
-- 50/30/20 automatic budget allocation
-- Separate spending for Needs, Wants, and Savings
-- Add multiple expenses dynamically
-- Automatic remaining-budget calculation
-- Total spent and total remaining calculations
-- Number formatting for easier readability
-- Responsive user interface
+- Automatically allocates 50% to Needs, 30% to Wants, and 20% to Savings
+- Records multiple expenses in each category
+- Calculates each category’s remaining amount, total spent, and total remaining
+- Allows confirmed amounts and the original budget to be edited
+- Formats displayed amounts using German-style grouping, such as `1.220.000`
+- Saves confirmed budget and expense data in the browser’s local storage
+- Provides a responsive layout with a mobile footer animation
+
+## How to Use
+
+1. Enter the original budget using digits only, such as `15000000`, then confirm it.
+2. The application calculates the 50/30/20 allocations.
+3. Enter an expense under Needs, Wants, or Savings, then confirm it.
+4. The expense is locked and the budget information is updated.
+5. Select **Add Expense** to record more expenses in a category.
+6. To edit a confirmed amount, select its check icon, change the value, and confirm it again.
+7. To change the original budget, unlock it, enter the new amount, and confirm it. The category allocations and remaining amounts are recalculated.
+
+## Amount Format
+
+The current version accepts whole numbers made of digits only. Do not enter periods, commas, spaces, or decimal amounts. For example, enter `1220` rather than `1.220` or `1220,49`.
+
+Amounts are formatted for display after confirmation. German decimal input such as `1220,49` is not supported.
+
+## Saving Data
+
+The app stores the confirmed budget and expenses in the browser’s local storage. This data belongs to the current browser profile and is not synced to another device or account.
+
+**Known issue:** A saved budget may fail to restore after reload when any category has no expenses. This is being addressed.
+
+## Running the Project
+
+Open `index.html` in a modern browser. No build step is included. Bootstrap, Font Awesome, and the Cormorant Garamond font are loaded from external CDNs, so an internet connection is needed for those resources.
 
 ## Built With
 
 - HTML
 - CSS
-- Bootstrap
 - JavaScript
+- Bootstrap
+- Font Awesome
+- Google Fonts
 
-## Project Status
-
-🚧 **Work in Progress**
-
-The project is still being developed and refactored. Some functionality and architecture may change as I continue improving it.
-
-## What I'm Currently Working On
-
-- Improving the JavaScript architecture
-- Handling dynamically created expenses more cleanly
-- Separating section calculations from overall calculations
-- Improving input validation and user experience
 
 ## Planned Improvements
 
-- Save budget data between sessions
-- Better input validation
-- Spending limit warnings
-- Additional UX improvements
-- General code cleanup and refactoring
+- Save budget data between sessions  [done] 
+- Better input validation  [done] 
+- Spending limit warnings  [done] 
+- Additional UX improvements  [done] 
+- General code cleanup and refactoring  [done] 
 
 ## What I'm Learning
 
@@ -78,6 +80,8 @@ This project has helped me practice and better understand:
 - Managing UI state
 - Structuring a growing vanilla JavaScript application
 
-## Note
+## Project Status
 
-This project was primarily designed around my own budgeting workflow rather than as a general-purpose financial application.
+🚧 **Work in Progress**
+
+This project is designed around a simple personal budgeting workflow and is also used to practice JavaScript, DOM manipulation, event handling, data storage, and UI updates.
