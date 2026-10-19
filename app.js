@@ -104,8 +104,6 @@ originalAmountCircle.addEventListener('click', (e) => {
     
             updateTotal();
         }
-    }else{
-        siblingInput.disabled = false;
     }
 })
 
@@ -152,7 +150,7 @@ function makeInputDisabled(icon){
         return;
     }
     
-    if(siblingInput.value && siblingInput.value !== "0"){
+    if(parseNumericInput(siblingInput.value)){
         siblingInput.disabled = true;
         switchIcon(icon);
         updateSection(section);
@@ -195,31 +193,6 @@ function updateSection(section){
 
 console.log(JSON.parse(localStorage.getItem('expenseCalculator')));
 
-// function addCommas(value){
-//     console.log(value);
-//     const digits = String(value).split('').reverse();
-    
-//     console.log(digits);
-//     let result = '';
-//     let count = 0;
-    
-//     for(let i = 0; i < digits.length; i++){
-//         result += digits[i];
-//         console.log(result);
-//         count++;
-//     // Add a comma every 3 digits, but only if there are still digits left to process
-//         if(count % 3 === 0 && i !== digits.length-1){
-//             if(digits[i] === '.'){
-//                 result += ',';
-//             }else{
-//                 result += '.';
-//             }
-//         } 
-//     }
-    
-//     return result.split('').reverse().join('');
-// }
-
 function saveData(){
     const savedData = {
         budget: originalBudget.amount,
@@ -250,6 +223,16 @@ function loadData(){
 
         getData.data.forEach((cate, index) => {
             if(cate.category === data[index].category){
+                const allExpensesValid = cate.expense.every(value => Number.isFinite(value));
+
+                const isValid = Array.isArray(cate.expense) &&
+                                cate.expense.length && 
+                                allExpensesValid
+
+                if(!isValid){
+                    throw new Error("Validation failed: One or more expenses are not valid numbers.");
+                }
+
                 data[index].expense = cate.expense;
             }
         });
@@ -279,18 +262,21 @@ function loadData(){
             expenseArray.forEach((amount, index) => {
                 const inputBox = document.createElement('div');
                 inputBox.className = 'input-box';
+                inputBox.style.margin = '8px 0 0 0';
 
                 const input = document.createElement('input');
                 input.type = "text";
                 input.className = "spent-amount";
                 input.classList.add('rounded-3', 'outline-0', 'fs-5');
                 input.placeholder = '0';
-                inputBox.style.margin = '8px 0 0 0';
 
                 const icon = document.createElement('i');
                 icon.className = 'fa-solid fa-circle-check';
 
-                if(amount !== null){
+                if( amount !== null && 
+                    Number.isFinite(amount) &&
+                    amount > 0 )
+                {
                     input.value = amount.toLocaleString('de-DE');
                     input.disabled = true;
                     input.dataset.expenseIndex = String(index);
@@ -306,6 +292,7 @@ function loadData(){
                     inputs.forEach(input => input.style.width = '96%');
                 }      
             })
+            
             if(Array.isArray(cate.expense) && !cate.expense.length){
                 const html = `<div class="input-box">
                                     <input type="text" value="" placeholder="0" class="rounded-3 outline-0 fs-5 spent-amount" />
@@ -377,7 +364,7 @@ function updateRemainingDisplay(category, remainingInput){
     const remaining = category.allocation - totalSpentPerSection;
 
     category.remaining = remaining;
-    remainingInput.value = remaining.toLocaleString('de-DE');   // Using toLocaleString() with a German Locale (de-DE) makes . instead of ,
+    remainingInput.value = remaining.toLocaleString('de-DE');   // Using toLocaleString() with a German Locale (de-DE) makes '.' as a thousands seperator
 
     alertOverBudget(remaining, remainingInput);
 }
