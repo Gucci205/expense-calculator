@@ -54,8 +54,9 @@ function parseNumericInput(input) {
     
     // Strict evaluation against the raw input
     if (!numericRegex.test(input)) {
-        alert("Validation rejected: Value must be a clean whole number. No decimals, commas, spaces, or formatting allowed.");
-        throw new Error("Validation rejected: Value must be a clean whole number. No decimals, commas, spaces, or formatting allowed.");
+        alert("Enter a whole number using digits only.");
+        
+        return null;
     }
     
     // Parse cleanly into a standard JavaScript base-10 integer
@@ -219,8 +220,6 @@ function loadData(){
 
         if(!isValid) return ;
         
-        originalBudget.amount = getData.budget;
-        
         const saveCategories = getData.data;
 
         const allCategoriesValid = 
@@ -234,11 +233,13 @@ function loadData(){
                     Number.isFinite(value) && value >= 0
                 )
             );
-
-        if (!allCategoriesValid) {
-            console.warn("Saved data is invalid. Starting with an empty budget.");
-            return;
-        }
+            
+            if (!allCategoriesValid) {
+                console.warn("Saved data is invalid. Starting with an empty budget.");
+                return;
+            }
+            
+        originalBudget.amount = getData.budget;
 
         saveCategories.forEach((cate, index) => {
             data[index].expense = cate.expense;
@@ -386,3 +387,21 @@ function alertOverBudget(remaining, remainingInput){
         remainingInput.style.backgroundColor = '#fde2ec';
     }
 }
+
+const debugBox = document.createElement('div');
+debugBox.style.cssText =
+    'position:fixed;top:4px;left:4px;z-index:99999;padding:6px;background:white;color:black;font:12px monospace';
+document.body.append(debugBox);
+
+function showFooterDebug() {
+    debugBox.textContent =
+        `width: ${window.innerWidth} | ` +
+        `windowY: ${window.scrollY} | ` +
+        `bodyY: ${document.body.scrollTop} | ` +
+        `animating: ${footer.classList.contains('is-scrolling')} | ` +
+        `reduced motion: ${matchMedia('(prefers-reduced-motion: reduce)').matches}`;
+}
+
+window.addEventListener('scroll', showFooterDebug, { passive: true });
+document.addEventListener('scroll', showFooterDebug, { capture: true, passive: true });
+showFooterDebug();

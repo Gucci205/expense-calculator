@@ -92,21 +92,6 @@ body{
     overflow:hidden;
 }
 
-/* .original-amount::-webkit-outer-spin-button,
-.original-amount::-webkit-inner-spin-button,
-.spent-amount::-webkit-outer-spin-button,
-.spent-amount::-webkit-inner-spin-button{
-    -webkit-appearance: none;
-    appearance: none;
-    margin: 0;
-}
-
-.original-amount[type=number], 
-.spent-amount[type=number]{
-    -moz-appearance: textfield;
-    appearance: textfield;
-} */
-
 .second h3{
     font-weight:bold;
 }
