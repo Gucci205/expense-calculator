@@ -14,7 +14,7 @@ const totalRemainingInput = document.querySelector('.total-remaining');
 
 const footer = document.querySelector('footer');
 
-const mobileViewport = window.matchMedia('(max-width: 390px)');
+const mobileViewport = window.matchMedia('(max-width: 384px)');
 
 let allocations = [];
 loadData();
@@ -387,21 +387,3 @@ function alertOverBudget(remaining, remainingInput){
         remainingInput.style.backgroundColor = '#fde2ec';
     }
 }
-
-const debugBox = document.createElement('div');
-debugBox.style.cssText =
-    'position:fixed;top:4px;left:4px;z-index:99999;padding:6px;background:white;color:black;font:12px monospace';
-document.body.append(debugBox);
-
-function showFooterDebug() {
-    debugBox.textContent =
-        `width: ${window.innerWidth} | ` +
-        `windowY: ${window.scrollY} | ` +
-        `bodyY: ${document.body.scrollTop} | ` +
-        `animating: ${footer.classList.contains('is-scrolling')} | ` +
-        `reduced motion: ${matchMedia('(prefers-reduced-motion: reduce)').matches}`;
-}
-
-window.addEventListener('scroll', showFooterDebug, { passive: true });
-document.addEventListener('scroll', showFooterDebug, { capture: true, passive: true });
-showFooterDebug();
