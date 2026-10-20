@@ -215,29 +215,36 @@ function loadData(){
                         typeof getData === 'object' &&
                         !Array.isArray(getData) &&
                         Number.isFinite(getData.budget) &&
-                        getData.budget >= 0 &&
-                        Array.isArray(getData.data);
+                        getData.budget >= 0
 
         if(!isValid) return ;
         
         originalBudget.amount = getData.budget;
+        
+        const saveCategories = getData.data;
 
-        getData.data.forEach((cate, index) => {
-            if(cate.category === data[index].category){
-                if(!Array.isArray(cate.expense)) return;
+        const allCategoriesValid = 
+            Array.isArray(saveCategories) &&
+            saveCategories.length === data.length &&
+            saveCategories.every((cate, index) => 
+                cate &&
+                cate.category === data[index].category &&
+                Array.isArray(cate.expense) &&
+                cate.expense.every(value =>
+                    Number.isFinite(value) && value >= 0
+                )
+            );
 
-                const allExpensesValid = cate.expense.every(value => Number.isFinite(value));
+        if (!allCategoriesValid) {
+            console.warn("Saved data is invalid. Starting with an empty budget.");
+            return;
+        }
 
-                if(!allExpensesValid){
-                    throw new Error("Validation failed: One or more expenses are not valid numbers.");
-                }
-
-                data[index].expense = cate.expense;
-            }
-        });
+        saveCategories.forEach((cate, index) => {
+            data[index].expense = cate.expense;
+        })
 
         if(originalBudget.amount > 0){
-            console.log(typeof originalBudget.amount);
             originalAmountInput.value = originalBudget.amount.toLocaleString('de-DE');
             originalAmountInput.disabled = true;
             calculations();
