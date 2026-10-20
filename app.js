@@ -224,13 +224,11 @@ function loadData(){
 
         getData.data.forEach((cate, index) => {
             if(cate.category === data[index].category){
+                if(!Array.isArray(cate.expense)) return;
+
                 const allExpensesValid = cate.expense.every(value => Number.isFinite(value));
 
-                const isValid = Array.isArray(cate.expense) &&
-                                cate.expense.length && 
-                                allExpensesValid
-
-                if(!isValid){
+                if(!allExpensesValid){
                     throw new Error("Validation failed: One or more expenses are not valid numbers.");
                 }
 

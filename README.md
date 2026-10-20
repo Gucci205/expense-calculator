@@ -38,7 +38,7 @@ The budget is divided into three main allocations:
 
 The current version accepts whole numbers made of digits only. Do not enter periods, commas, spaces, or decimal amounts. For example, enter `1220` rather than `1.220` or `1220,49`.
 
-Amounts are formatted for display after confirmation. German decimal input such as `1220,49` is not supported.
+Amounts are formatted for display after confirmation. German decimal input such as `1220,49` or amount with cents are not supported.
 
 ## Saving Data
 
