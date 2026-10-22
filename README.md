@@ -42,9 +42,7 @@ Amounts are formatted for display after confirmation. German decimal input such 
 
 ## Saving Data
 
-The app stores the confirmed budget and expenses in the browser’s local storage. This data belongs to the current browser profile and is not synced to another device or account.
-
-**Known issue:** A saved budget may fail to restore after reload when any category has no expenses. This is being addressed.
+The app stores the confirmed budget and expenses in the browser’s local storage. This data belongs to the current browser profile and is not synced to another device or account. DO NOT TRY TO DELETE BROWESER DATA! 
 
 ## Running the Project
 

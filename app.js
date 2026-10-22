@@ -48,14 +48,14 @@ window.addEventListener('resize', updateFooterAnimation);
 function parseNumericInput(input) {
     // Regular expression:
     // ^         -> Start of the string
-    // (0|[1-9]\d*) -> Matches exactly 0, or any number starting with 1-9 followed by digits (prevents "05")
+    // [1-9]\d* -> any number starting with 1-9 followed by digits (prevents "05" and "0")
     // $         -> End of the string (ensures no trailing letters, dots, or garbage)
-    const numericRegex = /^(0|[1-9]\d*)$/;
+    const numericRegex = /^[1-9]\d*$/;
     
     // Strict evaluation against the raw input
     if (!numericRegex.test(input)) {
         alert("Enter a whole number using digits only.");
-        
+
         return null;
     }
     
@@ -108,6 +108,9 @@ originalAmountCircle.addEventListener('click', (e) => {
     
             updateTotal();
         }
+    }else{
+        siblingInput.value = '';
+        siblingInput.focus();
     }
 })
 
@@ -141,7 +144,6 @@ function switchIcon(icon){
 function makeInputDisabled(icon){
     const siblingInput = icon.previousElementSibling;
     const section = icon.closest("section");   //closest() only finds the ancestor
-    console.log(section);
 
     if(icon.classList.contains('fa-circle-check')){
         siblingInput.disabled = false,
@@ -160,6 +162,8 @@ function makeInputDisabled(icon){
         updateSection(section);
     }else{
         siblingInput.disabled = false;
+        siblingInput.value = '';
+        siblingInput.focus();
     }
 }
 
@@ -230,14 +234,14 @@ function loadData(){
                 cate.category === data[index].category &&
                 Array.isArray(cate.expense) &&
                 cate.expense.every(value =>
-                    Number.isFinite(value) && value >= 0
+                    Number.isSafeInteger(value) && value > 0
                 )
             );
             
-            if (!allCategoriesValid) {
-                console.warn("Saved data is invalid. Starting with an empty budget.");
-                return;
-            }
+        if (!allCategoriesValid) {
+            console.warn("Saved data is invalid. Starting with an empty budget.");
+            return;
+        }
             
         originalBudget.amount = getData.budget;
 
@@ -379,7 +383,7 @@ function updateRemainingDisplay(category, remainingInput){
 
 function alertOverBudget(remaining, remainingInput){
     if(remaining < 0){
-        remainingInput.style.background = 'linear-gradient(135deg, #dd8c96, #eb507c';
+        remainingInput.style.background = 'linear-gradient(135deg, #dd8c96, #eb507c)';
         remainingInput.style.color = 'var(--bg-page)';
     }else{
         remainingInput.style.background = 'none';
