@@ -103,7 +103,6 @@ originalAmountCircle.addEventListener('click', (e) => {
             icon.classList.remove('fa-regular', 'fa-circle');
             icon.classList.add('fa-solid', 'fa-circle-check');
 
-            // console.log()
             calculations();
             saveData();
 
@@ -130,19 +129,18 @@ originalAmountCircle.addEventListener('click', (e) => {
 })
 
 function calculations(){
-    console.log(originalAmountInput.value);
-    const originalAmount = Number(String(originalAmountInput.value).replaceAll('.', ''));
-    console.log(originalAmount);
-    allocations = calculateAllocations(originalAmount);
+    const originalAmount = Array.from(originalAmountInput.value).map(value => Number(value));
+    const numberValue = originalAmount.filter(value => typeof value === 'number' && !isNaN(value)).join('');
 
+    allocations = calculateAllocations(numberValue);
     budgetAllocation(allocations);
 }
 
-function calculateAllocations(total){
+function calculateAllocations(value){
     return [
-        total * 0.5,
-        total * 0.3,
-        total * 0.2
+        value * 0.5,
+        value * 0.3,
+        value * 0.2
     ];
 }
 
@@ -382,8 +380,8 @@ function updateTotal(){
         totalRemaining += cate.remaining === 0 ? cate.allocation : cate.remaining;
     }
     
-    totalSpentInput.textContent = totalSpent.toLocaleString('de-DE');
-    totalRemainingInput.textContent = totalRemaining.toLocaleString('de-DE');
+    totalSpentInput.textContent = formatVND(totalSpent);
+    totalRemainingInput.textContent = formatVND(totalRemaining);
 }
 
 function updateRemainingDisplay(category, remainingInput){
@@ -393,7 +391,7 @@ function updateRemainingDisplay(category, remainingInput){
     const remaining = category.allocation - totalSpentPerSection;
     category.remaining = remaining;
     
-    remainingInput.value = category.remaining.toLocaleString('de-DE');   // Using toLocaleString() with a German Locale (de-DE) makes '.' as a thousands seperator
+    remainingInput.value = formatVND(category.remaining);
 
     alertOverBudget(remaining, remainingInput);
 }
