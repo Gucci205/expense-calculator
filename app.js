@@ -17,7 +17,7 @@ const footer = document.querySelector('footer');
 const mobileViewport = window.matchMedia('(max-width: 384px)');
 
 let allocations = [];
-loadData();
+// loadData();
 
 document.body.addEventListener('click', (e) => {
     const icon = e.target.closest("i");
@@ -63,10 +63,26 @@ function parseNumericInput(input) {
     return parseInt(input, 10);
 }
 
+function formatVND(value) {
+    const formatter = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+    });
+    
+    // Break down the formatted components into an array of tokens
+    return formatter.formatToParts(value).map(part => {
+        if (part.type === 'currency') {
+        return 'đ'; // Replace the underlined ₫ with a clean 'đ'
+        }
+        return part.value;
+    }).join('');
+}
+
 originalAmountCircle.addEventListener('click', (e) => {
     const siblingInput = originalAmountInput;
     const icon = e.currentTarget;
     const sections = document.querySelectorAll('section');
+    const originalAmount = parseNumericInput(siblingInput.value);
 
     if(icon.classList.contains('fa-circle-check')){
         siblingInput.disabled = false,
@@ -79,16 +95,15 @@ originalAmountCircle.addEventListener('click', (e) => {
         return;
     }
     
-    if(parseNumericInput(siblingInput.value)){
-        const originalAmount = parseNumericInput(siblingInput.value);
-        
+    if(originalAmount){
         if(originalBudget.amount !== originalAmount){
             originalBudget.amount = originalAmount;
-            siblingInput.value = originalAmount.toLocaleString('de-DE');
+            siblingInput.value = formatVND(originalAmount);
             siblingInput.disabled = true;
             icon.classList.remove('fa-regular', 'fa-circle');
             icon.classList.add('fa-solid', 'fa-circle-check');
 
+            // console.log()
             calculations();
             saveData();
 
@@ -102,7 +117,7 @@ originalAmountCircle.addEventListener('click', (e) => {
             calculations();
             saveData();
     
-            siblingInput.value = originalAmount.toLocaleString('de-DE');
+            siblingInput.value = formatVND(originalAmount);
             icon.classList.remove('fa-regular', 'fa-circle');
             icon.classList.add('fa-solid', 'fa-circle-check');
     
@@ -115,7 +130,9 @@ originalAmountCircle.addEventListener('click', (e) => {
 })
 
 function calculations(){
+    console.log(originalAmountInput.value);
     const originalAmount = Number(String(originalAmountInput.value).replaceAll('.', ''));
+    console.log(originalAmount);
     allocations = calculateAllocations(originalAmount);
 
     budgetAllocation(allocations);
@@ -132,7 +149,7 @@ function calculateAllocations(total){
 function budgetAllocation(allocations){
     allocations.forEach((amount, index) => {
         data[index].allocation = amount;
-        amountElements[index].textContent = amount.toLocaleString('de-DE');
+        amountElements[index].textContent = formatVND(amount);
     })
 }
 
@@ -190,7 +207,7 @@ function updateSection(section){
             category.expense[Number(expenseIndex)] = amount;
         }
 
-        input.value = amount.toLocaleString('de-DE');
+        input.value = formatVND(amount);
         dataUpdated = true;
     })
 
@@ -250,7 +267,7 @@ function loadData(){
         })
 
         if(originalBudget.amount > 0){
-            originalAmountInput.value = originalBudget.amount.toLocaleString('de-DE');
+            originalAmountInput.value = formatVND(originalBudget.amount);
             originalAmountInput.disabled = true;
             calculations();
             const icon = originalAmountInput.nextElementSibling;
@@ -289,7 +306,7 @@ function loadData(){
                     Number.isFinite(amount) &&
                     amount > 0 )
                 {
-                    input.value = amount.toLocaleString('de-DE');
+                    input.value = formatVND(amount);
                     input.disabled = true;
                     input.dataset.expenseIndex = String(index);
                 }
