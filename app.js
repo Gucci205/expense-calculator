@@ -296,7 +296,7 @@ function loadData(){
                 input.type = "text";
                 input.className = "spent-amount";
                 input.classList.add('rounded-3', 'outline-0', 'fs-5');
-                input.placeholder = '0';
+                input.placeHolder = '0 đ';
 
                 const icon = document.createElement('i');
                 icon.className = 'fa-solid fa-circle-check';
@@ -323,7 +323,7 @@ function loadData(){
 
             if(Array.isArray(cate.expense) && !cate.expense.length){
                 const html = `<div class="input-box">
-                                    <input type="text" value="" placeholder="0" class="rounded-3 outline-0 fs-5 spent-amount" />
+                                    <input type="text" value="" placeholder="0 đ" class="rounded-3 outline-0 fs-5 spent-amount" />
                                     <i class="fa-regular fa-circle circle"></i>
                                 </div>`;
 
@@ -349,7 +349,7 @@ function addNewInput(){
             input.setAttribute('value', "");
             input.className = "spent-amount";
             input.classList.add('rounded-3', 'outline-0', 'fs-5');
-            input.placeholder = '0';
+            input.placeholder = '0 đ';
 
             inputBox.style.margin = '8px 0 0 0';
             inputBox.append(input);
