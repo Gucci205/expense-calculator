@@ -17,7 +17,7 @@ const footer = document.querySelector('footer');
 const mobileViewport = window.matchMedia('(max-width: 384px)');
 
 let allocations = [];
-// loadData();
+loadData();
 
 document.body.addEventListener('click', (e) => {
     const icon = e.target.closest("i");
@@ -48,18 +48,16 @@ window.addEventListener('resize', updateFooterAnimation);
 function parseNumericInput(input) {
     // Regular expression:
     // ^         -> Start of the string
-    // [1-9]\d* -> any number starting with 1-9 followed by digits (prevents "05" and "0")
+    // \s*[1-9]\d*\s* -> any number starting with 1-9 followed by digits (prevents "05" and "0"), and allow space opional
     // $         -> End of the string (ensures no trailing letters, dots, or garbage)
-    const numericRegex = /^[1-9]\d*$/;
+    const numericRegex = /^\s*[1-9]\d*\s*$/;
     
-    // Strict evaluation against the raw input
     if (!numericRegex.test(input)) {
         alert("Enter a whole number using digits only.");
 
         return null;
     }
     
-    // Parse cleanly into a standard JavaScript base-10 integer
     return parseInt(input, 10);
 }
 
@@ -78,15 +76,19 @@ function formatVND(value) {
     }).join('');
 }
 
+function editValue(value){
+    const formattedValue = Array.from(value).map(digit => parseInt(digit));
+    return formattedValue.filter(value => typeof value === 'number' && !isNaN(value)).join('');
+}
+
 originalAmountCircle.addEventListener('click', (e) => {
     const siblingInput = originalAmountInput;
     const icon = e.currentTarget;
     const sections = document.querySelectorAll('section');
-    const originalAmount = parseNumericInput(siblingInput.value);
-
+    
     if(icon.classList.contains('fa-circle-check')){
-        siblingInput.disabled = false,
-        siblingInput.value = siblingInput.value.replaceAll('.', '');
+        siblingInput.disabled = false;
+        siblingInput.value = editValue(siblingInput.value);
         
         icon.classList.remove('fa-solid', 'fa-circle-check');
         icon.classList.add('fa-regular', 'fa-circle');
@@ -95,7 +97,8 @@ originalAmountCircle.addEventListener('click', (e) => {
         return;
     }
     
-    if(originalAmount){
+    if(siblingInput.value){
+        const originalAmount = parseNumericInput(siblingInput.value);
         if(originalBudget.amount !== originalAmount){
             originalBudget.amount = originalAmount;
             siblingInput.value = formatVND(originalAmount);
@@ -112,7 +115,7 @@ originalAmountCircle.addEventListener('click', (e) => {
         }else{
             siblingInput.disabled = true;
             originalBudget.amount = originalAmount;
-    
+            
             calculations();
             saveData();
     
@@ -123,15 +126,12 @@ originalAmountCircle.addEventListener('click', (e) => {
             updateTotal();
         }
     }else{
-        siblingInput.value = '';
         siblingInput.focus();
     }
 })
 
 function calculations(){
-    const originalAmount = Array.from(originalAmountInput.value).map(value => Number(value));
-    const numberValue = originalAmount.filter(value => typeof value === 'number' && !isNaN(value)).join('');
-
+    const numberValue = editValue(originalAmountInput.value);
     allocations = calculateAllocations(numberValue);
     budgetAllocation(allocations);
 }
@@ -161,8 +161,8 @@ function makeInputDisabled(icon){
     const section = icon.closest("section");   //closest() only finds the ancestor
 
     if(icon.classList.contains('fa-circle-check')){
-        siblingInput.disabled = false,
-        siblingInput.value = siblingInput.value.replaceAll('.', '');
+        siblingInput.disabled = false;
+        siblingInput.value = editValue(siblingInput.value);
 
         icon.classList.remove('fa-solid', 'fa-circle-check');
         icon.classList.add('fa-regular', 'fa-circle', 'circle');
@@ -176,8 +176,6 @@ function makeInputDisabled(icon){
         switchIcon(icon);
         updateSection(section);
     }else{
-        siblingInput.disabled = false;
-        siblingInput.value = '';
         siblingInput.focus();
     }
 }
@@ -193,7 +191,7 @@ function updateSection(section){
     spentInputs.forEach(input => {
         if (!input.disabled) return;
 
-        const amount = Number(String(input.value).replaceAll('.', ''));
+        const amount = parseInt(String(input.value).replaceAll('.', ''));
         const expenseIndex = input.dataset.expenseIndex;
 
         if (expenseIndex === undefined) {
@@ -212,6 +210,9 @@ function updateSection(section){
     updateRemainingDisplay(category, remainingInput);
     if(dataUpdated) saveData();
     updateTotal();
+
+    // console.log(data);
+    // console.log(JSON.parse(localStorage.getItem("expenseCalculator")));
 }
 
 function saveData(){
@@ -254,7 +255,7 @@ function loadData(){
             );
             
         if (!allCategoriesValid) {
-            console.warn("Saved data is invalid. Starting with an empty budget.");
+            alert("Saved data is invalid. Starting with an empty budget.");
             return;
         }
             
