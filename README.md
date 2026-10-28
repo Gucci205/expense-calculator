@@ -20,7 +20,7 @@ The budget is divided into three main allocations:
 - Records multiple expenses in each category
 - Calculates each category’s remaining amount, total spent, and total remaining
 - Allows confirmed amounts and the original budget to be edited
-- Formats displayed amounts using German-style grouping, such as `1.220.000`
+- Formats amounts as Vietnamese đồng, using Vietnamese-style grouping and a trailing `đ`, such as `1.220.000 đ`
 - Saves confirmed budget and expense data in the browser’s local storage
 - Provides a responsive layout with a mobile footer animation
 
@@ -36,9 +36,9 @@ The budget is divided into three main allocations:
 
 ## Amount Format
 
-The current version accepts whole numbers made of digits only. Do not enter periods, commas, spaces, or decimal amounts. For example, enter `1220` rather than `1.220` or `1220,49`.
+The app uses Vietnamese đồng (VND) and displays amounts with periods as the thousands separators and `đ` after the amount. For example, `1220000` is displayed as `1.220.000 đ`.
 
-Amounts are formatted for display after confirmation. German decimal input such as `1220,49` or amount with cents are not supported.
+Enter whole numbers using digits only, without separators or decimal amounts. For example, enter `1220` rather than `1.220` or `1220,49`. Amounts are formatted for display after confirmation; cents and decimal input are not supported.
 
 ## Saving Data
 
