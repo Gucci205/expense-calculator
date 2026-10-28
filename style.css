@@ -83,6 +83,14 @@ body{
     color:var(--primary-deep);
 }
 
+.warning-text{
+    font-size:small;
+}
+
+.fa-exclamation{
+    font-size: smaller;
+}
+
 .second{
     background:linear-gradient(180deg, #ffffffb3, #f9f0f4e6);
     box-shadow:var(--shadow-soft);

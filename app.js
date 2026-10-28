@@ -1,5 +1,6 @@
 const originalAmountInput  = document.querySelector('.original-amount');
 const originalAmountCircle = document.getElementById('first-circle');
+const warningText = document.querySelector('.warning-text');
 
 const amountElements  = document.querySelectorAll('.amount');
 
@@ -97,8 +98,9 @@ originalAmountCircle.addEventListener('click', (e) => {
         return;
     }
     
-    if(siblingInput.value){
-        const originalAmount = parseNumericInput(siblingInput.value);
+    if(parseNumericInput(siblingInput.value)){
+        const originalAmount = siblingInput.value;
+
         if(originalBudget.amount !== originalAmount){
             originalBudget.amount = originalAmount;
             siblingInput.value = formatVND(originalAmount);
@@ -106,6 +108,9 @@ originalAmountCircle.addEventListener('click', (e) => {
             icon.classList.remove('fa-regular', 'fa-circle');
             icon.classList.add('fa-solid', 'fa-circle-check');
 
+            warningText.textContent = '';
+            siblingInput.style.borderColor = '';
+            
             calculations();
             saveData();
 
@@ -122,11 +127,15 @@ originalAmountCircle.addEventListener('click', (e) => {
             siblingInput.value = formatVND(originalAmount);
             icon.classList.remove('fa-regular', 'fa-circle');
             icon.classList.add('fa-solid', 'fa-circle-check');
+
+            warningText.textContent = '';
+            siblingInput.style.borderColor = '';
     
             updateTotal();
         }
     }else{
         siblingInput.focus();
+        siblingInput.value = '';
     }
 })
 
@@ -172,11 +181,18 @@ function makeInputDisabled(icon){
     }
     
     if(parseNumericInput(siblingInput.value)){
-        siblingInput.disabled = true;
-        switchIcon(icon);
-        updateSection(section);
+        if(originalAmountInput.disabled){
+            siblingInput.disabled = true;
+            switchIcon(icon);
+            updateSection(section);
+        }else{
+            originalAmountInput.style.borderColor = 'red';
+            warningText.innerHTML = '<i class="fa-solid fa-exclamation"></i>' + 'Please enter your budget first.';
+            siblingInput.value = '';
+        }
     }else{
         siblingInput.focus();
+        siblingInput.value = '';
     }
 }
 
