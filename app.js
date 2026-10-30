@@ -99,7 +99,7 @@ originalAmountCircle.addEventListener('click', (e) => {
     }
     
     if(parseNumericInput(siblingInput.value)){
-        const originalAmount = siblingInput.value;
+        const originalAmount = Number(siblingInput.value);
 
         if(originalBudget.amount !== originalAmount){
             originalBudget.amount = originalAmount;
@@ -227,8 +227,8 @@ function updateSection(section){
     if(dataUpdated) saveData();
     updateTotal();
 
-    // console.log(data);
-    // console.log(JSON.parse(localStorage.getItem("expenseCalculator")));
+    console.log(data, originalBudget);
+    console.log(JSON.parse(localStorage.getItem("expenseCalculator")));
 }
 
 function saveData(){
@@ -269,7 +269,7 @@ function loadData(){
                     Number.isSafeInteger(value) && value > 0
                 )
             );
-            
+        
         if (!allCategoriesValid) {
             alert("Saved data is invalid. Starting with an empty budget.");
             return;

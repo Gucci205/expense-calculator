@@ -137,6 +137,11 @@ span{
     color:var(--primary-deep);
 }
 
+.fDiv input:focus, .original-amount:focus{
+    border:1px solid #bd7ea0;
+    transition:border 0.2s ease-in-out;
+}
+
 .expense-list .input-box:first-child{
     margin-top:0 !important;
 }
@@ -169,7 +174,7 @@ span{
     outline:0;
     color:var(--primary-deep);
     background-color:transparent;
-    border-radius:50px;
+    border-radius:7px;
     padding:8px 14px;
     margin-top:7px;
     font-weight:700;
@@ -230,6 +235,9 @@ footer{
         padding:5px 4px;
         font-size:medium;
     }
+    .warning-text{
+        font-size:xx-small;
+    }
     #first-circle, .fa-circle, .fa-circle-check{
         font-size:small;
     }
@@ -278,7 +286,6 @@ footer{
     }
     .add-expense-button{
         font-size:small;
-        border-radius:20px;
         padding:5px 7px;
     }
     .main-footer{
