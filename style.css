@@ -231,7 +231,7 @@ footer{
         font-size:small;
     }
     .original-amount{
-        width:110px;
+        width:120px;
         padding:5px 4px;
         font-size:medium;
     }
@@ -245,7 +245,7 @@ footer{
         right:9%;
     }
     .save .expense-list .fa-circle{
-        right:8%;
+        right:4%;
     }
     .second{
         margin-top:15px !important;
