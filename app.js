@@ -22,6 +22,7 @@ loadData();
 document.body.addEventListener('click', (e) => {
     const icon = e.target.closest("i");
     const input = e.target.closest("input");
+
     if(icon){
         const isCircleIcon = icon.classList.contains('circle') || icon.classList.contains('fa-circle-check');
     
@@ -30,8 +31,9 @@ document.body.addEventListener('click', (e) => {
         if(input.classList.contains('spent-amount')){
             liveFormatted(input);
         }
+    }else{
+        return;
     }
-
 })
 
 // Add the class that tells CSS to play the footer's return animation while scrolling.
@@ -87,7 +89,6 @@ function editValue(value){
 }
 
 function liveFormatted(input){
-    console.log(input);
     input.addEventListener('keyup', () => {
         const value = editValue(input.value);
         if(value){
@@ -257,8 +258,8 @@ function updateSection(section){
     if(dataUpdated) saveData();
     updateTotal();
 
-    console.log(data, originalBudget);
-    console.log(JSON.parse(localStorage.getItem("expenseCalculator")));
+    // console.log(data, originalBudget);
+    // console.log(JSON.parse(localStorage.getItem("expenseCalculator")));
 }
 
 function saveData(){
