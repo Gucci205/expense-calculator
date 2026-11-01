@@ -4,7 +4,6 @@ const warningText = document.querySelector('.warning-text');
 
 const amountElements  = document.querySelectorAll('.amount');
 
-const spentInputs  = document.querySelectorAll('.spent-amount');
 const remainingInputs  = document.querySelectorAll('.remaining-amount');
 
 const expenseLists = document.querySelectorAll('.expense-list');
@@ -22,12 +21,17 @@ loadData();
 
 document.body.addEventListener('click', (e) => {
     const icon = e.target.closest("i");
+    const input = e.target.closest("input");
+    if(icon){
+        const isCircleIcon = icon.classList.contains('circle') || icon.classList.contains('fa-circle-check');
     
-    if(!icon) return;
+        if(isCircleIcon && !icon.hasAttribute('id')) makeInputDisabled(icon);
+    }else if(input){
+        if(input.classList.contains('spent-amount')){
+            liveFormatted(input);
+        }
+    }
 
-    const isCircleIcon = icon.classList.contains('circle') || icon.classList.contains('fa-circle-check');
-
-    if(isCircleIcon && !icon.hasAttribute('id')) makeInputDisabled(icon);
 })
 
 // Add the class that tells CSS to play the footer's return animation while scrolling.
@@ -46,20 +50,20 @@ function updateFooterAnimation(){
 window.addEventListener('scroll', updateFooterAnimation, { passive:true });
 window.addEventListener('resize', updateFooterAnimation);
 
-function parseNumericInput(input) {
+function parseNumericInput(value) {
     // Regular expression:
     // ^         -> Start of the string
     // \s*[1-9]\d*\s* -> any number starting with 1-9 followed by digits (prevents "05" and "0"), and allow space opional
     // $         -> End of the string (ensures no trailing letters, dots, or garbage)
     const numericRegex = /^\s*[1-9]\d*\s*$/;
     
-    if (!numericRegex.test(input)) {
+    if (!numericRegex.test(value)) {
         alert("Enter a whole number using digits only.");
 
         return null;
     }
     
-    return parseInt(input, 10);
+    return parseInt(value, 10);
 }
 
 function formatVND(value) {
@@ -82,6 +86,32 @@ function editValue(value){
     return formattedValue.filter(value => typeof value === 'number' && !isNaN(value)).join('');
 }
 
+function liveFormatted(input){
+    console.log(input);
+    input.addEventListener('keyup', () => {
+        const value = editValue(input.value);
+        if(value){
+            const num = parseNumericInput(value);
+            
+            input.focus();
+            
+            const dongValue = formatVND(num);
+            
+            input.value = dongValue;
+
+            const currencyIndex = dongValue.indexOf('đ');
+            const caretIndex = currencyIndex > 0 && /\s/.test(dongValue[currencyIndex - 1])
+            ? currencyIndex - 1
+            : currencyIndex;
+            input.setSelectionRange(caretIndex, caretIndex);
+        }else{
+            input.value = '';
+        }
+    })
+}
+
+liveFormatted(originalAmountInput);
+
 originalAmountCircle.addEventListener('click', (e) => {
     const siblingInput = originalAmountInput;
     const icon = e.currentTarget;
@@ -98,12 +128,12 @@ originalAmountCircle.addEventListener('click', (e) => {
         return;
     }
     
-    if(parseNumericInput(siblingInput.value)){
-        const originalAmount = Number(siblingInput.value);
+    const value = editValue(siblingInput.value);
+    if(value){
+        const originalAmount = Number(value);
 
         if(originalBudget.amount !== originalAmount){
             originalBudget.amount = originalAmount;
-            siblingInput.value = formatVND(originalAmount);
             siblingInput.disabled = true;
             icon.classList.remove('fa-regular', 'fa-circle');
             icon.classList.add('fa-solid', 'fa-circle-check');
@@ -180,15 +210,15 @@ function makeInputDisabled(icon){
         return;
     }
     
-    if(parseNumericInput(siblingInput.value)){
+    const value = editValue(siblingInput.value);
+    if(value){
         if(originalAmountInput.disabled){
             siblingInput.disabled = true;
             switchIcon(icon);
             updateSection(section);
         }else{
             originalAmountInput.style.borderColor = 'red';
-            warningText.innerHTML = '<i class="fa-solid fa-exclamation"></i>' + 'Please enter your budget first.';
-            siblingInput.value = '';
+            warningText.innerHTML = '<i class="fa-solid fa-exclamation"></i>' + 'Please enter your balance first.';
         }
     }else{
         siblingInput.focus();
