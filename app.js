@@ -1,5 +1,5 @@
 const originalAmountInput  = document.querySelector('.original-amount');
-const originalAmountCircle = document.getElementById('first-circle');
+const originalAmountButton = document.getElementById('first-circle');
 const warningText = document.querySelector('.warning-text');
 
 const amountElements  = document.querySelectorAll('.amount');
@@ -20,13 +20,11 @@ let allocations = [];
 loadData();
 
 document.body.addEventListener('click', (e) => {
-    const icon = e.target.closest("i");
+    const button = e.target.closest(".circle-button");
     const input = e.target.closest("input");
 
-    if(icon){
-        const isCircleIcon = icon.classList.contains('circle') || icon.classList.contains('fa-circle-check');
-    
-        if(isCircleIcon && !icon.hasAttribute('id')) makeInputDisabled(icon);
+    if(button){
+        if(!button.hasAttribute('id')) makeInputDisabled(button);
     }else if(input && document.activeElement === input){
         // document.activeElement check if the input is currently focused
         if(input.classList.contains('spent-amount')){
@@ -115,17 +113,16 @@ function liveFormatted(input){
 
 liveFormatted(originalAmountInput);
 
-originalAmountCircle.addEventListener('click', (e) => {
+originalAmountButton.addEventListener('click', (e) => {
     const siblingInput = originalAmountInput;
-    const icon = e.currentTarget;
+    const button = e.currentTarget;
     const sections = document.querySelectorAll('section');
     
-    if(icon.classList.contains('fa-circle-check')){
+    if(button.querySelector('i').classList.contains('fa-circle-check')){
         siblingInput.disabled = false;
         siblingInput.value = editValue(siblingInput.value);
         
-        icon.classList.remove('fa-solid', 'fa-circle-check');
-        icon.classList.add('fa-regular', 'fa-circle');
+        setButtonIcon(button, false);
         siblingInput.focus();
 
         return;
@@ -138,8 +135,7 @@ originalAmountCircle.addEventListener('click', (e) => {
         if(originalBudget.amount !== originalAmount){
             originalBudget.amount = originalAmount;
             siblingInput.disabled = true;
-            icon.classList.remove('fa-regular', 'fa-circle');
-            icon.classList.add('fa-solid', 'fa-circle-check');
+            setButtonIcon(button, true);
 
             warningText.textContent = '';
             siblingInput.style.borderColor = '';
@@ -158,8 +154,7 @@ originalAmountCircle.addEventListener('click', (e) => {
             saveData();
     
             siblingInput.value = formatVND(originalAmount);
-            icon.classList.remove('fa-regular', 'fa-circle');
-            icon.classList.add('fa-solid', 'fa-circle-check');
+            setButtonIcon(button, true);
 
             warningText.textContent = '';
             siblingInput.style.borderColor = '';
@@ -193,21 +188,23 @@ function budgetAllocation(allocations){
     })
 }
 
-function switchIcon(icon){
-    icon.classList.remove('fa-regular', 'fa-circle', 'circle');
-    icon.classList.add('fa-solid', 'fa-circle-check');
+function setButtonIcon(button, confirmed){
+    const icon = button.querySelector('i');
+    icon.classList.remove('fa-regular', 'fa-circle', 'fa-solid', 'fa-circle-check');
+    icon.classList.add(confirmed ? 'fa-solid' : 'fa-regular', confirmed ? 'fa-circle-check' : 'fa-circle');
+    button.setAttribute('aria-label', confirmed ? button.dataset.editLabel : button.dataset.confirmLabel);
 }
 
-function makeInputDisabled(icon){
-    const siblingInput = icon.previousElementSibling;
-    const section = icon.closest("section");   //closest() only finds the ancestor
+function makeInputDisabled(button){
+    const siblingInput = button.previousElementSibling;
+    const section = button.closest("section");
+    const icon = button.querySelector('i');
 
     if(icon.classList.contains('fa-circle-check')){
         siblingInput.disabled = false;
         siblingInput.value = editValue(siblingInput.value);
 
-        icon.classList.remove('fa-solid', 'fa-circle-check');
-        icon.classList.add('fa-regular', 'fa-circle', 'circle');
+        setButtonIcon(button, false);
         siblingInput.focus();
 
         return;
@@ -217,7 +214,7 @@ function makeInputDisabled(icon){
     if(value){
         if(originalAmountInput.disabled){
             siblingInput.disabled = true;
-            switchIcon(icon);
+            setButtonIcon(button, true);
             updateSection(section);
         }else{
             originalAmountInput.style.borderColor = 'red';
@@ -318,10 +315,7 @@ function loadData(){
             originalAmountInput.value = formatVND(originalBudget.amount);
             originalAmountInput.disabled = true;
             calculations();
-            const icon = originalAmountInput.nextElementSibling;
-            
-            icon.classList.remove('fa-regular', 'fa-circle');
-            icon.classList.add('fa-solid', 'fa-circle-check');
+            setButtonIcon(originalAmountButton, true);
         }
 
         data.forEach((cate) => {
@@ -347,8 +341,17 @@ function loadData(){
                 input.classList.add('rounded-3', 'outline-0', 'fs-5');
                 input.placeHolder = '0 đ';
 
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'btn circle-button';
+                button.dataset.confirmLabel = 'Confirm expense';
+                button.dataset.editLabel = 'Edit expense';
+                button.setAttribute('aria-label', button.dataset.editLabel);
+
                 const icon = document.createElement('i');
                 icon.className = 'fa-solid fa-circle-check';
+                icon.setAttribute('aria-hidden', 'true');
+                button.append(icon);
 
                 if( amount !== null && 
                     Number.isFinite(amount) &&
@@ -359,7 +362,7 @@ function loadData(){
                     input.dataset.expenseIndex = String(index);
                 }
                 
-                inputBox.append(input, icon);
+                inputBox.append(input, button);
                 expenseList.append(inputBox);
                 
                 expenseList.scrollTop = expenseList.scrollHeight;
@@ -373,7 +376,9 @@ function loadData(){
             if(Array.isArray(cate.expense) && !cate.expense.length){
                 const html = `<div class="input-box">
                                     <input type="text" value="" placeholder="0 đ" class="rounded-3 outline-0 fs-5 spent-amount" />
-                                    <i class="fa-regular fa-circle circle"></i>
+                                    <button type="button" class="btn circle-button" aria-label="Confirm expense" data-confirm-label="Confirm expense" data-edit-label="Edit expense">
+                                        <i class="fa-regular fa-circle" aria-hidden="true"></i>
+                                    </button>
                                 </div>`;
 
                 expenseList.innerHTML = html;
@@ -402,7 +407,18 @@ function addNewInput(){
 
             inputBox.style.margin = '8px 0 0 0';
             inputBox.append(input);
-            inputBox.insertAdjacentHTML('beforeend', '<i class="fa-regular fa-circle circle"></i>');
+            const confirmButton = document.createElement('button');
+            confirmButton.type = 'button';
+            confirmButton.className = 'btn circle-button';
+            confirmButton.dataset.confirmLabel = 'Confirm expense';
+            confirmButton.dataset.editLabel = 'Edit expense';
+            confirmButton.setAttribute('aria-label', confirmButton.dataset.confirmLabel);
+
+            const icon = document.createElement('i');
+            icon.className = 'fa-regular fa-circle';
+            icon.setAttribute('aria-hidden', 'true');
+            confirmButton.append(icon);
+            inputBox.append(confirmButton);
 
             expenseLists[index].append(inputBox);
             expenseLists[index].scrollTop = expenseLists[index].scrollHeight;
