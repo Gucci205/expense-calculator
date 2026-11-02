@@ -27,7 +27,8 @@ document.body.addEventListener('click', (e) => {
         const isCircleIcon = icon.classList.contains('circle') || icon.classList.contains('fa-circle-check');
     
         if(isCircleIcon && !icon.hasAttribute('id')) makeInputDisabled(icon);
-    }else if(input){
+    }else if(input && document.activeElement === input){
+        // document.activeElement check if the input is currently focused
         if(input.classList.contains('spent-amount')){
             liveFormatted(input);
         }
@@ -91,11 +92,12 @@ function editValue(value){
 function liveFormatted(input){
     input.addEventListener('keyup', () => {
         const value = editValue(input.value);
-        if(value){
+        if(value.length){
             const num = parseNumericInput(value);
+            console.log('here');
             
             input.focus();
-            
+
             const dongValue = formatVND(num);
             
             input.value = dongValue;
@@ -404,7 +406,6 @@ function addNewInput(){
 
             expenseLists[index].append(inputBox);
             expenseLists[index].scrollTop = expenseLists[index].scrollHeight;
-            input.focus();
 
             const expenseList = button.previousElementSibling;
             if(expenseList.clientHeight >= 148){
