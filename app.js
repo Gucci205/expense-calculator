@@ -4,6 +4,7 @@ const warningText = document.querySelector('.warning-text');
 
 const amountElements  = document.querySelectorAll('.amount');
 
+const spentInputs = document.querySelectorAll('.spent-amount');
 const remainingInputs  = document.querySelectorAll('.remaining-amount');
 
 const expenseLists = document.querySelectorAll('.expense-list');
@@ -19,20 +20,17 @@ const mobileViewport = window.matchMedia('(max-width: 384px)');
 let allocations = [];
 loadData();
 
+liveFormatted(originalAmountInput);
+spentInputs.forEach((input) => {
+    liveFormatted(input);
+})
+
 document.body.addEventListener('click', (e) => {
     const button = e.target.closest(".circle-button");
-    const input = e.target.closest("input");
 
-    if(button){
-        if(!button.hasAttribute('id')) makeInputDisabled(button);
-    }else if(input && document.activeElement === input){
-        // document.activeElement check if the input is currently focused
-        if(input.classList.contains('spent-amount')){
-            liveFormatted(input);
-        }
-    }else{
-        return;
-    }
+    if(!button) return;
+
+    if(!button.hasAttribute('id')) makeInputDisabled(button);
 })
 
 // Add the class that tells CSS to play the footer's return animation while scrolling.
@@ -92,7 +90,6 @@ function liveFormatted(input){
         const value = editValue(input.value);
         if(value.length){
             const num = parseNumericInput(value);
-            console.log('here');
             
             input.focus();
 
@@ -111,7 +108,6 @@ function liveFormatted(input){
     })
 }
 
-liveFormatted(originalAmountInput);
 
 originalAmountButton.addEventListener('click', (e) => {
     const siblingInput = originalAmountInput;
@@ -421,6 +417,7 @@ function addNewInput(){
             inputBox.append(confirmButton);
 
             expenseLists[index].append(inputBox);
+            liveFormatted(input);
             expenseLists[index].scrollTop = expenseLists[index].scrollHeight;
 
             const expenseList = button.previousElementSibling;
