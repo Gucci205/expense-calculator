@@ -56,14 +56,11 @@ function parseNumericInput(value) {
     // $         -> End of the string (ensures no trailing letters, dots, or garbage)
     const numericRegex = /^\s*[1-9]\d*\s*$/;
     
-    if (!numericRegex.test(value)) {
-        alert("Enter a whole number using digits only.");
-
-        return null;
-    }
+    if (!numericRegex.test(value)) return null;
     
     return parseInt(value, 10);
 }
+console.log(parseNumericInput(0));
 
 function formatVND(value) {
     const formatter = new Intl.NumberFormat('vi-VN', {
@@ -88,11 +85,8 @@ function editValue(value){
 function liveFormatted(input){
     input.addEventListener('keyup', () => {
         const value = editValue(input.value);
-        if(value.length){
-            const num = parseNumericInput(value);
-            
-            input.focus();
-
+        const num = parseNumericInput(value);
+        if(value.length && num !== null){
             const dongValue = formatVND(num);
             
             input.value = dongValue;
