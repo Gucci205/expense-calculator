@@ -92,6 +92,9 @@ function liveFormatted(input){
         const value = editValue(input.value);
         const num = parseNumericInput(value);
         if(value.length && num !== null){
+            if(value.length > 7)input.style.fontSize = 'large';
+            if(value.length <= 7) input.style.fontSize = 'x-large';
+
             const dongValue = formatVND(num);
             
             input.value = dongValue;
@@ -382,10 +385,10 @@ function loadData(){
                 button.className = 'btn circle-button';
                 button.dataset.confirmLabel = 'Confirm expense';
                 button.dataset.editLabel = 'Edit expense';
-                button.setAttribute('aria-label', button.dataset.editLabel);
+                button.setAttribute('aria-label', button.dataset.confirmLabel);
 
                 const icon = document.createElement('i');
-                icon.className = 'fa-solid fa-circle-check';
+                icon.className = 'fa-regular fa-circle';
                 icon.setAttribute('aria-hidden', 'true');
                 button.append(icon);
 
