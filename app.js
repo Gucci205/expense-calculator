@@ -76,8 +76,9 @@ function formatVND(value) {
     // Break down the formatted components into an array of tokens
     return formatter.formatToParts(value).map(part => {
         if (part.type === 'currency') {
-        return 'đ'; // Replace the underlined ₫ with a clean 'đ'
+            return 'đ'; // Replace the underlined ₫ with a clean 'đ'
         }
+
         return part.value;
     }).join('');
 }
@@ -126,12 +127,10 @@ originalAmountButton.addEventListener('click', (e) => {
         return;
     }
     
-    const value = editValue(siblingInput.value);
+    const value = parseNumericInput(editValue(siblingInput.value));
     if(value){
-        const originalAmount = Number(value);
-
-        if(originalBudget.amount !== originalAmount){
-            originalBudget.amount = originalAmount;
+        if(originalBudget.amount !== value){
+            originalBudget.amount = value;
             siblingInput.disabled = true;
             setButtonIcon(button, true);
 
@@ -146,12 +145,12 @@ originalAmountButton.addEventListener('click', (e) => {
             })
         }else{
             siblingInput.disabled = true;
-            originalBudget.amount = originalAmount;
+            originalBudget.amount = value;
             
             calculations();
             saveData();
     
-            siblingInput.value = formatVND(originalAmount);
+            siblingInput.value = formatVND(value);
             setButtonIcon(button, true);
 
             warningText.textContent = '';
@@ -254,23 +253,24 @@ function updateSection(section){
     updateRemainingDisplay(category, remainingInput);
     if(dataUpdated) saveData();
     updateTotal();
-
-    // console.log(data, originalBudget);
-    // console.log(JSON.parse(localStorage.getItem("expenseCalculator")));
 }
 
 function saveData(){
-    const savedData = {
-        budget: originalBudget.amount,
-        data: data.map(cate => {
-            return {
-                category: cate.category,
-                expense: cate.expense
-            }
-        })
-    };
-
-    localStorage.setItem("expenseCalculator", JSON.stringify(savedData));
+    try{
+        const savedData = {
+            budget: originalBudget.amount,
+            data: data.map(cate => {
+                return {
+                    category: cate.category,
+                    expense: cate.expense
+                }
+            })
+        };
+        
+        localStorage.setItem("expenseCalculator", JSON.stringify(savedData));
+    }catch(error){
+        alert('Unable to save data to local storage, try again later.');
+    }
 }
 
 function loadData(){
@@ -279,7 +279,7 @@ function loadData(){
         const isValid = getData !== null &&
                         typeof getData === 'object' &&
                         !Array.isArray(getData) &&
-                        Number.isFinite(getData.budget) &&
+                        Number.isSafeInteger(getData.budget) &&
                         getData.budget >= 0
 
         if(!isValid) return ;
@@ -400,7 +400,7 @@ function loadData(){
         })
         updateTotal();
     }catch(error){
-        // console.error('Unable to restore expense calculator data.', error);
+        alert('Unable to restore data.');
     }
 }
 
