@@ -22,7 +22,6 @@ loadData();
 
 liveFormatted(originalAmountInput);
 spentInputs.forEach((input) => {
-    console.log('here');
     liveFormatted(input);
 })
 
@@ -61,7 +60,7 @@ function parseNumericInput(value) {
 
     const num = parseInt(value, 10);
 
-    if (!Number.isSafeInteger(num)) {
+    if (!Number.isSafeInteger(num)) {       //Number.isSafeInteger doesn't return number nor a parser, but a validator
         return null;
     }
 
@@ -90,7 +89,6 @@ function editValue(value){
 
 function liveFormatted(input){
     input.addEventListener('keyup', () => {
-        console.log(input.value);
         const value = editValue(input.value);
         const num = parseNumericInput(value);
         if(value.length && num !== null){
@@ -336,7 +334,7 @@ function loadData(){
                 input.type = "text";
                 input.className = "spent-amount";
                 input.classList.add('rounded-3', 'outline-0', 'fs-5');
-                input.placeHolder = '0 đ';
+                input.placeholder  = '0 đ';
 
                 const button = document.createElement('button');
                 button.type = 'button';
@@ -350,10 +348,7 @@ function loadData(){
                 icon.setAttribute('aria-hidden', 'true');
                 button.append(icon);
 
-                if( amount !== null && 
-                    Number.isFinite(amount) &&
-                    amount > 0 )
-                {
+                if(amount !== null && Number.isFinite(amount) && amount > 0){
                     input.value = formatVND(amount);
                     input.disabled = true;
                     input.dataset.expenseIndex = String(index);
@@ -361,6 +356,7 @@ function loadData(){
                 
                 inputBox.append(input, button);
                 expenseList.append(inputBox);
+                liveFormatted(input);
                 
                 expenseList.scrollTop = expenseList.scrollHeight;
 
@@ -371,20 +367,37 @@ function loadData(){
             })
 
             if(Array.isArray(cate.expense) && !cate.expense.length){
-                const html = `<div class="input-box">
-                                    <input type="text" value="" placeholder="0 đ" class="rounded-3 outline-0 fs-5 spent-amount" />
-                                    <button type="button" class="btn circle-button" aria-label="Confirm expense" data-confirm-label="Confirm expense" data-edit-label="Edit expense">
-                                        <i class="fa-regular fa-circle" aria-hidden="true"></i>
-                                    </button>
-                                </div>`;
+                const inputBox = document.createElement('div');
+                inputBox.className = 'input-box';
+                inputBox.style.margin = '8px 0 0 0';
 
-                expenseList.innerHTML = html;
+                const input = document.createElement('input');
+                input.type = "text";
+                input.className = "spent-amount";
+                input.classList.add('rounded-3', 'outline-0', 'fs-5');
+                input.placeholder  = '0 đ';
+
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'btn circle-button';
+                button.dataset.confirmLabel = 'Confirm expense';
+                button.dataset.editLabel = 'Edit expense';
+                button.setAttribute('aria-label', button.dataset.editLabel);
+
+                const icon = document.createElement('i');
+                icon.className = 'fa-solid fa-circle-check';
+                icon.setAttribute('aria-hidden', 'true');
+                button.append(icon);
+
+                inputBox.append(input, button);
+                expenseList.append(inputBox);
+                liveFormatted(input);
             }
             updateRemainingDisplay(cate, remainingInput);
         })
         updateTotal();
     }catch(error){
-        console.error('Unable to restore expense calculator data.', error);
+        // console.error('Unable to restore expense calculator data.', error);
     }
 }
 
