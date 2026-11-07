@@ -22,6 +22,7 @@ loadData();
 
 liveFormatted(originalAmountInput);
 spentInputs.forEach((input) => {
+    console.log('here');
     liveFormatted(input);
 })
 
@@ -57,10 +58,15 @@ function parseNumericInput(value) {
     const numericRegex = /^\s*[1-9]\d*\s*$/;
     
     if (!numericRegex.test(value)) return null;
-    
-    return parseInt(value, 10);
+
+    const num = parseInt(value, 10);
+
+    if (!Number.isSafeInteger(num)) {
+        return null;
+    }
+
+    return num;
 }
-console.log(parseNumericInput(0));
 
 function formatVND(value) {
     const formatter = new Intl.NumberFormat('vi-VN', {
@@ -84,6 +90,7 @@ function editValue(value){
 
 function liveFormatted(input){
     input.addEventListener('keyup', () => {
+        console.log(input.value);
         const value = editValue(input.value);
         const num = parseNumericInput(value);
         if(value.length && num !== null){
