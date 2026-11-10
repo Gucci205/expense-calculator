@@ -23,7 +23,7 @@ body{
     overflow-x:auto;
 }
 
-#heading h1{
+#heading h2{
     letter-spacing:3px;
     color:var(--primary-deep);
     font-weight:700;
@@ -44,7 +44,7 @@ body{
 }
 
 .first{
-    padding:10px 13px;
+    padding:7px 7px;
     font-family: Arial, Helvetica, sans-serif;
     background:linear-gradient(180deg, #ffffffb3, #f9f0f4e6);
     border:1px solid #8f3a681f;
@@ -55,7 +55,7 @@ body{
     margin:0;
     font-weight:700;
     letter-spacing:.08em;
-    font-size:1.0rem;
+    font-size:90%;
     color:var(--primary-deep);
 }
 
@@ -114,11 +114,23 @@ body{
     box-shadow:var(--shadow-soft);
     border:1px solid #8f3a681f;
     margin:auto;
+    max-width:66%;
     border-radius:32px;
     overflow:hidden;
 }
 
-.second h3{
+.second .category:first-child{
+    padding-right:6px !important;
+}
+.second .category:nth-child(2){
+    padding-left:6px !important;
+    padding-right:6px !important;
+}
+.second .category:nth-child(3){
+    padding-left:6px !important;
+}
+
+.second h4{
     font-weight:bold;
 }
 
@@ -132,8 +144,8 @@ span{
     text-align:center;
 }
 
-.second h3, .second .amount{
-    font-size:x-large;
+.second h4, .second .amount{
+    font-size:large;
     color:var(--primary-deep);
 }
 
@@ -198,6 +210,7 @@ span{
     font-weight:700;
     letter-spacing:0.02em;
     transition:all 0.2s ease;
+    font-size:small;
 }
 
 .add-expense-button:hover{
@@ -210,10 +223,6 @@ span{
     box-shadow:0 0 3px #ffdee9;
 }
 
-footer{
-    margin:auto;
-}
-
 .footer{
     background:linear-gradient(135deg, #ffffff, #fff1f6eb);
     border:1px solid #8f3a681f;
@@ -222,16 +231,45 @@ footer{
     box-shadow:var(--shadow-card);
 }
 
+.footer div p:first-child{
+    font-family:Arial, Helvetica, sans-serif;
+}
+
 .total-remaining, .total-spent{ 
     font-family: 'Times New Roman', Times, serif;
     color:var(--primary-deep);
 } 
 
-@media(max-width: 384px){
+@media(max-width: 784px){
     header .container{
-        margin-top:10px !important;
+        margin-top:20px !important;
+        background-color:red;
     }
-    #heading h1{
+    .first{
+        padding:7px 9px;
+    }
+    .first p{
+        font-size:90%;
+    }
+    .second{
+        max-width:66%;
+    }
+    .footer p{
+        font-size: large !important;
+    }
+    .second{
+        margin-top:15px !important;
+        padding-top:10px !important;
+        padding-bottom:10px !important;
+    }
+}
+
+@media(max-width: 730px){
+    header .container{
+        margin-top:15px !important;
+        background-color:blue;
+    }
+    #heading h2{
         letter-spacing:1px;
         margin-bottom:0 !important;
     }
@@ -239,19 +277,10 @@ footer{
         margin-top:0 !important;
         font-size:small !important;
     }
-    .line{
-        height:1px;
-    }
-    .first{
-        padding:8px 7px;
-    }
-    .first p{
-        font-size:small;
-    }
     .original-amount{
-        width:120px;
+        width:140px;
         padding:5px 4px;
-        font-size:medium;
+        font-size:large !important;
     }
     .warning-text{
         font-size:xx-small;
@@ -259,24 +288,74 @@ footer{
     #first-circle, .circle-button{
         font-size:small;
     }
-    .circle-button{
-        right:9%;
+    .second .category:nth-child(2){
+        padding-right:12px !important;
+    }
+    .second .category:nth-child(3){
+        padding-top:6px !important;
+        padding-left:12px !important;
     }
     .save .expense-list .circle-button{
         right:4%;
     }
+    .fDiv, .sDiv{
+        font-size:small;
+    }
+    .add-expense-button{
+        padding:5px 7px;
+    }
+    .footer p{
+        font-size:medium !important;
+    }
+}
+
+@media(max-width: 576px){
+    header .container{
+        background-color:green;
+    }
+    .first p{
+        font-size:70%;
+    }
+    .original-amount{
+        font-size:medium !important;
+    }
     .second{
-        margin-top:15px !important;
-        padding-top:10px !important;
-        padding-bottom:10px !important;
+        max-width:92%;
     }
-    .second .category:first-child{
-        padding-right:6px !important;
+}
+
+@media(max-width: 384px){
+    header .container{
+        background-color:pink;
     }
-    .second .category:nth-child(2){
-        padding-left:6px !important;
+    #heading h2{
+        letter-spacing:1px;
+        margin-bottom:0 !important;
     }
-    .second h3{
+    #heading p{
+        margin-top:0 !important;
+        font-size:small !important;
+    }
+    .first{
+        padding:7px 7px;
+    }
+    .first p{
+        font-size:70%;
+    }
+    .original-amount{
+        width:120px;
+        padding:4px 4px;
+    }
+    .warning-text{
+        font-size:xx-small;
+    }
+    #first-circle, .circle-button{
+        font-size:small;
+    }
+    .save .expense-list .circle-button{
+        right:4%;
+    }
+    .second h4{
         font-size:large;
         margin-bottom:0;
     }
@@ -295,16 +374,13 @@ footer{
     }
     .fDiv input, .sDiv input{
         font-size: medium !important;
-    }
-    .save{
-        margin-top:10px;
+        padding:4px 4px;
     }
     .expense-list::-webkit-scrollbar{
         width:5px;
     }
     .add-expense-button{
-        font-size:small;
-        padding:5px 7px;
+        font-size:x-small;
     }
     .main-footer{
         margin-top:24px !important;
@@ -313,9 +389,10 @@ footer{
         border:1px solid #fbcedb;
         font-family: Arial, Helvetica, sans-serif;
         box-shadow:0 2px 5px #e6dfe2;
+        padding:8px 12px;
     }
     .footer > div > p:nth-child(1){
-        font-size:medium !important;
+        font-size:small !important;
     }
     .footer > div > p:nth-child(2){
         font-size:large !important;
@@ -326,11 +403,9 @@ footer{
         z-index:2;
         animation:footer-pop-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
-
     footer.is-scrolling{
         animation:footer-return 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
-
     @keyframes footer-pop-up{
         from{
             opacity:0;
@@ -341,7 +416,6 @@ footer{
             transform:translateY(0);
         }
     }
-
     @keyframes footer-return{
         from{
             opacity:0.65;
@@ -352,7 +426,6 @@ footer{
             transform:translateY(0) scale(1);
         }
     }
-
     @media (prefers-reduced-motion: reduce){
         footer,
         footer.is-scrolling{
