@@ -89,7 +89,7 @@ function editValue(value){
 }
 
 function liveFormatted(input){
-    input.addEventListener('keyup', () => {
+    input.addEventListener('input', () => {
         const value = editValue(input.value);
         const num = parseNumericInput(value);
         if(value.length && num !== null){
