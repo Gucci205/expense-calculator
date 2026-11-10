@@ -243,7 +243,6 @@ span{
 @media(max-width: 784px){
     header .container{
         margin-top:20px !important;
-        background-color:red;
     }
     .first{
         padding:7px 9px;
@@ -267,7 +266,6 @@ span{
 @media(max-width: 730px){
     header .container{
         margin-top:15px !important;
-        background-color:blue;
     }
     #heading h2{
         letter-spacing:1px;
@@ -310,9 +308,6 @@ span{
 }
 
 @media(max-width: 576px){
-    header .container{
-        background-color:green;
-    }
     .first p{
         font-size:70%;
     }
@@ -325,9 +320,6 @@ span{
 }
 
 @media(max-width: 384px){
-    header .container{
-        background-color:pink;
-    }
     #heading h2{
         letter-spacing:1px;
         margin-bottom:0 !important;
@@ -343,7 +335,7 @@ span{
         font-size:70%;
     }
     .original-amount{
-        width:120px;
+        width:100px;
         padding:4px 4px;
     }
     .warning-text{

@@ -93,8 +93,15 @@ function liveFormatted(input){
         const value = editValue(input.value);
         const num = parseNumericInput(value);
         if(value.length && num !== null){
-            if(value.length > 7)input.style.fontSize = 'large';
-            if(value.length <= 7) input.style.fontSize = 'x-large';
+            if(value.length > 6) {
+                input.style.setProperty('font-size', 'small', 'important');     //to set important, 'style.fontSize' doesn't work, use 'setProperty'.
+            }else{
+                input.style.setProperty('font-size', 'medium', 'important');
+            }
+            
+            if(value.length > 8){
+                input.style.setProperty('font-size', 'x-small', 'important');
+            }
 
             const dongValue = formatVND(num);
             
